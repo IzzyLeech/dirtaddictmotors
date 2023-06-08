@@ -1,1 +1,1 @@
-web: gunicorn dirt-addict-motors.wsgi
+web: gunicorn dirt_addict_motors.wsgi
