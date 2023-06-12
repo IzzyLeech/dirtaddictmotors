@@ -39,8 +39,26 @@
     <title>Dirt Addict Motors</title>
 </head>
 <body>
-    <header>
-        
+    <header class="container-fluid fixed-top">
+        <div class="row">
+            <div class="col-12 col-lg-4 text-center">
+                <a href="{% url 'home' %}">
+                    <h2><strong>Dirt Addict Motors</strong><i class="fa-solid fa-motorcycle"></i></h2>
+                </a>
+            </div>
+            <div class="col">search bar</div>
+            <div class="col">bag</div>
+            <div class="col">
+                <div>
+                    {% if request.user.is_authenticated %}
+                    <a href="{% url 'account_logout' %}">Logout</a>
+                    {% else %}
+                    <a href="{% url 'account_signup' %}">Register</a>
+                    <a href="{% url 'account_login' %}">Login</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     </header>
 
     {% block content %}
