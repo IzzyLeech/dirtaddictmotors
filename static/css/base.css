@@ -1,0 +1,15 @@
+/* Top Navbar */
+
+#site-logo {
+    color: black;
+    text-transform: uppercase;
+    text-decoration: underline;
+    font-style: italic;
+}
+
+/* Footer */
+
+.footer {
+    background-color: black;
+    color: white;
+}
