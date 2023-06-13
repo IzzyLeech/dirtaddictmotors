@@ -1,5 +1,7 @@
 from django.db import models
 
+from django.core.validators import MinValueValidator, MaxValueValidator
+
 
 class Bikes(models.Model):
     STROKE_CHOICES = (
@@ -9,6 +11,12 @@ class Bikes(models.Model):
 
     manufacturer = models.CharField(max_length=100)
     model = models.CharField(max_length=100)
+    year = models.IntegerField(
+        validators=[
+            MinValueValidator(1950),
+            MaxValueValidator(2100)
+        ], default=2024
+    )
     stroke = models.IntegerField(choices=STROKE_CHOICES)
     engine_capacity = models.DecimalField(max_digits=5, decimal_places=2)
     speed = models.IntegerField()
@@ -20,4 +28,4 @@ class Bikes(models.Model):
     modified_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.brand} {self.model}"
+        return f"{self.manufacturer} {self.model} {self.engine_capacity}"
