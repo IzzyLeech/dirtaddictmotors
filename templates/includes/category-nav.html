@@ -1,0 +1,36 @@
+<div class="collapse navbar-collapse" id="cate-nav">
+    <ul class="navbar-nav w-auto mx-auto">
+        <li class="nav-item dropdown">
+            <a href="#" id="all-bikes-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All Bike</a>
+            <div class="dropdown-menu" aria-labelledby="all-bikes-link">
+                <a href="#">By Price</a>
+                <a href="">By Year</a>
+                <a href="#">All Bikes</a>
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a href="#" id="all-manufacturer-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manufacturer</a>
+            <div class="dropdown-menu" aria-labelledby="all-manufacturer-link">
+                {% for manufacturer in manufacturers %}
+                <a href="#">{{ manufacturer }}</a>
+                {% endfor %}
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a href="#" id="all-engine-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Engine Capacity</a>
+            <div class="dropdown-menu" aria-labelledby="all-engine-link">
+                {% for engine_capacity in engine_capacitys %}
+                <a href="#">{{ engine_capacity }}CC</a>
+                {% endfor %}
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a href="#" id="all-stroke-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Stroke</a>
+            <div class="dropdown-menu" aria-labelledby="all-stroke-link">
+                {% for stroke in strokes %}
+                <a href="#">{{ stroke }} Stroke</a>
+                {% endfor %}
+            </div>
+        </li>
+    </ul>
+</div>
