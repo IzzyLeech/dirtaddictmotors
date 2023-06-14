@@ -24,7 +24,7 @@ class Bikes(models.Model):
     price = models.DecimalField(max_digits=8, decimal_places=2)
     description = models.TextField()
     sku = models.CharField(max_length=254, null=True, blank=True)
-    image = CloudinaryField("image", default="no_image.jpg")
+    image = CloudinaryField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 

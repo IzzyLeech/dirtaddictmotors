@@ -12,7 +12,11 @@
         <div class="col-4">
             {{ bike.manufacturer }}
             {{ bike.model }}
-            <img class="img-fluid" src="{{ bike.image }}" alt="{{ bike.model }}">
+            {% if bike.image %}
+            <img class="img-fluid" src="{{ bike.image.url }}">
+            {% else %}
+            <img class="img-fluid" src="{% static 'images/no_image.jpg' %}">
+            {% endif %}
         </div>
         {% endfor %}
     </div>
