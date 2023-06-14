@@ -4,5 +4,17 @@
 {%  block content %}
 <br>
 <br>
-<h1>products</h1>
+<br>
+<br>
+<div class="container">
+    <div class="row">
+        {% for bike in bikes %}
+        <div class="col-4">
+            {{ bike.manufacturer }}
+            {{ bike.model }}
+            <img class="img-fluid" src="{{ bike.image }}" alt="{{ bike.model }}">
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
