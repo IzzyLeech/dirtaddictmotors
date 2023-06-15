@@ -20,7 +20,7 @@
             <a href="#" id="all-engine-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Engine Capacity</a>
             <div class="dropdown-menu" aria-labelledby="all-engine-link">
                 {% for engine_capacity in engine_capacitys %}
-                <a href="#">{{ engine_capacity }}CC</a>
+                <a href="{% url 'products_by_engine' engine_num=engine_capacity.engine_capacity %}">{{ engine_capacity.engine_capacity|floatformat:0 }}CC</a>
                 {% endfor %}
             </div>
         </li>

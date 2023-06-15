@@ -8,9 +8,8 @@ def nav_category_manufacturers(request):
     return context
 
 
-
 def nav_category_engine_capacity(request):
-    engine_capacitys = Bikes.objects.values_list('engine_capacity', flat=True).distinct()
+    engine_capacitys = Bikes.objects.values('engine_capacity').distinct()
     context = {'engine_capacitys': engine_capacitys}
     return context
 

@@ -19,6 +19,15 @@ def products_by_manufacturer(request, manufacturer_name):
 
     context = {
         'bikes': bikes,
-        'manufacturer_name': manufacturer_name,
+    }
+    return render(request, 'products/products.html', context)
+
+
+def products_by_engine(request, engine_num):
+    # Retrieve bikes for the specified manufacturer name
+    bikes = Bikes.objects.filter(engine_capacity=engine_num)
+
+    context = {
+        'bikes': bikes,
     }
     return render(request, 'products/products.html', context)
