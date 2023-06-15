@@ -3,9 +3,10 @@ from .models import Bikes
 
 
 def nav_category_manufacturers(request):
-    manufacturers = Bikes.objects.values_list('manufacturer', flat=True).distinct()
+    manufacturers = Bikes.objects.values('manufacturer').distinct()
     context = {'manufacturers': manufacturers}
     return context
+
 
 
 def nav_category_engine_capacity(request):

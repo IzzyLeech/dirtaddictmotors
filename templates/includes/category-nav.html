@@ -12,7 +12,7 @@
             <a href="#" id="all-manufacturer-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manufacturer</a>
             <div class="dropdown-menu" aria-labelledby="all-manufacturer-link">
                 {% for manufacturer in manufacturers %}
-                <a href="#">{{ manufacturer }}</a>
+                    <a href="{% url 'products_by_manufacturer' manufacturer_name=manufacturer.manufacturer %}" class="dropdown-item">{{ manufacturer.manufacturer }}</a>
                 {% endfor %}
             </div>
         </li>
