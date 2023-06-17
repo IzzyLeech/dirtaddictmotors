@@ -2,42 +2,22 @@ from django.shortcuts import render
 from .models import Bikes
 
 
-def products_display(request):
-    """View to display all products"""
+def products_display(request, manufacturer_name=None, engine_num=None, stroke_num=None):
+    """View to display products based on optional filters"""
 
     bikes = Bikes.objects.all()
 
-    context = {
-        'bikes': bikes,
-        }
-    return render(request, 'products/products.html', context)
+    if manufacturer_name:
+        bikes = bikes.filter(manufacturer=manufacturer_name)
 
+    if engine_num:
+        bikes = bikes.filter(engine_capacity=engine_num)
 
-def products_by_manufacturer(request, manufacturer_name):
-    # Retrieve bikes for the specified manufacturer name
-    bikes = Bikes.objects.filter(manufacturer=manufacturer_name)
-
-    context = {
-        'bikes': bikes,
-    }
-    return render(request, 'products/products.html', context)
-
-
-def products_by_engine(request, engine_num):
-    # Retrieve bikes for the specified engine capacity
-    bikes = Bikes.objects.filter(engine_capacity=engine_num)
+    if stroke_num:
+        bikes = bikes.filter(stroke=stroke_num)
 
     context = {
         'bikes': bikes,
     }
-    return render(request, 'products/products.html', context)
 
-
-def products_by_stroke(request, stroke_num):
-    # Retrieve bikes for the specified stroke engine
-    bikes = Bikes.objects.filter(stroke=stroke_num)
-
-    context = {
-        'bikes': bikes,
-    }
     return render(request, 'products/products.html', context)
