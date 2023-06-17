@@ -1,10 +1,9 @@
 {% extends "base.html" %}
-{% load custom_filters %}
 {% load static %}
 
 {%  block content %}
 <div class="container-fluid">
-<!-- products.html -->
+
 <h1>Products</h1>
 <h2>
   {% if selected_filters %}
@@ -16,8 +15,6 @@
     All Bikes
   {% endif %}
 </h2>
-
-<!-- Rest of your product listing -->
 
     <div class="row">
         {% for bike in bikes %}

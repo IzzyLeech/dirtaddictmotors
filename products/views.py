@@ -15,13 +15,13 @@ def products_display(request, manufacturer_name=None, engine_num=None, stroke_nu
 
     if engine_num:
         bikes = bikes.filter(engine_capacity=engine_num)
-        selected_filters.append(f'Engine Capacity: {engine_num}CC')
+        engine_num = str(engine_num).split(".")[0]
+        selected_filters.append(f'Engine Capacity: {engine_num} CC')
 
     if stroke_num:
         bikes = bikes.filter(stroke=stroke_num)
-        selected_filters.append(f'Stroke: {stroke_num}')
-        print(stroke_num)
-        print(selected_filters)
+        stroke_num = str(stroke_num).split(".")[0]
+        selected_filters.append(f'{stroke_num}:Stroke Engines')
 
     if not selected_filters:
         selected_filters.append('All Bikes')
