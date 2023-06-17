@@ -21,9 +21,14 @@
         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 ">
             <div class="product-item h-000">
             {% if bike.image %}
-            <img class="img-fluid" src="{{ bike.image.url }}">
+            <a href="{% url 'product_detail' product_id=bike.id %}">
+              <img class="img-fluid" src="{{ bike.image.url }}">
+            </a>
             {% else %}
-            <img class="img-fluid" src="{% static 'images/no_image.jpg' %}">
+            <a href="{% url 'product_detail' product_id=bike.id %}">
+              <img class="img-fluid" src="{% static 'images/no_image.jpg' %}">
+            </a>
+            
             {% endif %}
             {{ bike.manufacturer }}
             {{ bike.model }}

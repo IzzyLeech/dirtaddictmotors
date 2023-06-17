@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Bikes
 
 
@@ -32,3 +32,13 @@ def products_display(request, manufacturer_name=None, engine_num=None, stroke_nu
     }
 
     return render(request, 'products/products.html', context)
+
+
+def product_detail(request, product_id):
+    """ A view to display an inividual products detail """
+
+    bike = get_object_or_404(Bikes, pk=product_id)
+
+    context = {'bike': bike}
+
+    return render(request, 'products/product_detail.html', context)
