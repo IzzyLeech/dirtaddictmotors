@@ -3,9 +3,9 @@
         <li class="nav-item dropdown">
             <a href="#" id="all-bikes-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bikes</a>
             <div class="dropdown-menu" aria-labelledby="all-bikes-link">
-                <a href="#">By Price</a>
-                <a href="">By Year</a>
-                <a href="{% url 'products' %}">All Bikes</a>
+                <a href="#" class="dropdown-item">By Price</a>
+                <a href="#" class="dropdown-item">By Year</a>
+                <a href="{% url 'products' %}" class="dropdown-item">All Bikes</a>
             </div>
         </li>
         <li class="nav-item dropdown">
@@ -20,7 +20,7 @@
             <a href="#" id="all-engine-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Engine Capacity</a>
             <div class="dropdown-menu" aria-labelledby="all-engine-link">
                 {% for engine_capacity in engine_capacitys %}
-                <a href="{% url 'products_by_engine' engine_num=engine_capacity.engine_capacity %}">{{ engine_capacity.engine_capacity|floatformat:0 }}CC</a>
+                <a href="{% url 'products_by_engine' engine_num=engine_capacity.engine_capacity %}" class="dropdown-item">{{ engine_capacity.engine_capacity|floatformat:0 }}CC</a>
                 {% endfor %}
             </div>
         </li>
@@ -28,7 +28,7 @@
             <a href="#" id="all-stroke-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Stroke</a>
             <div class="dropdown-menu" aria-labelledby="all-stroke-link">
                 {% for stroke in strokes %}
-                <a href="#">{{ stroke }} Stroke</a>
+                <a href="{% url 'products_by_stroke' stroke_num=stroke.stroke %}" class="dropdown-item">{{ stroke.stroke }} Stroke</a>
                 {% endfor %}
             </div>
         </li>

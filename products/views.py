@@ -24,8 +24,18 @@ def products_by_manufacturer(request, manufacturer_name):
 
 
 def products_by_engine(request, engine_num):
-    # Retrieve bikes for the specified manufacturer name
+    # Retrieve bikes for the specified engine capacity
     bikes = Bikes.objects.filter(engine_capacity=engine_num)
+
+    context = {
+        'bikes': bikes,
+    }
+    return render(request, 'products/products.html', context)
+
+
+def products_by_stroke(request, stroke_num):
+    # Retrieve bikes for the specified stroke engine
+    bikes = Bikes.objects.filter(stroke=stroke_num)
 
     context = {
         'bikes': bikes,
