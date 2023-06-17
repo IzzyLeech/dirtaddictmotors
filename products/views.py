@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.db.models import Q
 from .models import Bikes
 
 
@@ -25,6 +26,17 @@ def products_display(request, manufacturer_name=None, engine_num=None, stroke_nu
 
     if not selected_filters:
         selected_filters.append('All Bikes')
+
+    """ Search bar Logic """
+    if request.GET:
+        if 'q' in request.GET:
+            query = request.GET['q']
+            queries = Q(manufacturer__icontains=query) | Q(
+                model__icontains=query
+            ) | Q(engine_capacity__icontains=query) | Q(
+                year__icontains=query
+            )
+        bikes = bikes.filter(queries)
 
     context = {
         'bikes': bikes,

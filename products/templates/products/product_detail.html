@@ -3,6 +3,22 @@
 
 {% block content %}
 
-{{ bike }}
+<div class="col-12">
+    <div class="product-item h-000">
+    {% if bike.image %}
+    <a href="{% url 'product_detail' product_id=bike.id %}">
+      <img class="img-fluid" src="{{ bike.image.url }}">
+    </a>
+    {% else %}
+    <a href="{% url 'product_detail' product_id=bike.id %}">
+      <img class="img-fluid" src="{% static 'images/no_image.jpg' %}">
+    </a>
+    
+    {% endif %}
+    {{ bike.manufacturer }}
+    {{ bike.model }}
+    {{ bike.engine_capacity|floatformat:0 }}
+    </div>
+</div>
 
 {% endblock %}
