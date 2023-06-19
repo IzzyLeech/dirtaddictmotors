@@ -12,9 +12,14 @@
       <li>
         <p>Manufacturer: {{ item.bike.manufacturer }}</p>
         <p>Model: {{ item.bike.model }}</p>
+        <p>Engine Capacity: {{ item.bike.engine_capacity }} CC</p>
         <p>Quantity: {{ item.quantity }}</p>
         <p>Price: {{ item.bike.price }}</p>
       </li>
+      <form action="{% url 'remove_from_bag' item_id %}" method="POST">
+        {% csrf_token %}
+        <button type="submit">Remove</button>
+      </form>
     {% endfor %}
   </ul>
 {% else %}

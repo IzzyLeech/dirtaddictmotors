@@ -42,12 +42,34 @@ def add_to_bag(request, item_id):
                 'id': bike.id,
                 'manufacturer': bike.manufacturer,
                 'model': bike.model,
+                'engine_capacity': bike.engine_capacity,
                 'price': price,
             }
         }
 
     # Update the bag in the session
     request.session['bag'] = json.dumps(bag, cls=DjangoJSONEncoder)
+
+    # Redirect the user to the bag page
+    return redirect('view_bag')
+
+
+def remove_from_bag(request, item_id):
+    """A function that removes a bike from the bag"""
+
+    # Get the user's bag from the session
+    bag = request.session.get('bag', {})
+
+    # Convert the bag to a dictionary if it's a string
+    if isinstance(bag, str):
+        bag = json.loads(bag)
+
+    # Check if the bike is in the bag
+    if item_id in bag:
+        del bag[item_id]  # Remove the bike from the bag
+
+        # Update the bag in the session
+        request.session['bag'] = json.dumps(bag, cls=DjangoJSONEncoder)
 
     # Redirect the user to the bag page
     return redirect('view_bag')
