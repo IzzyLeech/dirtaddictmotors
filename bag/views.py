@@ -14,7 +14,20 @@ def view_bag(request):
 
     print(bag)
 
-    return render(request, 'bag/bag.html', {'bag': bag})
+    total_cost = 0
+
+    for item_id, item in bag.items():
+        bike = Bikes.objects.get(pk=item['bike']['id'])
+        price = float(bike.price)
+        quantity = item['quantity']
+        item_total = price * quantity
+        total_cost += item_total
+
+        print(total_cost)
+
+    context = {'bag': bag, 'total_cost': total_cost}
+
+    return render(request, 'bag/bag.html', context)
 
 
 def add_to_bag(request, item_id):

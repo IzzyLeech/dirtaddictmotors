@@ -6,6 +6,9 @@
 <h1>Your Bag</h1>
 
 {% if bag %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-6">
   <p>Item List</p>
   <ul>
     {% for item_id, item in bag.items %}
@@ -22,8 +25,16 @@
       </form>
     {% endfor %}
   </ul>
+
+  <div class="col-6">
+    <p>Total Cost: {{ total_cost }}</p>
+  </div>
+
 {% else %}
   <p>Your bag is empty.</p>
 {% endif %}
+</div>
 
+</div>
+</div>
 {% endblock %}
