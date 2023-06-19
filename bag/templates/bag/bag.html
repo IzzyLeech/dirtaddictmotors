@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<h1>Your Bag</h1>
+
+{% if bag %}
+  <p>Item List</p>
+  <ul>
+    {% for item_id, item in bag.items %}
+      <li>
+        <p>Manufacturer: {{ item.bike.manufacturer }}</p>
+        <p>Model: {{ item.bike.model }}</p>
+        <p>Quantity: {{ item.quantity }}</p>
+        <p>Price: {{ item.bike.price }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>Your bag is empty.</p>
+{% endif %}
+
+{% endblock %}

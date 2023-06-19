@@ -60,7 +60,12 @@
                     </div>
                 </form>
             </div>
-            <div class="col-12 col-lg-2">bag</div>
+            <div class="col-12 col-lg-2">
+                <a href="{% url 'view_bag' %}">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="clearfix d-none d-sm-inline-block"> Cart </span>
+                </a>
+            </div>
             <div class="col-12 col-lg-2">
                 <div>
                     {% if request.user.is_authenticated %}

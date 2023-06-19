@@ -1,0 +1,53 @@
+from django.shortcuts import render, redirect, get_object_or_404
+import json
+from decimal import Decimal
+from django.core.serializers.json import DjangoJSONEncoder
+
+from products.models import Bikes
+
+
+def view_bag(request):
+    """ A view to display the contents of the user bag """
+
+    bag_json = request.session.get('bag', '{}')
+    bag = json.loads(bag_json)
+
+    print(bag)
+
+    return render(request, 'bag/bag.html', {'bag': bag})
+
+
+def add_to_bag(request, item_id):
+    """A function that adds a product to the bag"""
+
+    # Retrieve the bike based on the provided item_id
+    bike = get_object_or_404(Bikes, id=int(item_id))
+
+    # Get the user's bag from the session or create an empty bag if it doesn't exist
+    bag_json = request.session.get('bag', '{}')
+    bag = json.loads(bag_json)
+
+    # Check if the product is already in the bag
+    if item_id in bag:
+        # Increment the quantity by 1
+        bag[item_id]['quantity'] += 1
+    else:
+        # Convert Decimal fields to float
+        price = float(bike.price)
+
+        # Add the product to the bag with an initial quantity of 1
+        bag[item_id] = {
+            'quantity': 1,
+            'bike': {
+                'id': bike.id,
+                'manufacturer': bike.manufacturer,
+                'model': bike.model,
+                'price': price,
+            }
+        }
+
+    # Update the bag in the session
+    request.session['bag'] = json.dumps(bag, cls=DjangoJSONEncoder)
+
+    # Redirect the user to the bag page
+    return redirect('view_bag')

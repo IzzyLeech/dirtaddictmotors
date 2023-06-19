@@ -19,6 +19,14 @@
     {{ bike.model }}
     {{ bike.engine_capacity|floatformat:0 }}
     </div>
+    <form action="{% url 'add_to_bag' bike.id %}" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="quantity" value="1">
+      <button type="submit" class="btn btn-primary btn-md my-0 p">
+        Add to cart
+        <i class="fas fa-shopping-cart ml-1"></i>
+      </button>
+    </form>
 </div>
 
 {% endblock %}
