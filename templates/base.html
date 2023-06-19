@@ -63,7 +63,10 @@
             <div class="col-12 col-lg-2">
                 <a href="{% url 'view_bag' %}">
                     <i class="fas fa-shopping-cart"></i>
-                    <span class="clearfix d-none d-sm-inline-block"> Cart </span>
+                    <span class="d-none d-sm-inline-block">Cart</span>
+                    {% if bag %}
+                        <span class="badge badge-primary">{{ bag|length }}</span>
+                    {% endif %}
                 </a>
             </div>
             <div class="col-12 col-lg-2">
