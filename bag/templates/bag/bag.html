@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load custom_filters %}
 
 {% block content %}
 
@@ -15,9 +16,25 @@
       <li>
         <p>Manufacturer: {{ item.bike.manufacturer }}</p>
         <p>Model: {{ item.bike.model }}</p>
-        <p>Engine Capacity: {{ item.bike.engine_capacity }} CC</p>
-        <p>Quantity: {{ item.quantity }}</p>
-        <p>Price: {{ item.bike.price }}</p>
+        <form method="POST" action="{% url 'adjust_bag_content' item_id %}">
+          {% csrf_token %}
+          <div class="form-group">
+              <label for="quantity">Quantity:</label>
+              <input type="number" name="quantity" value="{{ item.quantity }}">
+          </div>
+
+          <div class="form-group">
+            <label for="engine_capacity">Engine Capacity:</label>
+            <select name="engine_capacity">
+              {% for capacity in capacities %}
+                <option value="{{ capacity }}" {% if capacity|floatformat:2 == item.bike.engine_capacity|floatformat:2 %}selected{% endif %}>{{ capacity }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <button type="submit">Update</button>
+      </form>
+
+      <p>Price: {{ item.bike.engine_capacity|get_price:item.bike.model|default_if_none:"0.00" }}</p>
       </li>
       <form action="{% url 'remove_from_bag' item_id %}" method="POST">
         {% csrf_token %}
@@ -27,7 +44,7 @@
   </ul>
 
   <div class="col-6">
-    <p>Total Cost: {{ total_cost }}</p>
+    <p>Total Cost: {{ request.session.total_cost }}</p>
   </div>
 
 {% else %}

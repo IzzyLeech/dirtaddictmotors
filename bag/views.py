@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 import json
 from decimal import Decimal
 from django.core.serializers.json import DjangoJSONEncoder
@@ -7,14 +7,13 @@ from products.models import Bikes
 
 
 def view_bag(request):
-    """ A view to display the contents of the user bag """
+    """A view to display the contents of the user's bag"""
 
     bag_json = request.session.get('bag', '{}')
     bag = json.loads(bag_json)
 
-    print(bag)
-
-    total_cost = 0
+    total_cost = float(request.session.get('total_cost', 0))
+    bike_models = set(item['bike']['model'] for item in bag.values())
 
     for item_id, item in bag.items():
         bike = Bikes.objects.get(pk=item['bike']['id'])
@@ -23,9 +22,15 @@ def view_bag(request):
         item_total = price * quantity
         total_cost += item_total
 
-        print(total_cost)
+    selected_model = request.session.get('selected_model')
+    capacities = Bikes.objects.filter(model=selected_model).values_list('engine_capacity', flat=True).distinct()
 
-    context = {'bag': bag, 'total_cost': total_cost}
+    context = {
+        'bag': bag,
+        'total_cost': total_cost,
+        'bike_models': bike_models,
+        'capacities': capacities,
+    }
 
     return render(request, 'bag/bag.html', context)
 
@@ -47,6 +52,7 @@ def add_to_bag(request, item_id):
     else:
         # Convert Decimal fields to float
         price = float(bike.price)
+        engine_capacity = str(bike.engine_capacity)  # Convert engine_capacity to a string
 
         # Add the product to the bag with an initial quantity of 1
         bag[item_id] = {
@@ -55,16 +61,17 @@ def add_to_bag(request, item_id):
                 'id': bike.id,
                 'manufacturer': bike.manufacturer,
                 'model': bike.model,
-                'engine_capacity': bike.engine_capacity,
                 'price': price,
+                'engine_capacity': engine_capacity,
             }
         }
 
-    # Update the bag in the session
-    request.session['bag'] = json.dumps(bag, cls=DjangoJSONEncoder)
+    request.session['selected_model'] = bike.model
 
-    # Redirect the user to the bag page
-    return redirect('view_bag')
+    # Update the bag in the session
+    request.session['bag'] = json.dumps(bag)
+
+    return redirect(reverse('view_bag'))
 
 
 def remove_from_bag(request, item_id):
@@ -85,4 +92,43 @@ def remove_from_bag(request, item_id):
         request.session['bag'] = json.dumps(bag, cls=DjangoJSONEncoder)
 
     # Redirect the user to the bag page
+    return redirect('view_bag')
+
+
+def adjust_bag_content(request, item_id):
+    """A function that adjusts the quantity and engine capacity of a product in the bag"""
+
+    # Retrieve the new quantity and engine capacity from the request
+    quantity = int(request.POST.get('quantity'))
+    engine_capacity = request.POST.get('engine_capacity')
+
+    # Get the user's bag from the session
+    bag_json = request.session.get('bag', '{}')
+    bag = json.loads(bag_json)
+
+    # Check if the item ID exists in the bag
+    if str(item_id) in bag:
+        # Retrieve the bike instance from the database based on item ID
+        bike = Bikes.objects.get(pk=bag[str(item_id)]['bike']['id'])
+
+        # Retrieve the new price based on the updated engine capacity
+        new_price = Bikes.objects.filter(model=bike.model, engine_capacity=engine_capacity).values_list('price', flat=True).first()
+
+        # Update the quantity and engine capacity of the item in the bag
+        bag[str(item_id)]['quantity'] = quantity
+        bag[str(item_id)]['bike']['engine_capacity'] = engine_capacity
+        bag[str(item_id)]['bike']['price'] = float(new_price)
+
+        # Update the bag in the session
+        request.session['bag'] = json.dumps(bag)
+
+    # Recalculate the updated total cost
+    total_cost = sum(
+        float(item['bike']['price']) * item['quantity']
+        for item_id, item in bag.items()
+    )
+
+    # Update the total_cost in the session
+    request.session['total_cost'] = total_cost
+
     return redirect('view_bag')
