@@ -81,6 +81,7 @@ TEMPLATES = [
                 'products.contexts.nav_category_manufacturers',
                 'products.contexts.nav_category_engine_capacity',
                 'products.contexts.nav_category_stroke',
+                'bag.contexts.bag_contents',
             ],
         },
     },

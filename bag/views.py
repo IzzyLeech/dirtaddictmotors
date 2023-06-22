@@ -49,7 +49,7 @@ def view_bag(request):
         'grand_total': grand_total,
     }
 
-    return render(request, 'bag/bag.html', context)
+    return render(request, 'bag/bag.html')
 
 
 def add_to_bag(request, item_id):
