@@ -27,6 +27,7 @@ def bag_contents(request):
             delivery_cost += 100
         else:
             delivery_cost += 90
+        print(delivery_cost)
 
     # Add delivery cost to the total cost
     grand_total = total_cost + delivery_cost
@@ -34,6 +35,11 @@ def bag_contents(request):
     # Variables for the engine caacity of a model of a bike
     selected_model = request.session.get('selected_model')
     capacities = Bikes.objects.filter(model=selected_model).values_list('engine_capacity', flat=True).distinct()
+
+    total_cost = request.session.get('total_cost', 0)
+    delivery_cost = request.session.get('delivery_cost', 0)
+    print(delivery_cost)
+    grand_total = request.session.get('grand_total', 0)
 
     context = {
         'bag': bag,
