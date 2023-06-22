@@ -11,6 +11,7 @@ def view_bag(request):
 
     return render(request, 'bag/bag.html')
 
+
 def add_to_bag(request, item_id):
     """A function that adds a product to the bag"""
 
@@ -100,6 +101,7 @@ def adjust_bag_content(request, item_id):
         # Update the bag in the session
         request.session['bag'] = json.dumps(bag)
         request.session['selected_engine_capacity'] = engine_capacity
+        request.session.modified = True
 
     # Recalculate the updated total cost, delivery cost, and grand total
     total_cost = 0
@@ -132,6 +134,7 @@ def adjust_bag_content(request, item_id):
     request.session['total_cost'] = total_cost
     request.session['delivery_cost'] = delivery_cost
     request.session['grand_total'] = grand_total
+    request.session.modified = True
 
     print('Updated Total Cost:', total_cost)
     print('Updated Delivery Cost:', delivery_cost)

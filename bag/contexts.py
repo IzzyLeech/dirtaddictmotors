@@ -3,7 +3,7 @@ from products.models import Bikes
 
 
 def bag_contents(request):
-    # Receieve the content of the bag from the current session
+    # Receive the content of the bag from the current session
     bag_json = request.session.get('bag', '{}')
     bag = json.loads(bag_json)
 
@@ -11,40 +11,45 @@ def bag_contents(request):
     total_cost = 0
     delivery_cost = 0
 
-    # Calualte the items of the bag by the quantity
+    # Calculate the items of the bag by the quantity
     for item_id, item in bag.items():
         bike = Bikes.objects.get(pk=item['bike']['id'])
-        price = float(bike.price)
+        price = float(item['bike']['price'])
         quantity = item['quantity']
         item_total = price * quantity
         total_cost += item_total
 
-    # Determine the deleivery cost by weight of bike
-        weight = bike.weight
-        if weight > 100:
-            delivery_cost += 155
-        elif weight > 90:
-            delivery_cost += 100
-        else:
-            delivery_cost += 90
-        print(delivery_cost)
+        # Determine the delivery cost by weight of bike and updated engine capacity
+        engine_capacity = item['bike']['engine_capacity']
+        bike_with_updated_capacity = Bikes.objects.filter(model=bike.model, engine_capacity=engine_capacity).first()
+        if bike_with_updated_capacity:
+            weight = bike_with_updated_capacity.weight
+            if weight > 100:
+                delivery_cost += 155
+            elif weight > 90:
+                delivery_cost += 100
+            else:
+                delivery_cost += 90
 
     # Add delivery cost to the total cost
     grand_total = total_cost + delivery_cost
 
-    # Variables for the engine caacity of a model of a bike
+    # Update the session values
+    request.session['total_cost'] = total_cost
+    request.session['delivery_cost'] = delivery_cost
+    request.session['grand_total'] = grand_total
+    print(total_cost)
+    print(grand_total)
+
+
+    # Variables for the engine capacity of a model of a bike
     selected_model = request.session.get('selected_model')
     capacities = Bikes.objects.filter(model=selected_model).values_list('engine_capacity', flat=True).distinct()
 
-    total_cost = request.session.get('total_cost', 0)
-    delivery_cost = request.session.get('delivery_cost', 0)
-    print(delivery_cost)
-    grand_total = request.session.get('grand_total', 0)
-
     context = {
         'bag': bag,
-        'total_cost': total_cost,
         'capacities': capacities,
+        'total_cost': total_cost,
         'delivery_cost': delivery_cost,
         'grand_total': grand_total,
     }
