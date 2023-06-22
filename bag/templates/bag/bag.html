@@ -34,7 +34,7 @@
           <button type="submit">Update</button>
       </form>
 
-      <p>Price: {{ item.bike.engine_capacity|get_price:item.bike.model|default_if_none:"0.00" }}</p>
+<p>Price: {{ item.bike.engine_capacity|get_price:item.bike.model|default_if_none:"0.00" }}</p>
       </li>
       <form action="{% url 'remove_from_bag' item_id %}" method="POST">
         {% csrf_token %}
@@ -44,7 +44,11 @@
   </ul>
 
   <div class="col-6">
-    <p>Total Cost: {{ request.session.total_cost }}</p>
+    <div class="col-6">
+      <p>Total Cost: {{ request.session.total_cost }}</p>
+      <p>Delivery Cost: {{ request.session.delivery_cost }}</p>
+      <p>Grand Total: {{ request.session.grand_total }}</p> 
+  </div>
   </div>
 
 {% else %}

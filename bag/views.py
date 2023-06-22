@@ -9,12 +9,15 @@ from products.models import Bikes
 def view_bag(request):
     """A view to display the contents of the user's bag"""
 
+    # Receieve the content of the bag from the current session
     bag_json = request.session.get('bag', '{}')
     bag = json.loads(bag_json)
 
-    total_cost = float(request.session.get('total_cost', 0))
-    bike_models = set(item['bike']['model'] for item in bag.values())
+    # Variables for cost
+    total_cost = 0
+    delivery_cost = 0
 
+    # Calualte the items of the bag by the quantity
     for item_id, item in bag.items():
         bike = Bikes.objects.get(pk=item['bike']['id'])
         price = float(bike.price)
@@ -22,14 +25,28 @@ def view_bag(request):
         item_total = price * quantity
         total_cost += item_total
 
+    # Determine the deleivery cost by weight of bike
+        weight = bike.weight
+        if weight > 100:
+            delivery_cost += 155
+        elif weight > 90:
+            delivery_cost += 100
+        else:
+            delivery_cost += 90
+
+    # Add delivery cost to the total cost
+    grand_total = total_cost + delivery_cost
+
+    # Variables for the engine caacity of a model of a bike
     selected_model = request.session.get('selected_model')
     capacities = Bikes.objects.filter(model=selected_model).values_list('engine_capacity', flat=True).distinct()
 
     context = {
         'bag': bag,
         'total_cost': total_cost,
-        'bike_models': bike_models,
         'capacities': capacities,
+        'delivery_cost': delivery_cost,
+        'grand_total': grand_total,
     }
 
     return render(request, 'bag/bag.html', context)
@@ -113,22 +130,52 @@ def adjust_bag_content(request, item_id):
 
         # Retrieve the new price based on the updated engine capacity
         new_price = Bikes.objects.filter(model=bike.model, engine_capacity=engine_capacity).values_list('price', flat=True).first()
+        new_weight = Bikes.objects.filter(model=bike.model, engine_capacity=engine_capacity).values_list('weight', flat=True).first()
 
-        # Update the quantity and engine capacity of the item in the bag
+        # Update the item in the bag
         bag[str(item_id)]['quantity'] = quantity
         bag[str(item_id)]['bike']['engine_capacity'] = engine_capacity
         bag[str(item_id)]['bike']['price'] = float(new_price)
+        bag[str(item_id)]['bike']['weight'] = float(new_weight)
 
         # Update the bag in the session
         request.session['bag'] = json.dumps(bag)
+        request.session['selected_engine_capacity'] = engine_capacity
 
-    # Recalculate the updated total cost
-    total_cost = sum(
-        float(item['bike']['price']) * item['quantity']
-        for item_id, item in bag.items()
-    )
+    # Recalculate the updated total cost, delivery cost, and grand total
+    total_cost = 0
+    delivery_cost = 0
 
-    # Update the total_cost in the session
+    for item_id, item in bag.items():
+        bike = Bikes.objects.get(pk=item['bike']['id'])
+        price = float(item['bike']['price'])
+        item_quantity = item['quantity']
+        item_total = price * item_quantity
+        total_cost += item_total
+
+        print('Price of updated bike', price)
+        print(item_quantity)
+        print('item total=', item_total)
+        print('total=', total_cost)
+
+        weight = item['bike']['weight']
+        print('Weight=', weight)
+        if weight > 100:
+            delivery_cost += 155
+        elif weight > 90:
+            delivery_cost += 100
+        else:
+            delivery_cost += 90
+
+    grand_total = total_cost + delivery_cost
+
+    # Update the total_cost, delivery_cost, and grand_total in the session
     request.session['total_cost'] = total_cost
+    request.session['delivery_cost'] = delivery_cost
+    request.session['grand_total'] = grand_total
+
+    print('Updated Total Cost:', total_cost)
+    print('Updated Delivery Cost:', delivery_cost)
+    print('Updated Grand Total:', grand_total)
 
     return redirect('view_bag')
