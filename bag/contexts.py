@@ -47,12 +47,17 @@ def bag_contents(request):
     selected_model = request.session.get('selected_model')
     capacities = Bikes.objects.filter(model=selected_model).values_list('engine_capacity', flat=True).distinct()
 
+    # Variable to get the quantity
+    total_quantity = sum(item['quantity'] for item in bag.values())
+    print('Total quantity', total_quantity)
+
     context = {
         'bag': bag,
         'capacities': capacities,
         'total_cost': total_cost,
         'delivery_cost': delivery_cost,
         'grand_total': grand_total,
+        'bag_quantity': total_quantity
     }
     return context
 

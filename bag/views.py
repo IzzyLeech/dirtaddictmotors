@@ -91,9 +91,8 @@ def adjust_bag_content(request, item_id):
         # Retrieve the new price based on the updated engine capacity
         new_price = Bikes.objects.filter(model=bike.model, engine_capacity=engine_capacity).values_list('price', flat=True).first()
 
-        # Update the item in the bag
+        # Retrieve the current item in the bag
         item = bag[str(item_id)]
-        item['quantity'] += quantity
 
         if engine_capacity != item['bike']['engine_capacity']:
             # Remove the second bike from the bag if its engine capacity is updated to the first bike's engine capacity
@@ -106,6 +105,7 @@ def adjust_bag_content(request, item_id):
             # Update the bike details
             item['bike']['engine_capacity'] = engine_capacity
             item['bike']['price'] = float(new_price)
+            item['quantity'] = quantity
 
         # Update the bag in the session
         request.session['bag'] = json.dumps(bag)

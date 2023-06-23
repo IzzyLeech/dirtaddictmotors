@@ -1,4 +1,5 @@
 {% load static %}
+{% load custom_filters %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,7 +66,7 @@
                     <i class="fas fa-shopping-cart"></i>
                     <span class="d-none d-sm-inline-block">Cart</span>
                     {% if bag %}
-                        <span class="badge badge-primary">{{ bag|length }}</span>
+                        <span class="badge badge-primary">{{ bag_quantity }}</span>
                     {% endif %}
                 </a>
             </div>
