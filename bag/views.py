@@ -90,18 +90,29 @@ def adjust_bag_content(request, item_id):
 
         # Retrieve the new price based on the updated engine capacity
         new_price = Bikes.objects.filter(model=bike.model, engine_capacity=engine_capacity).values_list('price', flat=True).first()
-        new_weight = Bikes.objects.filter(model=bike.model, engine_capacity=engine_capacity).values_list('weight', flat=True).first()
 
         # Update the item in the bag
-        bag[str(item_id)]['quantity'] = quantity
-        bag[str(item_id)]['bike']['engine_capacity'] = engine_capacity
-        bag[str(item_id)]['bike']['price'] = float(new_price)
-        bag[str(item_id)]['bike']['weight'] = float(new_weight)
+        item = bag[str(item_id)]
+        item['quantity'] += quantity
+
+        if engine_capacity != item['bike']['engine_capacity']:
+            # Remove the second bike from the bag if its engine capacity is updated to the first bike's engine capacity
+            del bag[str(item_id)]
+
+            # Increase the quantity of the first bike
+            first_bike_id = next(iter(bag))
+            bag[first_bike_id]['quantity'] += quantity
+        else:
+            # Update the bike details
+            item['bike']['engine_capacity'] = engine_capacity
+            item['bike']['price'] = float(new_price)
 
         # Update the bag in the session
         request.session['bag'] = json.dumps(bag)
         request.session['selected_engine_capacity'] = engine_capacity
         request.session.modified = True
+
+    print("Updated bag:", bag)
 
     # Recalculate the updated total cost, delivery cost, and grand total
     total_cost = 0
@@ -114,19 +125,16 @@ def adjust_bag_content(request, item_id):
         item_total = price * item_quantity
         total_cost += item_total
 
-        print('Price of updated bike', price)
-        print(item_quantity)
-        print('item total=', item_total)
-        print('total=', total_cost)
-
-        weight = item['bike']['weight']
-        print('Weight=', weight)
-        if weight > 100:
-            delivery_cost += 155
-        elif weight > 90:
-            delivery_cost += 100
-        else:
-            delivery_cost += 90
+        # Check if the 'bike' key exists in the item dictionary and if 'weight' key exists in item['bike']
+        if 'bike' in item and 'weight' in item['bike']:
+            weight = item['bike']['weight']
+            print("Weight used for delivery cost calculation:", weight)
+            if weight > 100:
+                delivery_cost += 155
+            elif weight > 90:
+                delivery_cost += 100
+            else:
+                delivery_cost += 90
 
     grand_total = total_cost + delivery_cost
 
@@ -134,10 +142,7 @@ def adjust_bag_content(request, item_id):
     request.session['total_cost'] = total_cost
     request.session['delivery_cost'] = delivery_cost
     request.session['grand_total'] = grand_total
-    request.session.modified = True
+    print("Total cost:", total_cost)
+    print("Grand total:", grand_total)
 
-    print('Updated Total Cost:', total_cost)
-    print('Updated Delivery Cost:', delivery_cost)
-    print('Updated Grand Total:', grand_total)
-
-    return redirect('view_bag')
+    return redirect(reverse('view_bag'))
