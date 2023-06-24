@@ -1,6 +1,9 @@
 from django.shortcuts import render
+from django.conf import settings
 
 import json
+import stripe
+
 
 from products.models import Bikes
 from .models import Order
@@ -31,6 +34,9 @@ def checkout_view(request):
 
         # Add the item to the list
         items.append(item_data)
+
+    stripe_public_key = settings.STRIPE_PUBLIC_KEY
+    stripe_secret_key = settings.STRIPE_SECRET_KEY
 
     # Form Variable
     order_form = OrderForm()
