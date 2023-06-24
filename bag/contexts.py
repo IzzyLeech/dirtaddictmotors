@@ -16,16 +16,20 @@ def bag_contents(request):
         bike = Bikes.objects.get(pk=item['bike']['id'])
         price = float(item['bike']['price'])
         quantity = item['quantity']
+        print("Item ID:", item_id)
+        print("Quantity:", quantity)
         item_total = price * quantity
         total_cost += item_total
 
         # Retrieve the weight from the database based on bike ID and engine capacity
         engine_capacity = item['bike']['engine_capacity']
-        weight = Bikes.objects.filter(pk=bike.pk, engine_capacity=engine_capacity).values_list('weight', flat=True).first()
+        weight = Bikes.objects.filter(model=bike.model, engine_capacity=engine_capacity).values_list('weight', flat=True).first()
 
         if weight is not None:
+            weight = float(weight)
+
             # Update the weight in the bag for the current item
-            bag[str(item_id)]['bike']['weight'] = float(weight)
+            item['bike']['weight'] = weight
 
             # Determine the delivery cost by weight of bike
             if weight > 100:
@@ -34,6 +38,9 @@ def bag_contents(request):
                 delivery_cost += 100
             else:
                 delivery_cost += 90
+
+        print("Item ID:", item_id)
+        print("Quantity:", quantity)
 
     # Add delivery cost to the total cost
     grand_total = total_cost + delivery_cost
@@ -49,7 +56,7 @@ def bag_contents(request):
 
     # Variable to get the quantity
     total_quantity = sum(item['quantity'] for item in bag.values())
-    print('Total quantity', total_quantity)
+    print("Total Quantity:", total_quantity)
 
     context = {
         'bag': bag,
