@@ -3,6 +3,8 @@ from django.shortcuts import render
 import json
 
 from products.models import Bikes
+from .models import Order
+from .forms import OrderForm
 
 
 def checkout_view(request):
@@ -30,9 +32,14 @@ def checkout_view(request):
         # Add the item to the list
         items.append(item_data)
 
-    # Pass the items to the template
+    # Form Variable
+    order_form = OrderForm()
+
+    # Context tags
     context = {
         'items': items,
+        'order_form': order_form,
+
     }
 
     return render(request, 'checkout/checkout.html', context)

@@ -3,10 +3,20 @@
 
 {% block content %}
 <h1>Checkout</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            {{ order_form.as_p }}
+        </div>
+        <div class="col-6">
+            {% for item in items %}
+            <p>Bike: {{ item.bike }}</p>
+            <p>Quantity:{{ item.quantity }}</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 
-{% for item in items %}
-<p>Bike: {{ item.bike }}</p>
-<p>Quantity:{{ item.quantity }}</p>
-{% endfor %}
+
 
 {% endblock %}
