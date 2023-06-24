@@ -4,4 +4,9 @@
 {% block content %}
 <h1>Checkout</h1>
 
+{% for item in items %}
+<p>Bike: {{ item.bike }}</p>
+<p>Quantity:{{ item.quantity }}</p>
+{% endfor %}
+
 {% endblock %}

@@ -49,12 +49,13 @@
       <p>Grand Total: {{ grand_total }}</p>
   </div>
   </div>
-
+  <a href="{% url 'checkout' %}">Checkout</a>
 {% else %}
   <p>Your bag is empty.</p>
 {% endif %}
 </div>
 
 </div>
+
 </div>
 {% endblock %}
