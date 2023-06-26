@@ -6,7 +6,7 @@
 <div class="container">
     <div class="row">
         <div class="col-6">
-            <form action="post">
+            <form action="{% url 'checkout' %}" method="POST" >
                 {% csrf_token %}
                 {{ order_form.as_p }}
                 <button type="submit">Checkout</button>
@@ -18,6 +18,10 @@
             <p>Bike: {{ item.bike }}</p>
             <p>Quantity:{{ item.quantity }}</p>
             {% endfor %}
+            <h3>Order Details</h3>
+            <p>Total Cost: {{ total_cost }}</p>
+            <p>Delivery Cost: {{ delivery_cost }}</p>
+            <p>Grand Total: {{ grand_total }}</p>
         </div>
     </div>
 </div>

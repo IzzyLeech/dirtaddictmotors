@@ -45,8 +45,8 @@ class Order(models.Model):
         self.save()
 
     def calculate_delivery_cost(self, items):
-        """ Calculates the deleivery cost of the deleviery based on weight of bikes """
-        total_weight = sum(item.bike.weight for item in items)
+        """Calculates the delivery cost of the delivery based on the weight of bikes"""
+        total_weight = sum(item['bike'].weight for item in items)
         if total_weight > 100:
             return 155
         elif total_weight > 90:
