@@ -154,6 +154,3 @@ def adjust_bag_content(request, item_id):
     request.session['grand_total'] = grand_total
 
     return redirect(reverse('view_bag'))
-
-
-

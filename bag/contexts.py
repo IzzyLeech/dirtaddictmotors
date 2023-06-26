@@ -16,8 +16,6 @@ def bag_contents(request):
         bike = Bikes.objects.get(pk=item['bike']['id'])
         price = float(item['bike']['price'])
         quantity = item['quantity']
-        print("Item ID:", item_id)
-        print("Quantity:", quantity)
         item_total = price * quantity
         total_cost += item_total
 
@@ -39,9 +37,6 @@ def bag_contents(request):
             else:
                 delivery_cost += 90
 
-        print("Item ID:", item_id)
-        print("Quantity:", quantity)
-
     # Add delivery cost to the total cost
     grand_total = total_cost + delivery_cost
 
@@ -56,7 +51,6 @@ def bag_contents(request):
 
     # Variable to get the quantity
     total_quantity = sum(item['quantity'] for item in bag.values())
-    print("Total Quantity:", total_quantity)
 
     context = {
         'bag': bag,
@@ -67,4 +61,3 @@ def bag_contents(request):
         'bag_quantity': total_quantity
     }
     return context
-
