@@ -11,6 +11,10 @@ from .forms import OrderForm
 
 
 def checkout_view(request):
+    # Stripe key variableS
+    stripe_public_key = settings.STRIPE_PUBLIC_KEY
+    stripe_secret_key = settings.STRIPE_SECRET_KEY
+
     # Retrieve the bag data from the session
     bag_json = request.session.get('bag', '{}')
     bag = json.loads(bag_json)
@@ -52,9 +56,6 @@ def checkout_view(request):
     # Calculate the total weight of all the bikes in the items list
     total_weight = sum(item.bike.weight for item in items)
 
-    stripe_public_key = settings.STRIPE_PUBLIC_KEY
-    stripe_secret_key = settings.STRIPE_SECRET_KEY
-
     if request.method == 'POST':
         # Data from the form when submitted
         form_data = {
@@ -87,20 +88,23 @@ def checkout_view(request):
             )
             # Save the order
             order.save()
-
             # Assign the order to the order items and save them
             for order_item in items:
                 order_item.order = order
                 order_item.save()
-
             # Calculate the delivery cost
             order.calculate_delivery_cost(items)
-
             # Update the grand total using the update_grand_total method
             order.update_grand_total()
-
             # Save the Order instance again to reflect the updates
             order.save()
+
+            # Create a Stripe payment intent
+            stripe.api_key = stripe_secret_key
+            intent = stripe.PaymentIntent.create(
+                amount=int(order_total * 100),
+                currency='eur',
+            )
 
     else:
         order_form = OrderForm()
@@ -108,6 +112,8 @@ def checkout_view(request):
     context = {
         'items': items,
         'order_form': order_form,
+        'stripe_public_key': 'pk_test_51N9piuDe4Cla8ZNS2d4Jxc1aDSd9vJMUJchtPZaizNVdK72byMAmeyLDC34XinBlXO1zUiclW95nYTa2vvU7kp8Z00ljVKEXH2',
+        'client_secret': 'test_client secret',
     }
 
     return render(request, 'checkout/checkout.html', context)
