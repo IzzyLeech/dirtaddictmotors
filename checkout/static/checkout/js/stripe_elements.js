@@ -17,5 +17,23 @@ var style = {
         iconColor: '#dc3545'
     }
 };
-var card = elements.create('card', {style: style});
-card.mount('#card-element')
+var cardElement = elements.create('card', {style: style});
+cardElement.mount('#card-element')
+
+
+cardElement.addEventListener('change', function(event) {
+    var cardErrors = document.getElementById('card-errors');
+    if (event.error) {
+      var html = `
+          <span class="icon" role="alert">
+              <i class="fas fa-exclamation-triangle"></i>
+          </span>
+          <span>${event.error.message}</span>
+      `;
+      $(cardErrors).html(html);
+    } else {
+    // Clear error message
+    cardErrors.textContent = '';
+    }
+});
+
