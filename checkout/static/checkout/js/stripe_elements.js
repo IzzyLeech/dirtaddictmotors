@@ -48,6 +48,7 @@ form.addEventListener('submit', function(event) {
       }
     }).then(function(result) {
         if (result.error) {
+        console.error(result.error);
         var cardErrors = document.getElementById('card-errors');
         var html = `
             <span class="icon" role="alert">

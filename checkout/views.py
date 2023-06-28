@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.conf import settings
 from decimal import Decimal
 
@@ -23,6 +23,8 @@ def checkout_view(request):
     # Get the list of items from the bag
     items = []
     order_total = Decimal('0.00')
+
+    intent = None
 
     for item in bag.values():
         bike_data = item.get('bike')
@@ -92,8 +94,9 @@ def checkout_view(request):
             order.update_grand_total()
             # Save the Order instance again to reflect the updates
             order.save()
-            # Create a Stripe payment intent
+            return redirect(reverse('checkout_success', args=[order.order_number]))    
     else:
+        # Create a Stripe payment intent
         current_bag = bag_contents(request)
         total = current_bag['grand_total']
         print("Total for stripe", total)
@@ -110,7 +113,21 @@ def checkout_view(request):
         'items': items,
         'order_form': order_form,
         'stripe_public_key': stripe_public_key,
-        'client_secret': intent.client_secret
+        'client_secret': intent.client_secret if intent else '',
     }
 
     return render(request, 'checkout/checkout.html', context)
+
+
+def checkout_success(request, order_number):
+    """ View to render a successful checkout"""
+    order = get_object_or_404(Order, order_number=order_number)
+
+    if 'bag' in request.session:
+        del request.session['bag']
+
+    context = {
+        'order': order,
+    }
+
+    return render(request, 'checkout/checkout_success.html', context)
