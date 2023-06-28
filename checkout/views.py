@@ -8,6 +8,7 @@ import stripe
 from products.models import Bikes
 from .models import Order, OrderItem
 from .forms import OrderForm
+from bag.contexts import bag_contents
 
 
 def checkout_view(request):
@@ -26,12 +27,9 @@ def checkout_view(request):
     for item in bag.values():
         bike_data = item.get('bike')
         bike_id = bike_data.get('id') if bike_data else None
-        print("bike_id:", bike_id)
         if bike_id:
             quantity = item.get('quantity', 0)
-            print('Quantity', quantity)
             engine_capacity = item.get('engine_capacity', 0)
-            print("Engine", engine_capacity)
 
             # Retrieve the bike instance from the database based on bike ID
             bike = Bikes.objects.get(pk=bike_id)
@@ -41,7 +39,6 @@ def checkout_view(request):
 
             # Add the item total to the order total
             order_total += item_total
-            print(f"Order total:", order_total)
 
             # Create an instance of OrderItem
             order_item = OrderItem(
@@ -52,9 +49,6 @@ def checkout_view(request):
 
             # Append the order item to the list
             items.append(order_item)
-
-    # Calculate the total weight of all the bikes in the items list
-    total_weight = sum(item.bike.weight for item in items)
 
     if request.method == 'POST':
         # Data from the form when submitted
@@ -98,22 +92,25 @@ def checkout_view(request):
             order.update_grand_total()
             # Save the Order instance again to reflect the updates
             order.save()
-
             # Create a Stripe payment intent
-            stripe.api_key = stripe_secret_key
-            intent = stripe.PaymentIntent.create(
-                amount=int(order_total * 100),
-                currency='eur',
-            )
-
     else:
+        current_bag = bag_contents(request)
+        total = current_bag['grand_total']
+        print("Total for stripe", total)
+        stripe.api_key = stripe_secret_key
+        intent = stripe.PaymentIntent.create(
+            amount=int(total * 100),
+            currency='eur',
+        )
+        print(intent)
+
         order_form = OrderForm()
 
     context = {
         'items': items,
         'order_form': order_form,
-        'stripe_public_key': 'pk_test_51N9piuDe4Cla8ZNS2d4Jxc1aDSd9vJMUJchtPZaizNVdK72byMAmeyLDC34XinBlXO1zUiclW95nYTa2vvU7kp8Z00ljVKEXH2',
-        'client_secret': 'test_client secret',
+        'stripe_public_key': stripe_public_key,
+        'client_secret': intent.client_secret
     }
 
     return render(request, 'checkout/checkout.html', context)
