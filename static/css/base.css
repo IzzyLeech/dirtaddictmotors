@@ -7,6 +7,23 @@
     font-style: italic;
 }
 
+
+/* Message container */
+.message-container {
+    position: fixed;
+    top: 45px;
+    right: 20px;
+    z-index: 9999999999;
+}
+
+.custom-toast {
+    overflow: visible;
+}
+
+.toast-capper {
+    height: 2px;
+}
+
 /* Footer */
 
 .footer {

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404, reverse
 import json
 from decimal import Decimal
 from django.core.serializers.json import DjangoJSONEncoder
+from django.contrib import messages
 
 from products.models import Bikes
 
@@ -26,11 +27,12 @@ def add_to_bag(request, item_id):
     if item_id in bag:
         # Increment the quantity by 1
         bag[item_id]['quantity'] += 1
+        quantity = bag[item_id]['quantity']
+        messages.success(request, f'Increased quantity of {bike} to {quantity}')
     else:
         # Convert Decimal fields to float
         price = float(bike.price)
         engine_capacity = str(bike.engine_capacity)  # Convert engine_capacity to a string
-
         # Add the product to the bag with an initial quantity of 1
         bag[item_id] = {
             'quantity': 1,
@@ -42,6 +44,7 @@ def add_to_bag(request, item_id):
                 'engine_capacity': engine_capacity,
             }
         }
+        messages.success(request, f'Added {bike} to your bag')
 
     request.session['selected_model'] = bike.model
 
