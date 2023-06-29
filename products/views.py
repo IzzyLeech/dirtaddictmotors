@@ -13,21 +13,26 @@ def products_display(request, manufacturer_name=None, engine_num=None, stroke_nu
     if manufacturer_name:
         bikes = bikes.filter(manufacturer=manufacturer_name)
         selected_filters.append(f'Manufacturer: {manufacturer_name}')
-
-    if engine_num:
+    elif engine_num:
         bikes = bikes.filter(engine_capacity=engine_num)
         engine_num = str(engine_num).split(".")[0]
         selected_filters.append(f'Engine Capacity: {engine_num} CC')
-
-    if stroke_num:
+    elif stroke_num:
         bikes = bikes.filter(stroke=stroke_num)
         stroke_num = str(stroke_num).split(".")[0]
         selected_filters.append(f'{stroke_num}:Stroke Engines')
-
-    if not selected_filters:
+    else:
         selected_filters.append('All Bikes')
 
+    sort_param = request.GET.get('sort')
+
+    if sort_param == 'year':
+        bikes = bikes.order_by('-year')
+    elif sort_param == 'price':
+        bikes = bikes.order_by('-price')
+
     """ Search bar Logic """
+    queries = Q()
     if request.GET:
         if 'q' in request.GET:
             query = request.GET['q']
