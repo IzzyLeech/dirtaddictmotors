@@ -29,5 +29,8 @@ class Bikes(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ['manufacturer']
+
     def __str__(self):
         return f"{self.manufacturer} {self.model} {self.engine_capacity}"

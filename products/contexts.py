@@ -16,5 +16,6 @@ def nav_category_engine_capacity(request):
 
 def nav_category_stroke(request):
     strokes = Bikes.objects.values('stroke').distinct()
+    print(strokes)
     context = {'strokes': strokes}
     return context

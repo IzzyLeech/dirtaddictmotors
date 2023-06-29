@@ -4,6 +4,16 @@
 {%  block content %}
 <div class="container-fluid">
 
+<div>
+  <label for="sortSelect">Sort By:</label>
+  <select id="sortSelect">
+    <option value="manufacturer_asc">Manufacturer (A-Z)</option>
+    <option value="manufacturer_desc">Manufacturer (Z-A)</option>
+    <option value="price_asc">Price (Low to High)</option>
+      <option value="price_desc">Price (High to Low)</option>
+  </select>
+</div>
+
 <h1>Products</h1>
 <h2>
   {% if selected_filters %}
@@ -41,6 +51,7 @@
             {{ bike.year }}
             {{ bike.engine_capacity|floatformat:0 }}
             {{ bike.price }}
+            {{ bike.stroke }}
             </div>
             <form action="{% url 'add_to_bag' bike.id %}" method="POST">
               {% csrf_token %}
@@ -54,4 +65,5 @@
         {% endfor %}
     </div>
 </div>
+
 {% endblock %}
