@@ -4,15 +4,19 @@
 {%  block content %}
 <div class="container-fluid">
 
-<div>
-  <label for="sortSelect">Sort By:</label>
-  <select id="sortSelect">
-    <option value="manufacturer_asc">Manufacturer (A-Z)</option>
-    <option value="manufacturer_desc">Manufacturer (Z-A)</option>
-    <option value="price_asc">Price (Low to High)</option>
-      <option value="price_desc">Price (High to Low)</option>
+  <div>
+    <label for="sort">Sort by:</label>
+    <select id="sort" onchange="sortBikes(this.value)">
+      <option value="" {% if default_sort == 'manufacturer' %}selected{% endif %}>Default</option>
+      <option value="year" {% if default_sort == 'year' %}selected{% endif %}>Year (High to Low)</option>
+      <option value="-year" {% if default_sort == '-year' %}selected{% endif %}>Year (Low to High)</option>
+      <option value="price" {% if default_sort == 'price' %}selected{% endif %}>Price (High to Low)</option>
+      <option value="-price" {% if default_sort == '-price' %}selected{% endif %}>Price (Low to High)</option>
+      <option value="manufacturer" {% if default_sort == 'manufacturer' %}selected{% endif %}>Manufacturer (A-Z)</option>
+      <option value="-manufacturer" {% if default_sort == '-manufacturer' %}selected{% endif %}>Manufacturer (Z-A)</option>
   </select>
 </div>
+
 
 <h1>Products</h1>
 <h2>

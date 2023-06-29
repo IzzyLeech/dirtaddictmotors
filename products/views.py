@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.db.models import Q
+from django.db.models import Q, F
 from .models import Bikes
 
 
@@ -25,11 +25,26 @@ def products_display(request, manufacturer_name=None, engine_num=None, stroke_nu
         selected_filters.append('All Bikes')
 
     sort_param = request.GET.get('sort')
+    default_sort = request.GET.get('sort', 'manufacturer')
 
     if sort_param == 'year':
         bikes = bikes.order_by('-year')
+        default_sort = 'year'
+    elif sort_param == '-year':
+        bikes = bikes.order_by('year')
+        default_sort = '-year'
     elif sort_param == 'price':
         bikes = bikes.order_by('-price')
+        default_sort = 'price'
+    elif sort_param == '-price':
+        bikes = bikes.order_by('price')
+        default_sort = '-price'
+    elif sort_param == 'manufacturer':
+        bikes = bikes.order_by('manufacturer')
+        default_sort = 'manufacturer'
+    elif sort_param == '-manufacturer':
+        bikes = bikes.order_by('-manufacturer')
+        default_sort = '-manufacturer'
 
     """ Search bar Logic """
     queries = Q()
@@ -46,6 +61,7 @@ def products_display(request, manufacturer_name=None, engine_num=None, stroke_nu
     context = {
         'bikes': bikes,
         'selected_filters': selected_filters,
+        'default_sort': sort_param,
     }
 
     return render(request, 'products/products.html', context)
