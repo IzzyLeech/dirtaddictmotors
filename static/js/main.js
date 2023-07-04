@@ -14,8 +14,4 @@ if (sortElement) {
   sortElement.value = currentSortOption || 'manufacturer';
 }
 
-$(document).ready(function() {
-  $('.underline-link').click(function() {
-    $(this).addClass('clicked-link');
-  });
-});
+

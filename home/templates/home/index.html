@@ -1,10 +1,179 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col w-100"></div>
+{%  block content %}
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-6">
+        <div id="bikeCarousel" class="carousel">
+          <div class="carousel-inner" id="bikeCarouselInner"></div>
+          <button class="carousel-control-prev" id="prevButton" type="button">
+            Previous
+          </button>
+          <button class="carousel-control-next" id="nextButton" type="button">
+            Next
+          </button>
+        </div>
+      </div>
     </div>
 </div>
+
+{% endblock %}
+
+
+{% block postloadjs %}
+{{ block.super }}
+<script>
+
+let currentSlideIndex = 1;
+let bikes = [];
+let previousBikes = [];
+
+function getRandomBikes(bikes, numArrays, numBikesPerArray) {
+  const randomBikesList = [];
+
+  const allBikeIds = bikes.map(bike => bike.id);
+  const remainingBikeIds = allBikeIds.slice();
+
+  for (let i = 0; i < numArrays; i++) {
+    const randomBikesArray = [];
+
+    while (randomBikesArray.length < numBikesPerArray) {
+      const randomIndex = Math.floor(Math.random() * remainingBikeIds.length);
+      const randomBikeId = remainingBikeIds[randomIndex];
+
+      const bikeIndex = allBikeIds.indexOf(randomBikeId);
+      const bike = bikes[bikeIndex];
+
+      if (!randomBikesArray.includes(bike)) {
+        randomBikesArray.push(bike);
+      }
+
+      remainingBikeIds.splice(randomIndex, 1);
+    }
+
+    randomBikesList.push(randomBikesArray);
+  }
+
+  return randomBikesList;
+}
+
+
+// Function to update carousel controls
+function updateCarouselControls() {
+  const prevButton = document.getElementById('prevButton');
+  const nextButton = document.getElementById('nextButton');
+
+  prevButton.disabled = currentSlideIndex === 1;
+  nextButton.disabled = currentSlideIndex === 3;
+
+  console.log('Current slide index:', currentSlideIndex);
+  console.log('Previous button disabled:', prevButton.disabled);
+  console.log('Next button disabled:', nextButton.disabled);
+}
+
+
+function initializeCarousel(bikes) {
+  const carouselInner = document.getElementById('bikeCarouselInner');
+  carouselInner.innerHTML = '';
+
+  const bikeSlides = [];
+
+  bikes.forEach((bikeArray) => {
+    const bikeSlide = document.createElement('div');
+    bikeSlide.classList.add('bike-slide');
+    
+    bikeArray.forEach((bike) => {
+      const bikeInfo = document.createElement('div');
+      bikeInfo.classList.add('bike-info');
+      const bikeId = bike.id;
+      bikeInfo.innerHTML = `
+        <h3><a href="/products/${bikeId}/">${bike.manufacturer} ${bike.model}</h3>
+        <p>Engine Capacity: ${bike.engine_capacity}</p>
+        <p>Year: ${bike.year}</p>
+        <p>Price: ${bike.price}</p>
+      `;
+
+      bikeSlide.appendChild(bikeInfo);
+    });
+
+    bikeSlides.push(bikeSlide);
+  });
+
+  const carousel = document.getElementById('bikeCarousel');
+  carousel.classList.add('carousel');
+
+  let activeSlideIndex = 1;
+  console.log("Active Slide Index", activeSlideIndex)
+  updateCarouselControls();
+  bikeSlides[activeSlideIndex].classList.add('active');
+
+  const prevButton = document.getElementById('prevButton');
+  const nextButton = document.getElementById('nextButton');
+
+  prevButton.addEventListener('click', () => {
+  bikeSlides[activeSlideIndex].classList.remove('active');
+  activeSlideIndex = (activeSlideIndex - 1 + bikeSlides.length) % bikeSlides.length;
+  bikeSlides[activeSlideIndex].classList.add('active');
+  updateCarouselControls();
+  console.log("Active Slide Index", activeSlideIndex)
+});
+
+nextButton.addEventListener('click', () => {
+  bikeSlides[activeSlideIndex].classList.remove('active');
+  activeSlideIndex = (activeSlideIndex + 1) % bikeSlides.length;
+  bikeSlides[activeSlideIndex].classList.add('active');
+  updateCarouselControls();
+  console.log("Active Slide Index", activeSlideIndex)
+});
+
+  carouselInner.append(...bikeSlides);
+
+//   // Automatically switch to the next slide every 3 seconds
+//   setInterval(() => {
+//     bikeSlides[activeSlideIndex].classList.remove('active');
+//     activeSlideIndex = (activeSlideIndex + 1) % bikeSlides.length;
+//     bikeSlides[activeSlideIndex].classList.add('active');
+
+//     currentSlideIndex = activeSlideIndex + 1;
+//     updateCarouselControls();
+
+//     console.log('Active Slide Index:', activeSlideIndex);
+//     console.log('Bike Data:', bikes[activeSlideIndex]);
+//   }, 4000);
+}
+
+
+fetch('/get-random-bikes/')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Request failed with status code ' + response.status);
+    }
+    return response.json();
+  })
+  .then(data => {
+    const fetchedBikes = JSON.parse(data);
+    console.log('Bikes from fetch', fetchedBikes);
+
+    previousBikes = bikes;
+    bikes = fetchedBikes;
+
+    const randomBikes = getRandomBikes(bikes, 3, 3);
+    console.log('Random bikes:', randomBikes);
+
+    $('#bikeCarousel').carousel(currentSlideIndex);
+
+    initializeCarousel(randomBikes);
+
+    previousBikes = bikes.slice();
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+
+
+
+
+</script>
+
 {% endblock %}
