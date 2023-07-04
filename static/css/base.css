@@ -79,21 +79,19 @@
 
 .carousel {
     position: relative;
-    width: 100%; /* Adjust the width to fit the desired display area */
-    height: 600px;
+    width: 100%;
+    height: 100%;
     margin: 0 auto;
     overflow: hidden;
     border: 1px solid #ccc;
 }
 
-
-
 .carousel-inner {
     display: flex;
     overflow: hidden;
     transition: transform 0.3s ease-in-out;
-    width: 100%; /* Set the width to 100% */
-    height: 100%; /* Set the height to 100% */
+    width: 100%;
+    height: 100%;
 }
 
 .bike-slide {
@@ -127,6 +125,17 @@
     right: 10px;
 }
 
+/* Image container */
+
+.custom-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-wrapper {
+    text-align: center;
+}
 /* Footer */
 
 .footer {

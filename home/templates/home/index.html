@@ -4,7 +4,22 @@
 {%  block content %}
 <div class="container-fluid">
   <div class="row">
-      <div class="col-6">
+    <div class="col-6 d-flex align-items-center justify-content-center bg-danger">
+      <div class="mx-3">
+        <h2 class="">Dirt Addict Motors</h2>
+        <p>Stocking a wide range of high quality dirtbikes from multiple manufacturer that span all the necessary engine capacity from beginner's all the way up to seasoned veteran</p>
+        <div>
+          <a href="">Sign up for Account</a>
+          <a href="{% url 'products' %}?sort=manufacturer">Start Browing bikes</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 px-0">
+      <img class="img-fluid" src="{% static 'images/index-image.jpeg' %}" alt="index-image">
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-12">
         <div id="bikeCarousel" class="carousel">
           <div class="carousel-inner" id="bikeCarouselInner"></div>
           <button class="carousel-control-prev" id="prevButton" type="button">
@@ -25,7 +40,7 @@
 {{ block.super }}
 <script>
 
-let currentSlideIndex = 1;
+let activeSlideIndex = 0;
 let bikes = [];
 let previousBikes = [];
 
@@ -64,10 +79,10 @@ function updateCarouselControls() {
   const prevButton = document.getElementById('prevButton');
   const nextButton = document.getElementById('nextButton');
 
-  prevButton.disabled = currentSlideIndex === 1;
-  nextButton.disabled = currentSlideIndex === 3;
+  prevButton.disabled = activeSlideIndex === 0;
+  nextButton.disabled = activeSlideIndex === 2;
 
-  console.log('Current slide index:', currentSlideIndex);
+  console.log('Activeslide index:', activeSlideIndex);
   console.log('Previous button disabled:', prevButton.disabled);
   console.log('Next button disabled:', nextButton.disabled);
 }
@@ -83,19 +98,38 @@ function initializeCarousel(bikes) {
     const bikeSlide = document.createElement('div');
     bikeSlide.classList.add('bike-slide');
     
+    const rowDiv = document.createElement('div');
+    rowDiv.classList.add('row');
+
     bikeArray.forEach((bike) => {
+      const colDiv = document.createElement('div');
+      colDiv.classList.add('col-md-4');
+
       const bikeInfo = document.createElement('div');
       bikeInfo.classList.add('bike-info');
       const bikeId = bike.id;
       bikeInfo.innerHTML = `
-        <h3><a href="/products/${bikeId}/">${bike.manufacturer} ${bike.model}</h3>
+        <h3><a href="/products/${bikeId}/">${bike.manufacturer} ${bike.model}</a></h3>
+        <div class="custom-image-container">
+        <div class="image-wrapper">
+        {% if bike.image %}
+          <img class="img-fluid" src="${bike.image}">
+        {% else %}
+          <img class="img-fluid" src="{% static 'images/no_image.jpg' %}">
+        {% endif %}
+        </div>
+      </div>
         <p>Engine Capacity: ${bike.engine_capacity}</p>
         <p>Year: ${bike.year}</p>
         <p>Price: ${bike.price}</p>
       `;
 
-      bikeSlide.appendChild(bikeInfo);
+      colDiv.appendChild(bikeInfo);
+
+      rowDiv.appendChild(colDiv);
     });
+
+    bikeSlide.appendChild(rowDiv);
 
     bikeSlides.push(bikeSlide);
   });
@@ -103,7 +137,7 @@ function initializeCarousel(bikes) {
   const carousel = document.getElementById('bikeCarousel');
   carousel.classList.add('carousel');
 
-  let activeSlideIndex = 1;
+  activeSlideIndex = 0;
   console.log("Active Slide Index", activeSlideIndex)
   updateCarouselControls();
   bikeSlides[activeSlideIndex].classList.add('active');
@@ -141,6 +175,8 @@ nextButton.addEventListener('click', () => {
 //     console.log('Active Slide Index:', activeSlideIndex);
 //     console.log('Bike Data:', bikes[activeSlideIndex]);
 //   }, 4000);
+
+updateCarouselControls();
 }
 
 
@@ -161,7 +197,7 @@ fetch('/get-random-bikes/')
     const randomBikes = getRandomBikes(bikes, 3, 3);
     console.log('Random bikes:', randomBikes);
 
-    $('#bikeCarousel').carousel(currentSlideIndex);
+    $('#bikeCarousel').carousel(activeSlideIndex);
 
     initializeCarousel(randomBikes);
 
