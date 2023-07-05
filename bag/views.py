@@ -14,8 +14,6 @@ def view_bag(request):
 
 
 def add_to_bag(request, item_id):
-    """A function that adds a product to the bag"""
-
     # Retrieve the bike based on the provided item_id
     bike = get_object_or_404(Bikes, id=int(item_id))
 

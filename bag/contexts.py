@@ -3,7 +3,7 @@ from products.models import Bikes
 
 
 def bag_contents(request):
-    # Receive the content of the bag from the current session
+    # Retrieve the content of the bag from the current session
     bag_json = request.session.get('bag', '{}')
     bag = json.loads(bag_json)
 
@@ -29,7 +29,7 @@ def bag_contents(request):
             # Update the weight in the bag for the current item
             item['bike']['weight'] = weight
 
-            # Determine the delivery cost by weight of bike
+            # Determine the delivery cost by weight of the bike
             if weight > 100:
                 delivery_cost += 155
             elif weight > 90:
@@ -40,14 +40,18 @@ def bag_contents(request):
     # Add delivery cost to the total cost
     grand_total = total_cost + delivery_cost
 
+    # Retrieve the engine capacity options for each model in the bag
+    capacities = []
+    for model in set([item['bike']['model'] for item in bag.values()]):
+        engine_capacity_options = list(
+            Bikes.objects.filter(model=model).values_list('engine_capacity', flat=True).distinct()
+        )
+        capacities.append({'model': model, 'engine_capacity_options': engine_capacity_options})
+
     # Update the session values
     request.session['total_cost'] = total_cost
     request.session['delivery_cost'] = delivery_cost
     request.session['grand_total'] = grand_total
-
-    # Variables for the engine capacity of a model of a bike
-    selected_model = request.session.get('selected_model')
-    capacities = Bikes.objects.filter(model=selected_model).values_list('engine_capacity', flat=True).distinct()
 
     # Variable to get the quantity
     total_quantity = sum(item['quantity'] for item in bag.values())

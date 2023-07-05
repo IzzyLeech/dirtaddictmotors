@@ -26,7 +26,11 @@
             <label for="engine_capacity">Engine Capacity:</label>
             <select name="engine_capacity">
               {% for capacity in capacities %}
-                <option value="{{ capacity }}" {% if capacity|floatformat:2 == item.bike.engine_capacity|floatformat:2 %}selected{% endif %}>{{ capacity }}</option>
+                {% if capacity.model == item.bike.model %}
+                  {% for option in capacity.engine_capacity_options %}
+                  <option value="{{ option }}" {% if option|floatformat:0 == item.bike.engine_capacity|floatformat:0 %}selected{% endif %}>{{ option|floatformat:0 }}:CC</option>
+                  {% endfor %}
+                {% endif %}
               {% endfor %}
             </select>
           </div>
