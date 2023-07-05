@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q, F
+from django.core.paginator import Paginator
+
 from .models import Bikes
 
 
@@ -7,21 +9,21 @@ def products_display(request, manufacturer_name=None, engine_num=None, stroke_nu
     """View to display products based on optional filters"""
 
     bikes = Bikes.objects.all()
-
     selected_filters = []
 
     if manufacturer_name:
         bikes = bikes.filter(manufacturer=manufacturer_name)
         selected_filters.append(f'Manufacturer: {manufacturer_name}')
-    elif engine_num:
+    if engine_num:
         bikes = bikes.filter(engine_capacity=engine_num)
         engine_num = str(engine_num).split(".")[0]
         selected_filters.append(f'Engine Capacity: {engine_num} CC')
-    elif stroke_num:
+    if stroke_num:
         bikes = bikes.filter(stroke=stroke_num)
         stroke_num = str(stroke_num).split(".")[0]
         selected_filters.append(f'{stroke_num}:Stroke Engines')
-    else:
+
+    if not selected_filters:
         selected_filters.append('All Bikes')
 
     sort_param = request.GET.get('sort')
@@ -46,22 +48,26 @@ def products_display(request, manufacturer_name=None, engine_num=None, stroke_nu
         bikes = bikes.order_by('-manufacturer')
         default_sort = '-manufacturer'
 
-    """ Search bar Logic """
-    queries = Q()
-    if request.GET:
-        if 'q' in request.GET:
-            query = request.GET['q']
-            queries = Q(manufacturer__icontains=query) | Q(
-                model__icontains=query
-            ) | Q(engine_capacity__icontains=query) | Q(
-                year__icontains=query
-            )
-        bikes = bikes.filter(queries)
+    # Search bar Logic
+    query = request.GET.get('q')
+    if query:
+        bikes = bikes.filter(
+            Q(manufacturer__icontains=query) |
+            Q(model__icontains=query) |
+            Q(engine_capacity__icontains=query) |
+            Q(year__icontains=query)
+        )
+        selected_filters = [f'Search result for "{query}"']
+
+    paginator = Paginator(bikes, 8)
+    page_number = request.GET.get('page')
+    bikes_page = paginator.get_page(page_number)
 
     context = {
-        'bikes': bikes,
+        'bikes': bikes_page,
         'selected_filters': selected_filters,
-        'default_sort': sort_param,
+        'default_sort': default_sort,
+        'query': query,
     }
 
     return render(request, 'products/products.html', context)

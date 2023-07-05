@@ -1,71 +1,95 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'products/css/products.css' %}">
+{% endblock %}
+
 {%  block content %}
 <div class="container-fluid">
 
-  <div>
-    <label for="sort">Sort by:</label>
-    <select id="sort" onchange="sortBikes(this.value)">
-      <option value="" {% if default_sort == 'manufacturer' %}selected{% endif %}>Default</option>
-      <option value="year" {% if default_sort == 'year' %}selected{% endif %}>Year (High to Low)</option>
-      <option value="-year" {% if default_sort == '-year' %}selected{% endif %}>Year (Low to High)</option>
-      <option value="price" {% if default_sort == 'price' %}selected{% endif %}>Price (High to Low)</option>
-      <option value="-price" {% if default_sort == '-price' %}selected{% endif %}>Price (Low to High)</option>
-      <option value="manufacturer" {% if default_sort == 'manufacturer' %}selected{% endif %}>Manufacturer (A-Z)</option>
-      <option value="-manufacturer" {% if default_sort == '-manufacturer' %}selected{% endif %}>Manufacturer (Z-A)</option>
+<h1>Products</h1>
+<div class="row">
+<div class="col-6">
+  {% if query %}
+  {% if bikes.has_other_pages or bikes.has_previous or bikes.has_next %}
+      <h2>Search result for "{{ query }}"</h2>
+  {% else %}
+      <h2>No results for "{{ query }}"</h2>
+  {% endif %}
+{% else %}
+  <h2>
+      {% for filter_label in selected_filters %}
+          {{ filter_label }}
+          {% if not forloop.last %}, {% endif %}
+      {% endfor %}
+  </h2>
+{% endif %}
+</div>
+<div class="col-6 text-right">
+  <label for="sort">Sort by:</label>
+  <select id="sort" onchange="sortBikes(this.value)">
+    <option value="" {% if default_sort == 'manufacturer' %}selected{% endif %}>Default</option>
+    <option value="year" {% if default_sort == 'year' %}selected{% endif %}>Year (High to Low)</option>
+    <option value="-year" {% if default_sort == '-year' %}selected{% endif %}>Year (Low to High)</option>
+    <option value="price" {% if default_sort == 'price' %}selected{% endif %}>Price (High to Low)</option>
+    <option value="-price" {% if default_sort == '-price' %}selected{% endif %}>Price (Low to High)</option>
+    <option value="manufacturer" {% if default_sort == 'manufacturer' %}selected{% endif %}>Manufacturer (A-Z)</option>
+    <option value="-manufacturer" {% if default_sort == '-manufacturer' %}selected{% endif %}>Manufacturer (Z-A)</option>
   </select>
 </div>
 
-
-<h1>Products</h1>
-<h2>
-  {% if selected_filters %}
-    {% for filter_label in selected_filters %}
-      {{ filter_label }}
-      {% if not forloop.last %}, {% endif %}
-    {% endfor %}
-  {% else %}
-    All Bikes
-  {% endif %}
-
-  {% if request.GET.sort == 'year' %}
-  by Year
-  {% elif request.GET.sort == 'price' %}
-  by Price
-  {% endif %}
-</h2>
-
+</div>
     <div class="row">
         {% for bike in bikes %}
-        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 ">
-            <div class="product-item h-000">
+        {% if forloop.counter <= 8 %}
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+          <div class="product-item mb-4">
             {% if bike.image %}
-            <a href="{% url 'product_detail' product_id=bike.id %}">
-              <img class="img-fluid" src="{{ bike.image.url }}">
-            </a>
+              <a href="{% url 'product_detail' product_id=bike.id %}">
+                <img class="img-fluid" src="{{ bike.image.url }}" alt="{{ bike.manufacturer }} {{ bike.model }}">
+              </a>
             {% else %}
-            <a href="{% url 'product_detail' product_id=bike.id %}">
-              <img class="img-fluid" src="{% static 'images/no_image.jpg' %}">
-            </a>
+              <a href="{% url 'product_detail' product_id=bike.id %}">
+                <img class="img-fluid" src="{% static 'images/no_image.jpg' %}" alt="No Image">
+              </a>
             {% endif %}
-            {{ bike.manufacturer }}
-            {{ bike.model }}
-            {{ bike.year }}
-            {{ bike.engine_capacity|floatformat:0 }}
-            {{ bike.price }}
-            {{ bike.stroke }}
+            <div class="product-details">
+              <h3 class="product-title">
+                <a href="{% url 'product_detail' product_id=bike.id %}">{{ bike.manufacturer }} {{ bike.model }}{{ bike.engine_capacity|floatformat:0 }}</a>
+              </h3>
+              <p class="product-info">Year: {{ bike.year }}</p>
+              <p class="product-info">Price: {{ bike.price }}</p>
             </div>
             <form action="{% url 'add_to_bag' bike.id %}" method="POST">
               {% csrf_token %}
               <input type="hidden" name="quantity" value="1">
               <button type="submit" class="btn btn-primary btn-md my-0 p">
-                Add to cart
+                Add to Cart
                 <i class="fas fa-shopping-cart ml-1"></i>
               </button>
             </form>
+          </div>
         </div>
+        {% endif %}
         {% endfor %}
+    </div>
+    <div class="row">
+      <div class="col-12 text-center mx-auto">
+        {% if bikes.has_previous %}
+          <a href="?page={{ bikes.previous_page_number }}"><button type="button" class="btn btn-dark">Previous</button></a>
+        {% endif %}
+        {% for num in bikes.paginator.page_range %}
+          {% if num == bikes.number %}
+            <span class="current-page">{{ num }}</span>
+          {% else %}
+            <a href="?page={{ num }}">{{ num }}</a>
+          {% endif %}
+        {% endfor %}
+        {% if bikes.has_next %}
+          <a href="?page={{ bikes.next_page_number }}"><button type="button" class="btn btn-dark">Next</button></a>
+        {% endif %}
+      </div>
     </div>
 </div>
 
