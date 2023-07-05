@@ -26,7 +26,7 @@ def add_to_bag(request, item_id):
         # Increment the quantity by 1
         bag[item_id]['quantity'] += 1
         quantity = bag[item_id]['quantity']
-        messages.success(request, f'Increased quantity of {bike} to {quantity}')
+        messages.info(request, f'Increased quantity of {bike} to {quantity}')
     else:
         # Convert Decimal fields to float
         price = float(bike.price)
@@ -64,10 +64,17 @@ def remove_from_bag(request, item_id):
 
     # Check if the bike is in the bag
     if item_id in bag:
+        # Retrieve the bike details before removing it from the bag
+        bike_model = bag[item_id]['bike']['model']
+        bike_manufacturer = bag[item_id]['bike']['manufacturer']
+        bike_engine = float(bag[item_id]['bike']['engine_capacity'])
+
         del bag[item_id]  # Remove the bike from the bag
 
         # Update the bag in the session
         request.session['bag'] = json.dumps(bag, cls=DjangoJSONEncoder)
+
+    messages.warning(request, f"The {bike_manufacturer} {bike_model} {bike_engine:.0f}CC has been removed from your bag.")
 
     # Redirect the user to the bag page
     return redirect('view_bag')
@@ -97,6 +104,9 @@ def adjust_bag_content(request, item_id):
 
         if quantity == 0:
             del bag[str(item_id)]
+            formatted_engine_capacity = "{:.0f}".format(float(engine_capacity))
+            messages.warning(request, f"The {bike.manufacturer} {bike.model} {formatted_engine_capacity}CC has been removed from your bag.")
+
         else:
             # Retrieve the new price and weight based on the updated engine capacity
             updated_bike = Bikes.objects.filter(model=bike.model, engine_capacity=engine_capacity).first()
@@ -120,6 +130,11 @@ def adjust_bag_content(request, item_id):
                     item['bike']['engine_capacity'] = engine_capacity
                     item['bike']['price'] = float(updated_bike.price)
                     item['bike']['weight'] = float(updated_bike.weight)
+
+                    # Format the engine_capacity without decimal places
+                    formatted_engine_capacity = "{:.0f}".format(float(engine_capacity))
+
+                    messages.info(request, f"The engine capacity of the {bike.manufacturer} {bike.model} has been updated to {formatted_engine_capacity}CC.")
 
     # Update the bag in the session
     request.session['bag'] = json.dumps(bag)
