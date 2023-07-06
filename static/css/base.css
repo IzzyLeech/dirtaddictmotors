@@ -5,6 +5,50 @@
     text-transform: uppercase;
     text-decoration: underline;
     font-style: italic;
+    font-size: 25px;
+}
+
+#cart-icon {
+    font-size: 18px;
+    color: Black;
+}
+
+#cart-text {
+    font-weight: bold;
+    font-size: 16px;
+    color: black;
+}
+
+#cart-link {
+    text-decoration: none;
+}
+
+#cart-link:hover {
+    text-decoration: none;
+}
+
+#cart-badge {
+    background-color: black;
+    font-size: 14px;
+    color: white;
+}
+
+#cart-account-column {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+#cart-link {
+    margin-right: 10px;
+}
+
+.custom-button {
+    width: 125px;
+}
+
+.account-menu {
+    min-width: 125px;
 }
 
 /* Category Navbar */
