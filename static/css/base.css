@@ -51,6 +51,36 @@
     min-width: 125px;
 }
 
+.search-icon {
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.search-bar {
+    display: none;
+}
+
+.search-bar.show {
+    display: flex;
+}
+
+.search-bar form {
+    display: flex;
+    align-items: center;
+}
+
+.search-bar input[type="text"] {
+    padding: 5px;
+}
+
+.search-bar button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+
 /* Category Navbar */
 
 .custom-dropdown-menu {

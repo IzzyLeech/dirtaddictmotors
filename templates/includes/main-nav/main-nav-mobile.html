@@ -1,0 +1,39 @@
+<div class="col-12 text-center my-auto">
+    <a href="{% url 'home' %}">
+        <h2 id="site-logo"><strong>Dirt Addict Motors</strong><i class="fa-solid fa-motorcycle"></i></h2>
+    </a>
+</div>
+<div class="col-4 bg-danger my-auto py-2 text-center">
+    <div id="account-dropdown" class="dropdown">
+        <button class="btn btn-dark dropdown-toggle custom-button" type="button" id="account-dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            My Account
+        </button>
+        <div class="dropdown-menu account-menu" aria-labelledby="account-dropdown-toggle">
+            {% if request.user.is_authenticated %}
+                <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
+            {% else %}
+                <a class="dropdown-item" href="{% url 'account_signup' %}">Register</a>
+                <a class="dropdown-item" href="{% url 'account_login' %}">Login</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="col-4 bg-danger py-1 text-center">
+    <div class="search-icon">
+        <i class="fas fa-search fa-lg"></i>
+        <p class="my-0">Search</p>
+    </div>
+</div>
+
+<div class="col-4 bg-danger my-auto py-2 text-center">
+    <div>
+        <a href="{% url 'view_bag' %} " id="cart-link">
+            <i class="fas fa-shopping-cart" id="cart-icon"></i>
+            <span class="d-none d-sm-inline-block" id="cart-text">Cart</span>
+            {% if bag %}
+                <span class="badge badge-primary" id="cart-badge">{{ bag_quantity }}</span>
+            {% endif %}
+        </a>
+    </div>
+</div>
