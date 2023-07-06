@@ -51,6 +51,10 @@
     min-width: 125px;
 }
 
+.input-group {
+    width: 90%;
+}
+
 .search-icon {
     cursor: pointer;
     margin-right: 10px;
