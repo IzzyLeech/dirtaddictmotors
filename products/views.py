@@ -59,7 +59,8 @@ def products_display(request, manufacturer_name=None, engine_num=None, stroke_nu
             Q(year__icontains=query)
         )
         selected_filters = [f'Search result for "{query}"']
-    else:
+
+    if request.method == 'GET' and not query and 'submit' in request.GET:
         messages.warning(request, 'Please enter a search query.')
 
     paginator = Paginator(bikes, 8)

@@ -144,7 +144,7 @@
         searchBar.remove();
     } else {
         var searchForm = '<div class="col-12 bg-dark py-1 text-center search-bar">' +
-            '<form action="{% url 'products' %}">' +
+            '<form action="{% url 'products' %}" method="GET">' +
             '<input type="text" class="form-control" name="q" placeholder="Search our site">' +
             '<button type="submit"><i class="fas fa-search"></i></button>' +
             '</form>' +
