@@ -136,8 +136,8 @@
 /* Message container */
 .message-container {
     position: fixed;
-    top: 45px;
-    right: 20px;
+    top: 46px;
+    right: 15px;
     z-index: 9999999999;
 }
 
@@ -147,6 +147,14 @@
 
 .toast-capper {
     height: 2px;
+}
+
+@media (max-width: 992px) {
+    .message-container {
+        top: 90px;
+        right: 10px;
+    }
+
 }
 
 /* Carousel */ 

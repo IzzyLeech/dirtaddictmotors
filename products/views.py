@@ -1,6 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.db.models import Q, F
 from django.core.paginator import Paginator
+from django.contrib import messages
 
 from .models import Bikes
 
@@ -58,6 +59,8 @@ def products_display(request, manufacturer_name=None, engine_num=None, stroke_nu
             Q(year__icontains=query)
         )
         selected_filters = [f'Search result for "{query}"']
+    else:
+        messages.warning(request, 'Please enter a search query.')
 
     paginator = Paginator(bikes, 8)
     page_number = request.GET.get('page')
