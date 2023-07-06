@@ -14,9 +14,26 @@ if (sortElement) {
   sortElement.value = currentSortOption || 'manufacturer';
 }
 
-
+// Function for collapse of category nav items 
 $(document).ready(function() {
   $('.collapse').on('show.bs.collapse', function() {
     $('.collapse.show').collapse('hide');
+  });
+});
+
+// Function for quantity adjuster
+$(document).ready(function() {
+  $('.quantity-button').click(function() {
+    var input = $(this).siblings('input');
+    var value = parseInt(input.val());
+    var step = parseInt(input.attr('step')) || 1;
+    
+    if ($(this).hasClass('minus')) {
+      value = Math.max(value - step, 0);
+    } else if ($(this).hasClass('plus')) {
+      value += step;
+    }
+    
+    input.val(value);
   });
 });
