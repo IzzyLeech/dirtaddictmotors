@@ -1,5 +1,9 @@
 {% extends "base.html" %}
+{% load account %}
 {% load static %}
 {% block content %}
 <h2>profile</h2>
+<div class="container">
+    <a href="{% url 'account_change_password' %}">Change Password</a>
+</div>
 {% endblock %}

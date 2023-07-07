@@ -7,10 +7,15 @@
     <div id="account-dropdown" class="dropdown">
         <button class="btn btn-dark dropdown-toggle custom-button" type="button" id="account-dropdown-toggle"
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {% if request.user.is_authenticated %}
             My Account
+            {% else %}
+            Login
+            {% endif %}
         </button>
         <div class="dropdown-menu account-menu" aria-labelledby="account-dropdown-toggle">
             {% if request.user.is_authenticated %}
+            <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
             <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
             {% else %}
             <a class="dropdown-item" href="{% url 'account_signup' %}">Register</a>
