@@ -110,31 +110,36 @@ def adjust_bag_content(request, item_id):
         else:
             # Retrieve the new price and weight based on the updated engine capacity
             updated_bike = Bikes.objects.filter(model=bike.model, engine_capacity=engine_capacity).first()
-            if updated_bike:
-                # Check if there is another bike with the same model and engine capacity in the bag
-                other_bike = None
-                for key, value in bag.items():
-                    if (
-                        key != str(item_id)
-                        and value['bike']['model'] == bike.model
-                        and value['bike']['engine_capacity'] == engine_capacity
-                    ):
-                        other_bike = value
-                        break
+        if updated_bike:
+            # Check if there is another bike with the same model and engine capacity in the bag
+            other_bike_id = None
+            for key, value in bag.items():
+                if (
+                    key != str(item_id)
+                    and value['bike']['model'] == bike.model
+                    and value['bike']['engine_capacity'] == engine_capacity
+                ):
+                    other_bike_id = key
+                    break
 
-                if other_bike:
-                    # Update the quantity of the other bike by adding the quantity of the current item
-                    other_bike['quantity'] += item['quantity']
-                else:
-                    # Update the engine capacity, price, and weight of the current item
-                    item['bike']['engine_capacity'] = engine_capacity
-                    item['bike']['price'] = float(updated_bike.price)
-                    item['bike']['weight'] = float(updated_bike.weight)
+            if other_bike_id:
+                # Update the quantity of the other bike by adding the quantity of the current item
+                other_bike = bag[other_bike_id]
+                other_bike['quantity'] += item['quantity']
 
-                    # Format the engine_capacity without decimal places
-                    formatted_engine_capacity = "{:.0f}".format(float(engine_capacity))
+                # Remove the current item from the bag
+                del bag[str(item_id)]
+            else:
+                # Update the engine capacity, price, and weight of the current item
+                item['bike']['engine_capacity'] = engine_capacity
+                item['bike']['price'] = float(updated_bike.price)
+                item['bike']['weight'] = float(updated_bike.weight)
 
-                    messages.info(request, f"The engine capacity of the {bike.manufacturer} {bike.model} has been updated to {formatted_engine_capacity}CC.")
+                # Format the engine_capacity without decimal places
+                formatted_engine_capacity = "{:.0f}".format(float(engine_capacity))
+
+                messages.info(request, f"The engine capacity of the {bike.manufacturer} {bike.model} has been updated to {formatted_engine_capacity}CC.")
+
 
     # Update the bag in the session
     request.session['bag'] = json.dumps(bag)
