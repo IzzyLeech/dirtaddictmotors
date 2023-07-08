@@ -7,4 +7,14 @@ assignees: ''
 
 ---
 
-This is our default user story template.
+As a **role** I can **capability** so that **received benefit**
+
+Acceptance Criteria:
+-
+-
+-
+
+Story Tasks:
+- [ ] 
+- [ ] 
+- [ ] 
