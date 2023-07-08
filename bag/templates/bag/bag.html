@@ -40,9 +40,13 @@
           </div>
           <button type="submit">Update</button>
       </form>
-
-<p>Price: {{ item.bike.engine_capacity|get_price:item.bike.model|default_if_none:"0.00" }}</p>
-      </li>
+      {% if item.quantity == 1 %}
+    <p>Price of item: €{{ item.bike.engine_capacity|get_price:item.bike.model|default_if_none:"0.00" }}</p>
+      {% else %}
+    <p>Price of item: €{{ item.bike.engine_capacity|get_price:item.bike.model|default_if_none:"0.00" }}</p>
+    <p>Total Item Price: €{{ item.bike.engine_capacity|get_price:item.bike.model|default_if_none:"0.00"|calc_multiply:item.quantity }}</p>
+    {% endif %}
+    </li>
       <form action="{% url 'remove_from_bag' item_id %}" method="POST">
         {% csrf_token %}
         <button type="submit">Remove</button>

@@ -16,3 +16,8 @@ def get_bag_quantity(context):
     bag = request.session.get('bag', {})
     total_quantity = sum(item['quantity'] for item in bag.values())
     return total_quantity
+
+
+@register.filter
+def calc_multiply(value, arg):
+    return value * arg
