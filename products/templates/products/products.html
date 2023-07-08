@@ -47,11 +47,11 @@
           <div class="product-item mb-4">
             {% if bike.image %}
               <a href="{% url 'product_detail' product_id=bike.id %}">
-                <img class="img-fluid" src="{{ bike.image.url }}" alt="{{ bike.manufacturer }} {{ bike.model }}">
+                <img class="img-fluid fixed-height-img" src="{{ bike.image.url }}" alt="{{ bike.manufacturer }} {{ bike.model }}">
               </a>
             {% else %}
               <a href="{% url 'product_detail' product_id=bike.id %}">
-                <img class="img-fluid" src="{% static 'images/no_image.jpg' %}" alt="No Image">
+                <img class="img-fluid fixed-height-img" src="{% static 'images/no_image.jpg' %}" alt="No Image">
               </a>
             {% endif %}
             <div class="product-details">

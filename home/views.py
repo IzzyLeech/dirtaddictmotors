@@ -30,4 +30,3 @@ def get_random_bikes(request):
 
     random_bikes_json = json.dumps(random_bikes_data, cls=CustomJSONEncoder)
     return JsonResponse(random_bikes_json, safe=False)
-

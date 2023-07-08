@@ -22,13 +22,14 @@ class Bikes(models.Model):
     engine_capacity = models.DecimalField(max_digits=5, decimal_places=2)
     speed = models.IntegerField()
     weight = models.DecimalField(max_digits=8, decimal_places=2, default=90)
+    seat_height = models.DecimalField(max_digits=8, decimal_places=2, default=90)
     price = models.DecimalField(max_digits=8, decimal_places=2)
+    starter = models.CharField(max_length=50, default="Kick")
     description = models.TextField()
     sku = models.CharField(max_length=254, null=True, blank=True)
     image = CloudinaryField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
-
 
     def __str__(self):
         return f"{self.manufacturer} {self.model} {self.engine_capacity}"

@@ -165,7 +165,7 @@
 
 .carousel {
     position: relative;
-    width: 75%;
+    width: 90%;
     height: 100%;
     margin: 0 auto;
     overflow: hidden;
@@ -212,12 +212,16 @@
     right: 10px;
 }
 
-/* Image container */
+/* Image container's */
 
 .custom-image-container {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.fixed-height-img {
+    height: 350px; 
 }
 
 .image-wrapper {

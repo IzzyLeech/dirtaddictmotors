@@ -18,7 +18,7 @@
       <img class="img-fluid" src="{% static 'images/index-image.jpeg' %}" alt="index-image">
     </div>
   </div>
-  <div class="row">
+  <div class="row my-4">
       <div class="col-12 bg-dark">
         <div id="bikeCarousel" class="carousel">
           <div class="carousel-inner bg-danger" id="bikeCarouselInner">
@@ -103,20 +103,18 @@ function initializeCarousel(bikes) {
 
     bikeArray.forEach((bike) => {
       const colDiv = document.createElement('div');
-      colDiv.classList.add('col-md-4');
+      colDiv.classList.add('col-lg-4');
 
       const bikeInfo = document.createElement('div');
       bikeInfo.classList.add('bike-info');
       const bikeId = bike.id;
+      const bikeImage = bike.image
+      console.log(bikeImage)
       bikeInfo.innerHTML = `
         <h3><a href="/products/${bikeId}/">${bike.manufacturer} ${bike.model}</a></h3>
         <div class="custom-image-container">
         <div class="image-wrapper">
-        {% if bike.image %}
-          <img class="img-fluid" src="${bike.image}">
-        {% else %}
-          <img class="img-fluid" src="{% static 'images/no_image.jpg' %}">
-        {% endif %}
+          <img class="img-fluid fixed-height-img" src="${bikeImage}">
         </div>
       </div>
         <p>Engine Capacity: ${bike.engine_capacity}</p>

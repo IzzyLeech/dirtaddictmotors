@@ -2,27 +2,47 @@
 {% load static %}
 
 {% block content %}
-
-<div class="col-12">
-    <div class="product-item h-000">
-    {% if bike.image %}
-      <img class="img-fluid" src="{{ bike.image.url }}">
-    {% else %}
-      <img class="img-fluid" src="{% static 'images/no_image.jpg' %}">
-    {% endif %}
-    {{ bike.manufacturer }}
-    {{ bike.model }}
-    {{ bike.engine_capacity|floatformat:0 }} CC
-    {{ bike.weight|floatformat:1 }} KG
+<div class="container">
+  <div class="row my-2">
+    <div class="col-6">
+      {% if bike.image %}
+      <img class="img-fluid fixed-height-img" src="{{ bike.image.url }}" alt="{{ bike.manufacturer }} {{ bike.model }}">
+      {% else %}
+      <img class="img-fluid" src="{% static 'images/no_image.jpg' %}" alt="No Image">
+      {% endif %}
     </div>
-    <form action="{% url 'add_to_bag' bike.id %}" method="POST">
-      {% csrf_token %}
-      <input type="hidden" name="quantity" value="1">
-      <button type="submit" class="btn btn-primary btn-md my-0 p">
-        Add to cart
-        <i class="fas fa-shopping-cart ml-1"></i>
-      </button>
-    </form>
+    <div class="col-6 text-right">
+      <div class="product-item">
+        <div class="product-details">
+          <h3 class="product-title">{{ bike.manufacturer }} {{ bike.model }}{{ bike.engine_capacity|floatformat:0 }}CC
+          </h3>
+          </h3>
+          <p class="product-info">Year: {{ bike.year }}</p>
+          <p class="product-info">Price: {{ bike.price }}CC</p>
+          <p class="product-info">Weight: {{ bike.weight }}KG</p>
+          <p class="product-info">Seat Height: {{ bike.seat_height }}CM</p>
+          <p class="product-info">Speed: {{ bike.speed }} Gears</p>
+          <p class="product-info">{{ bike.stroke }} Stroke</p>
+          <p class="product-info">Starter: {{ bike.starter }}</p>
+          <p class="product-info">Sku: {{ bike.sku }}</p>
+        </div>
+        <form action="{% url 'add_to_bag' bike.id %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="quantity" value="1">
+          <button type="submit" class="btn btn-primary btn-md my-0 p">
+            Add to Cart
+            <i class="fas fa-shopping-cart ml-1"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <h3>Description</h3>
+      <p>{{ bike.description }}</p>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
