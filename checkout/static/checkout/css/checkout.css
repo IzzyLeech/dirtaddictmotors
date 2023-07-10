@@ -23,5 +23,15 @@
 }
 
 .form-control::placeholder {
-    color:black;
+    color:grey;
+}
+
+.fieldset-label {
+    font-size: 1.75rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.item-head {
+    text-decoration: underline;
 }

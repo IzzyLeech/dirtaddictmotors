@@ -8,62 +8,108 @@
 {% block content %}
 
 <div class="container">
-    <h1>Checkout</h1>
+    <h1 class="mt-2">Checkout</h1>
     <p>Please fill out the form below</p>
     <div class="row">
-        <div class="col-6 p-3 bg-light">
+        <div class="col-lg-6 p-3 bg-light">
             <form action="{% url 'checkout' %}" method="POST" id="checkout-form">
                 {% csrf_token %}
-                {% crispy order_form %}
+                <fieldset class="rounded px-3 mb-3">
+                    <legend class="fieldset-label px-2 w-auto">Personal Details</legend>
+                    {{ order_form.full_name | as_crispy_field}}
+                    {{ order_form.email | as_crispy_field}}
+                </fieldset>
+                <fieldset class="rounded px-3 mb-2">
+                    <legend class="fieldset-label px-2 w-auto">Delivery Details</legend>
+                    {{ order_form.phone_number | as_crispy_field}}
+                    {{ order_form.street_address1 | as_crispy_field}}
+                    {{ order_form.street_address2 | as_crispy_field}}
+                    {{ order_form.town_or_city | as_crispy_field}}
+                    {{ order_form.county | as_crispy_field}}
+                    {{ order_form.postcode | as_crispy_field}}
+                    {{ order_form.country | as_crispy_field}}
+                    <div class="form-check form-check-inline float-right mr-0">
+                        {% if user.is_authenticated %}
+                            <label class="form-check-label" for="id-save-info">Save this delivery information to my profile</label>
+                            <input class="form-check-input" type="checkbox" id="id-save-info" name="save-info" checked>
+                        {% else %}
+                            <label class="form-check-label" for="id-save-info">
+                                <a class="text-info" href="{% url 'account_signup' %}">Create an account</a> or
+                                <a class="text-info" href="{% url 'account_login' %}">Login</a> to save this information
+                            </label>
+                        {% endif %}
+                    </div>
+                </fieldset>
+                <fieldset class="px-3">
+                    <legend class="fieldset-label small text-black px-2 w-auto">Payment</legend>
+                    <!-- A stripe card element will go here -->
+                    <div class="mb-3" id="card-element"></div>
+                    <!-- Used to display form errors -->
+                    <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
+                    <!-- Pass the client secret to the view so we can get the payment intent id-->
+                    <input type="hidden" value="{{ client_secret }}" name="client_secret">
+                </fieldset>
 
-                <div id="card-element">
-                    <!-- Card input fields will be inserted here -->
+                <div class="text-right mt-2 mb-2">
+                    <a href="{% url 'view_bag' %}">
+                        <button class="btn btn-black rounded border border-warning">
+                        <span class="icon">
+                            <i class="fas fa-chevron-left"></i>
+                        </span>
+                        <span class="font-weight-bold">Adjust Bag</span>
+                        </button>
+                    </a>
+                    <button id="submit-button" class="btn btn-black rounded border border-success">
+                        <span class="font-weight-bold">Complete Order</span>
+                        <span class="icon">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                    </button>
+                    <p class="text-danger my-0">
+                        <span class="icon">
+                            <i class="fa-solid fa-exclamation"></i>
+                        </span>
+                        <span>Your card will be charged <strong>€{{ grand_total|floatformat:2 }}</strong></span>
+                    </p>
                 </div>
-                <div class="text-danger mt-1" id="card-errors" role="alert"></div>
-                <!-- Error messages for card input -->
-                <button class="mt-2" id="submit-button" type="submit">Checkout</button>
             </form>
-
         </div>
-        <div class="col-6 bg-light p-3">
+        <div class="col-lg-6 bg-light p-3">
             <div class="row">
-                <div class="col-12">
-                    <h3>Order Summary</h3>
+                <div class="col-12 mb-1">
+                    <fieldset class="rounded">
+                        <legend class="fieldset-label w-auto">Order Summary ({{ bag_quantity }})</legend>
+                    </fieldset>
                 </div>
             </div>
-            <h4 class="mb-4">Items</h4>
+            <h4 class="mb-4">Item List</h4>
             {% for item in items %}
             <div class="row">
-                <div class="col-4"></div>
-                <div class="col-4">
-                    <h4>Item</h4>
-                </div>
-                <div class="col-4">
-                    <h4>SubTotal</h4>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-4">
+                <div class="col-sm-6">
                     {% if item.bike.image %}
-                    <img class="img-fluid" src="{{ item.bike.image.url }}"
+                    <img class="img-fluid mt-3" src="{{ item.bike.image.url }}"
                         alt="{{ item.bike.manufacturer }} {{ item.bike.model }}">
                     {% else %}
-                    <img class="img-fluid" src="{% static 'images/no_image.jpg' %}" alt="No Image">
+                    <img class="img-fluid mt-3" src="{% static 'images/no_image.jpg' %}" alt="No Image">
                     {% endif %}
                 </div>
-                <div class="col-4 mt-3">
-                    <p>Bike: {{ item.bike }}CC</p>
-                    <p>Quantity: {{ item.quantity }} </p>
+                <div class=" col-sm-3 mt-3">
+                    <h4 class="item-head">Item</h4>
+                    <p class="font-weight-bold">Bike: {{ item.bike.manufacturer }} {{ item.bike.model }} {{ item.bike.engine_capacity|floatformat:0 }}CC</p>
+                    <p class="font-weight-bold">Quantity: {{ item.quantity }} </p>
                 </div>
-                <div class="col-4">
-                    <p>€{{ item.subtotal }}</p>
+                <div class="col-sm-3 mt-3">
+                    <h4 class="item-head">SubTotal</h4>
+                    <p class="font-weight-bold">€{{ item.subtotal }}</p>
                 </div>
             </div>
             {% endfor %}
+            <div class="text-right mr-5">
             <h3 class="mt-4">Order Details</h3>
-            <p>Total Cost: €{{ total_cost }}</p>
-            <p>Delivery Cost: €{{ delivery_cost }}</p>
-            <p>Grand Total: €{{ grand_total }}</p>
+            <p class="font-weight-bold">Total Cost: €{{ total_cost|floatformat:2 }}</p>
+            <p class="font-weight-bold">Delivery Cost: €{{ delivery_cost|floatformat:2 }}</p>
+            <p class="font-weight-bold">Grand Total: €{{ grand_total|floatformat:2 }}</p>
+            </div>
         </div>
     </div>
 </div>

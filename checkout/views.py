@@ -13,7 +13,7 @@ from bag.contexts import bag_contents
 
 
 def checkout_view(request):
-    # Stripe key variableS
+    # Stripe key variables
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
 
@@ -30,7 +30,6 @@ def checkout_view(request):
     items = []
     order_total = Decimal('0.00')
 
-    intent = None
 
     for item in bag.values():
         bike_data = item.get('bike')
@@ -53,7 +52,7 @@ def checkout_view(request):
                 quantity=quantity,
                 price=bike.price,
             )
-            order_item.subtotal = order_item.subtotal()
+            order_item.subtotal = order_item.subtotal
             print("Order subtotal", order_item.subtotal)
 
             # Append the order item to the list
@@ -101,7 +100,7 @@ def checkout_view(request):
             order.update_grand_total()
             # Save the Order instance again to reflect the updates
             order.save()
-            return redirect(reverse('checkout_success', args=[order.order_number]))    
+            return redirect(reverse('checkout_success', args=[order.order_number]))
     else:
         # Create a Stripe payment intent
         current_bag = bag_contents(request)
@@ -114,13 +113,13 @@ def checkout_view(request):
         )
         print(intent)
 
-zz
+        order_form = OrderForm()
 
     context = {
         'items': items,
         'order_form': order_form,
         'stripe_public_key': stripe_public_key,
-        'client_secret': intent.client_secret if intent else '',
+        'client_secret': intent.client_secret,
     }
 
     return render(request, 'checkout/checkout.html', context)

@@ -4,10 +4,11 @@ from django.dispatch import receiver
 from . models import OrderItem
 
 
-@receiver(post_save, sender=OrderItem)
 def update_on_save(sender, instance, created, **kwargs):
-
-    instance.order.subtotal()
+    order_items = instance.order.order_items.all()
+    subtotal = sum(item.subtotal() for item in order_items)
+    instance.order.order_total = subtotal
+    instance.order.save()
 
 
 @receiver(post_delete, sender=OrderItem)

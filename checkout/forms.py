@@ -1,7 +1,7 @@
 from django import forms
 from .models import Order
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Div, Field,  Fieldset
+from crispy_forms.layout import Div, Field, Fieldset
 
 
 class OrderForm(forms.ModelForm):
@@ -15,26 +15,29 @@ class OrderForm(forms.ModelForm):
         )
 
     def __init__(self, *args, **kwargs):
+        """
+        Add placeholders and classes, remove auto-generated labels
+        and set autofocus on first field
+        """
         super().__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_show_labels = False
-        self.helper.label_class = ''
-        self.helper.layout = Div(
-            Fieldset(
-                'Personal Information',
-                Field('full_name', placeholder='Full Name *'),
-                Field('email', placeholder='Email Address *'),
-                css_class='fieldset-class',
-            ),
-            Fieldset(
-                'Address Information',
-                Field('phone_number', placeholder='Phone Number *'),
-                Field('street_address1', placeholder='Street Address 1 *'),
-                Field('street_address2', placeholder='Street Address 2', ),
-                Field('postcode', placeholder='Postal Code'),
-                Field('town_or_city', placeholder='Town or City'),
-                Field('county', placeholder='County, State or Locality *'),
-                Field('country', placeholder='Country '),
-                css_class='fieldset-class',
-            ),
-        )
+        placeholders = {
+            'full_name': 'Full Name',
+            'email': 'Email Address',
+            'phone_number': 'Phone Number',
+            'postcode': 'Postal Code',
+            'town_or_city': 'Town or City',
+            'street_address1': 'Street Address 1',
+            'street_address2': 'Street Address 2',
+            'county': 'County, State or Locality',
+        }
+
+        self.fields['full_name'].widget.attrs['autofocus'] = True
+        for field in self.fields:
+            if field != 'country':
+                if self.fields[field].required:
+                    placeholder = f'{placeholders[field]}*'
+                else:
+                    placeholder = placeholders[field]
+                self.fields[field].widget.attrs['placeholder'] = placeholder
+            self.fields[field].widget.attrs['class'] = 'stripe-style-input'
+            self.fields[field].label = False
