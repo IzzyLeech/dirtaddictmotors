@@ -81,8 +81,6 @@ def remove_from_bag(request, item_id):
 
 
 def adjust_bag_content(request, item_id):
-    """A function that adjusts the quantity and engine capacity of a product in the bag"""
-
     # Retrieve the new quantity and engine capacity from the request
     quantity = int(request.POST.get('quantity'))
     engine_capacity = request.POST.get('engine_capacity')
@@ -99,47 +97,59 @@ def adjust_bag_content(request, item_id):
         # Retrieve the bike instance from the database based on item ID
         bike = Bikes.objects.get(pk=item['bike']['id'])
 
-        # Update the quantity of the current item to the desired quantity
-        item['quantity'] = quantity
-
-        if quantity == 0:
-            del bag[str(item_id)]
+        # Check if the quantity has changed
+        if item['quantity'] != quantity:
+            # Update the quantity of the current item to the desired quantity
+            item['quantity'] = quantity
             formatted_engine_capacity = "{:.0f}".format(float(engine_capacity))
-            messages.warning(request, f"The {bike.manufacturer} {bike.model} {formatted_engine_capacity}CC has been removed from your bag.")
+            if quantity == 0:
+                del bag[str(item_id)]
+                messages.warning(request, f"The {bike.manufacturer} {bike.model} {formatted_engine_capacity}CC has been removed from your bag.")
+            else:
+                # Display quantity update message
+                messages.info(request, f"The quantity of the {bike.manufacturer} {bike.model} {formatted_engine_capacity}CC has been updated to {quantity}.")
 
-        else:
+        # Check if the engine capacity has changed
+        if item['bike']['engine_capacity'] != engine_capacity:
             # Retrieve the new price and weight based on the updated engine capacity
             updated_bike = Bikes.objects.filter(model=bike.model, engine_capacity=engine_capacity).first()
-        if updated_bike:
-            # Check if there is another bike with the same model and engine capacity in the bag
-            other_bike_id = None
-            for key, value in bag.items():
-                if (
-                    key != str(item_id)
-                    and value['bike']['model'] == bike.model
-                    and value['bike']['engine_capacity'] == engine_capacity
-                ):
-                    other_bike_id = key
-                    break
 
-            if other_bike_id:
-                # Update the quantity of the other bike by adding the quantity of the current item
-                other_bike = bag[other_bike_id]
-                other_bike['quantity'] += item['quantity']
-
-                # Remove the current item from the bag
-                del bag[str(item_id)]
-            else:
-                # Update the engine capacity, price, and weight of the current item
-                item['bike']['engine_capacity'] = engine_capacity
-                item['bike']['price'] = float(updated_bike.price)
-                item['bike']['weight'] = float(updated_bike.weight)
+            if updated_bike:
+                # Check if there is another bike with the same model and engine capacity in the bag
+                other_bike_id = None
 
                 # Format the engine_capacity without decimal places
                 formatted_engine_capacity = "{:.0f}".format(float(engine_capacity))
 
-                messages.info(request, f"The engine capacity of the {bike.manufacturer} {bike.model} has been updated to {formatted_engine_capacity}CC.")
+                for key, value in bag.items():
+                    if (
+                        key != str(item_id)
+                        and value['bike']['model'] == bike.model
+                        and value['bike']['engine_capacity'] == engine_capacity
+                    ):
+                        other_bike_id = key
+                        break
 
+                if other_bike_id:
+                    # Update the quantity of the other bike by adding the quantity of the current item
+                    other_bike = bag[other_bike_id]
+                    other_bike['quantity'] += item['quantity']
+
+                    # Remove the current item from the bag
+                    del bag[str(item_id)]
+
+                    # Update the bike ID of the current item to the other bike ID
+                    item['bike']['id'] = other_bike_id
+
+                    # Display engine capacity update message individual bike
+                    messages.info(request, f"The engine capacity of the {bike.manufacturer} {bike.model} has been updated to {formatted_engine_capacity}CC.")
+                else:
+                    # Update the engine capacity, price, and weight of the current item
+                    item['bike']['engine_capacity'] = engine_capacity
+                    item['bike']['price'] = float(updated_bike.price)
+                    item['bike']['weight'] = float(updated_bike.weight)
+                    # Display engine capacity update message when bike is updated from the same model
+                    messages.info(request, f"The engine capacity of the {bike.manufacturer} {bike.model} has been updated to {formatted_engine_capacity}CC.")
 
     # Update the bag in the session
     request.session['bag'] = json.dumps(bag)

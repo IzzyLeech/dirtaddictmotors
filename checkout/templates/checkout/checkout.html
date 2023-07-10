@@ -2,44 +2,77 @@
 {% load static %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'checkout/css/checkout.css' %}">
+<link rel="stylesheet" href="{% static 'checkout/css/checkout.css' %}">
 {% endblock %}
 
 {% block content %}
-<h1>Checkout</h1>
+
 <div class="container">
+    <h1>Checkout</h1>
+    <p>Please fill out the form below</p>
     <div class="row">
-        <div class="col-6">
+        <div class="col-6 p-3 bg-light">
             <form action="{% url 'checkout' %}" method="POST" id="checkout-form">
                 {% csrf_token %}
-                {{ order_form.as_p }}
+                {% crispy order_form %}
 
                 <div id="card-element">
                     <!-- Card input fields will be inserted here -->
                 </div>
                 <div class="text-danger" id="card-errors" role="alert"></div>
-                    <!-- Error messages for card input -->
+                <!-- Error messages for card input -->
                 <button id="submit-button" type="submit">Checkout</button>
             </form>
-            
+
         </div>
-        <div class="col-6">
+        <div class="col-6 bg-light p-3">
+            <div class="row">
+                <div class="col-12">
+                    <h3>Order Summary</h3>
+                </div>
+            </div>
+            <h4 class="mb-4">Items</h4>
             {% for item in items %}
-            <p>Bike: {{ item.bike }}</p>
-            <p>Quantity:{{ item.quantity }}</p>
+            <div class="row">
+                <div class="col-4"></div>
+                <div class="col-4">
+                    <h4>Item</h4>
+                </div>
+                <div class="col-4">
+                    <h4>SubTotal</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    {% if item.bike.image %}
+                    <img class="img-fluid" src="{{ item.bike.image.url }}"
+                        alt="{{ item.bike.manufacturer }} {{ item.bike.model }}">
+                    {% else %}
+                    <img class="img-fluid" src="{% static 'images/no_image.jpg' %}" alt="No Image">
+                    {% endif %}
+                </div>
+                <div class="col-4 mt-3">
+                    <p>Bike: {{ item.bike }}CC</p>
+                    <p>Quantity: {{ item.quantity }} </p>
+                </div>
+                <div class="col-4">
+                    <p>€{{ item.subtotal }}</p>
+                </div>
+            </div>
             {% endfor %}
-            <h3>Order Details</h3>
-            <p>Total Cost: {{ total_cost }}</p>
-            <p>Delivery Cost: {{ delivery_cost }}</p>
-            <p>Grand Total: {{ grand_total }}</p>
+            <h3 class="mt-4">Order Details</h3>
+            <p>Total Cost: €{{ total_cost }}</p>
+            <p>Delivery Cost: €{{ delivery_cost }}</p>
+            <p>Grand Total: €{{ grand_total }}</p>
         </div>
     </div>
 </div>
 {% endblock %}
 
 {% block postloadjs %}
-    {{ block.super }}
-    {{ stripe_public_key|json_script:"id_stripe_public_key" }}
-    {{ client_secret|json_script:"id_client_secret" }}
-    <script src="{% static 'checkout/js/stripe_elements.js' %}"></script>
+{{ block.super }}
+{{ stripe_public_key|json_script:"id_stripe_public_key" }}
+{{ client_secret|json_script:"id_client_secret" }}
+<script src="{% static 'checkout/js/stripe_elements.js' %}">
+</script>
 {% endblock %}

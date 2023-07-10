@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404, reverse
+from django.contrib import messages
 from django.conf import settings
 from decimal import Decimal
 
@@ -20,6 +21,11 @@ def checkout_view(request):
     bag_json = request.session.get('bag', '{}')
     bag = json.loads(bag_json)
 
+    # Validation for checkout page
+    if not bag:
+        messages.error(request, "There are no items in the bag, please add an item!")
+        return redirect(reverse('products'))
+
     # Get the list of items from the bag
     items = []
     order_total = Decimal('0.00')
@@ -38,7 +44,6 @@ def checkout_view(request):
 
             # Calculate the item total
             item_total = bike.price * quantity
-
             # Add the item total to the order total
             order_total += item_total
 
@@ -48,6 +53,7 @@ def checkout_view(request):
                 quantity=quantity,
                 price=bike.price,
             )
+            order_item.subtotal = order_item.subtotal()
 
             # Append the order item to the list
             items.append(order_item)

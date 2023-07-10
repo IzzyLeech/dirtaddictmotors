@@ -17,3 +17,11 @@
 .StripeElement--webkit-autofill {
     background-color: #fefde5 !important;
 }
+
+.form-control {
+    border:2px solid gray;
+}
+
+.form-control::placeholder {
+    color:black;
+}
