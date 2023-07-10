@@ -54,6 +54,7 @@ def checkout_view(request):
                 price=bike.price,
             )
             order_item.subtotal = order_item.subtotal()
+            print("Order subtotal", order_item.subtotal)
 
             # Append the order item to the list
             items.append(order_item)
@@ -113,7 +114,7 @@ def checkout_view(request):
         )
         print(intent)
 
-        order_form = OrderForm()
+zz
 
     context = {
         'items': items,

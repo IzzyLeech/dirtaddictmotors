@@ -9,8 +9,8 @@ var style = {
         fontSmoothing: 'antialiased',
         fontSize: '16px',
         '::placeholder': {
-            color: '#343a40'
-        },
+            color: '#aab7c4'
+        }
     },
     invalid: {
         color: '#dc3545',
