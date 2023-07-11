@@ -2,7 +2,106 @@
 {% load static %}
 
 {% block content %}
+<div class="container">
+    <div class="container">
+        <h1 class="mt-2">Your checkout was processed</h1>
+        <p>Details of <strong class="small">Order number:{{ order.order_number }}</strong> are below</p>
+        <div class="row">
+            <div class="col-lg-6 p-3 bg-light">
+                <div class="col-12 mb-1">
+                    <fieldset class="rounded">
+                        <legend class="fieldset-label w-auto">Order Billing Info:</legend>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>Full name: {{ order.full_name }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>Email: {{ order.email }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p>Phone number: {{ order.phone_number }}</p>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="rounded">
+                        <legend class="fieldset-label w-auto">Order Delivery Info:</legend>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p>Street Address 1: {{ order.street_address1 }}</p>
+                            </div>
 
-{{ order }}
-
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p>Street Address 2: {{ order.street_address2 }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p>Postcode: {{ order.postcode }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p>Town/City: {{ order.town_or_city }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p>County/State: {{ order.county }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p>Country: {{ order.country }}</p>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="col-lg-6 bg-light p-3">
+                <div class="row">
+                    <div class="col-12 mb-1">
+                        <fieldset class="rounded">
+                            <legend class="fieldset-label w-auto">Order Items:</legend>
+                        </fieldset>
+                    </div>
+                </div>
+                <h4 class="mb-4">Item List</h4>
+                {% for item in order.order_items.all%}
+                <div class="row">
+                    <div class="col-sm-6">
+                        {% if item.bike.image %}
+                        <img class="img-fluid mt-3" src="{{ item.bike.image.url }}"
+                            alt="{{ item.bike.manufacturer }} {{ item.bike.model }}">
+                        {% else %}
+                        <img class="img-fluid mt-3" src="{% static 'images/no_image.jpg' %}" alt="No Image">
+                        {% endif %}
+                    </div>
+                    <div class=" col-sm-3 mt-3">
+                        <h4 class="item-head">Item</h4>
+                        <p class="font-weight-bold">Bike: {{ item.bike }}CC</p>
+                        <p class="font-weight-bold">Quantity: {{ item.quantity }} </p>
+                    </div>
+                    <div class="col-sm-3 mt-3">
+                        <h4 class="item-head">SubTotal</h4>
+                        <p class="font-weight-bold">€{{ item.subtotal }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="text-right mr-5">
+                <h3 class="mt-4">Order Details</h3>
+                <p class="font-weight-bold">Total Cost: €{{ order.order_total|floatformat:2 }}</p>
+                <p class="font-weight-bold">Delivery Cost: €{{ order.delivery_cost|floatformat:2 }}</p>
+                <p class="font-weight-bold">Grand Total: €{{ order.grand_total|floatformat:2 }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
 {% endblock %}

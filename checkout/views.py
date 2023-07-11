@@ -127,6 +127,7 @@ def checkout_view(request):
 def checkout_success(request, order_number):
     """ View to render a successful checkout"""
     order = get_object_or_404(Order, order_number=order_number)
+    messages.success(request, f'Your Order has been successfully processed {order.user}! Your order number is {order.order_number}. A confiramtion email has been sent to {order.email}')
 
     if 'bag' in request.session:
         del request.session['bag']
