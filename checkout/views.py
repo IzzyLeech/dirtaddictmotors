@@ -30,7 +30,6 @@ def checkout_view(request):
     items = []
     order_total = Decimal('0.00')
 
-
     for item in bag.values():
         bike_data = item.get('bike')
         bike_id = bike_data.get('id') if bike_data else None

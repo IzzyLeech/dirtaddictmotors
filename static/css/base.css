@@ -227,6 +227,36 @@
 .image-wrapper {
     text-align: center;
 }
+
+/* FAQ Accordion */
+
+.faq-accordion {
+    margin-bottom: 10px;
+}
+
+.faq-accordion .faq-accordion-heading {
+    background-color: black;
+    padding: 10px;
+    cursor: pointer;
+    color: red;
+}
+
+.faq-accordion .faq-accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 1s ease, padding 0.5s ease, opacity 0.5s ease;
+    opacity: 0;
+    padding: 10px;
+    background-color: #ddd;
+}
+
+.faq-accordion .faq-accordion-content.open {
+    max-height: 500px;
+    transition: max-height 1s ease, padding 0.5s ease 0.5s, opacity 0.5s ease;
+    opacity: 1;
+    padding: 10px;
+}
+
 /* Footer */
 
 .footer {

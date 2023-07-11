@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <h1>FAQ</h1>
+    <div class="row">
+        <div class="col-12 p-3 bg-secondary bg-gradient">
+            <div class="faq-accordion" id="accordion1">
+                <div class="faq-accordion-heading rounded text-center" onclick="toggleAccordion('accordion1')">
+                    <h3>How do I shop online?</h3>
+                </div>
+                <div class="faq-accordion-content rounded-bottom">
+                    <ol>
+                        <li>Select a bike that you would like to purchase</li>
+                        <li>Add the bike to your bag</li>
+                        <li>Maybe adjust the quanity or the engine capacity of the bike in the bag</li>
+                        <li>Click the checkout button</li>
+                        <li>Fill out the form for the delivery adress</li>
+                        <li>Fill in the billing details</li>
+                        <li>PLace the Order</li>
+                    </ol>
+                    <p>After you have completed your first order you can use your email address and password to sign in on future visits to this site.</p>
+                </div>
+            </div>
+
+            <div class="faq-accordion" id="accordion2">
+                <div class="faq-accordion-heading rounded text-center" onclick="toggleAccordion('accordion2')">
+                    <h3>When can I expect my order to be delivered?</h3>
+                </div>
+                <div class="faq-accordion-content rounded-bottom">
+                    <p>Depending on the size of the order it can vary. Local order in the vicinity of the island of Ireland can be processed on and dispactched within 3 to 5 working days.
+                        International order can vary between 7 to 15 working days depending on the area the order is being delivery to.
+                    </p>
+                </div>
+            </div>
+
+            <div class="faq-accordion rounded" id="accordion3">
+                <div class="faq-accordion-heading rounded text-center" onclick="toggleAccordion('accordion3')">
+                    <h3>Do you offer easy pay options?</h3>
+                </div>
+                <div class="faq-accordion-content rounded-bottom">
+                    <p>Yes, you can spread the cost of your purchase with our easy pay plan options. Our pay plans run all year round, get in touch with a member of our team today to discuss our payment plans today.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+    {% block postloadjs %}
+    <script>
+// Function to handle the accordion behavior
+var openAccordion = null;
+
+function toggleAccordion(accordionId) {
+var accordion = document.getElementById(accordionId);
+var content = accordion.querySelector(".faq-accordion-content");
+
+if (!content.classList.contains("open")) {
+    // Close the currently open accordion
+    if (openAccordion !== null) {
+    openAccordion.querySelector(".faq-accordion-content").classList.remove("open");
+    }
+
+    // Open the clicked accordion
+    content.classList.add("open");
+    openAccordion = accordion;
+} else {
+    // Close the clicked accordion
+    content.classList.remove("open");
+    openAccordion = null;
+}
+}
+</script>
+
+    {% endblock %}

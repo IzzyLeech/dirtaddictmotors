@@ -20,8 +20,11 @@ class CustomJSONEncoder(DjangoJSONEncoder):
 
 def index(request):
     bikes = Bikes.objects.all()
-    context = {'bikes': bikes}
     return render(request, 'home/index.html')
+
+
+def faq_view(request):
+    return render(request, 'home/faq.html')
 
 
 def get_random_bikes(request):
