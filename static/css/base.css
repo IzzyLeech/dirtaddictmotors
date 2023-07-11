@@ -224,6 +224,11 @@
     height: 350px; 
 }
 
+.fixed-img {
+    height: 300px; 
+    width: 250px;
+}
+
 .image-wrapper {
     text-align: center;
 }
