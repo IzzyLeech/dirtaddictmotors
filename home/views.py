@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from products.models import Bikes
+from .forms import SubscriberForm
 
 import json
 from decimal import Decimal
@@ -29,6 +30,17 @@ def faq_view(request):
 
 def delivery_info(request):
     return render(request, 'home/delivery-info.html')
+
+
+def newsletter_signup(request):
+    if request.method == 'POST':
+        form = SubscriberForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('newsletter:thank_you')
+    else:
+        form = SubscriberForm()
+    return render(request, 'home/newsletter.html', {'form': form})
 
 
 def get_random_bikes(request):
