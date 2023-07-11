@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="container bg-secondary rounded">
+    <h1>Delivery Information</h1>
+
+    <h3 class="mt-4">Delivery Cost Calculation</h3>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Bike Weight (kg)</th>
+                    <th>Delivery Cost (€)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Up to 90kg</td>
+                    <td>€90</td>
+                </tr>
+                <tr>
+                    <td>90kg - 100kg</td>
+                    <td>€100</td>
+                </tr>
+                <tr>
+                    <td>100kg to Up </td>
+                    <td>€155</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="mt-4">Delivery Process</h3>
+
+    <ol>
+        <li><strong>Order Confirmation:</strong> Once you have successfully placed an order for a bike, you will receive
+            an email confirmation with your order details.</li>
+        <li><strong>Processing Time:</strong> Our team will process your order within 1-2 business days. During this
+            time, we will prepare your bike for shipment, conduct quality checks, and ensure it is securely packaged.
+        </li>
+        <li><strong>Shipment Notification:</strong> Once your bike is ready for dispatch, you will receive a shipment
+            notification email containing the tracking information. You can use this information to track your package.
+        </li>
+        <li><strong>Delivery Time:</strong> The estimated delivery time varies depending on your location. In general,
+            deliveries that are in the island of Ireland typically take 3-5 business days, while deliveries that are international
+            may take 7-15 business days. Please note that unforeseen circumstances or peak seasons may cause slight
+            delays.</li>
+        <li><strong>Delivery Attempt:</strong> Our courier partner will make attempts to deliver the package to the
+            provided shipping address. If you are unavailable at the time of delivery, they may leave a delivery
+            notification
+            with further instructions, such as rescheduling the delivery or picking up the package from a nearby depot.
+        </li>
+    </ol>
+
+    <h3 class="mt-4">Additional Information</h3>
+
+    <ul>
+        <li>All delivery costs mentioned above are in Euro.</li>
+        <li>For multiple bike orders, the delivery cost will be calculated based on the combined weight of the bikes.
+        </li>
+        <li>We are not responsible for any customs duties or import taxes that may be applicable to your order. These
+            charges, if any, are the sole responsibility of the buyer.</li>
+    </ul>
+
+    <p>If you have any questions or require further clarification regarding our delivery process or costs, please feel
+        free to contact our customer support team. We are here to assist you!</p>
+
+</div>
+
+{% endblock %}

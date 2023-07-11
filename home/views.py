@@ -27,6 +27,10 @@ def faq_view(request):
     return render(request, 'home/faq.html')
 
 
+def delivery_info(request):
+    return render(request, 'home/delivery-info.html')
+
+
 def get_random_bikes(request):
     random_bikes = Bikes.objects.all()
     random_bikes_data = list(random_bikes.values())
