@@ -34,7 +34,7 @@
             aria-expanded="false">Stroke</a>
         <div class="dropdown-menu custom-dropdown-menu text-center bg-dark border-0" aria-labelledby="all-stroke-link">
             {% for stroke in strokes %}
-            <a href="{% url 'products_by_stroke' stroke_num=stroke.stroke %}?sort=manufacturer"
+            <a href="{% url 'products_by_stroke' stroke_num=stroke.stroke %}?sort=default"
                 class="dropdown-item text-white">{{ stroke.stroke }} Stroke</a>
             {% endfor %}
         </div>

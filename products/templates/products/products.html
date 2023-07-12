@@ -29,7 +29,7 @@
 <div class="col-6 text-right">
   <label for="sort">Sort by:</label>
   <select id="sort" onchange="sortBikes(this.value)">
-    <option value="" {% if default_sort == 'manufacturer' %}selected{% endif %}>Default</option>
+    <option value="default" {% if default_sort == 'default' %}selected{% endif %}>Default</option>
     <option value="year" {% if default_sort == 'year' %}selected{% endif %}>Year (High to Low)</option>
     <option value="-year" {% if default_sort == '-year' %}selected{% endif %}>Year (Low to High)</option>
     <option value="price" {% if default_sort == 'price' %}selected{% endif %}>Price (High to Low)</option>

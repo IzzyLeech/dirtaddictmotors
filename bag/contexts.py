@@ -44,7 +44,10 @@ def bag_contents(request):
     capacities = []
     for model in set([item['bike']['model'] for item in bag.values()]):
         engine_capacity_options = list(
-            Bikes.objects.filter(model=model).values_list('engine_capacity', flat=True).distinct()
+            Bikes.objects.filter(model=model)
+            .values_list('engine_capacity', flat=True)
+            .distinct()
+            .order_by('engine_capacity')
         )
         capacities.append({'model': model, 'engine_capacity_options': engine_capacity_options})
 

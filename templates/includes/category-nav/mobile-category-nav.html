@@ -27,7 +27,7 @@
     <a href="#" class="nav-link text-white underline-link" data-toggle="collapse" data-target="#stroke-menu">Stroke</a>
     <div class="collapse custom-dropdown-menu bg-dark border-0" id="stroke-menu">
       {% for stroke in strokes %}
-        <a href="{% url 'products_by_stroke' stroke_num=stroke.stroke %}?sort=manufacturer" class="dropdown-item text-white">{{ stroke.stroke }} Stroke</a>
+        <a href="{% url 'products_by_stroke' stroke_num=stroke.stroke %}?sort=default" class="dropdown-item text-white">{{ stroke.stroke }} Stroke</a>
       {% endfor %}
     </div>
   </li>

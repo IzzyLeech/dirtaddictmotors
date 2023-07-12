@@ -13,14 +13,14 @@ def products_display(request, manufacturer_name=None, engine_num=None, stroke_nu
     selected_filters = []
 
     if manufacturer_name:
-        bikes = bikes.filter(manufacturer=manufacturer_name)
+        bikes = bikes.filter(manufacturer=manufacturer_name).order_by('engine_capacity')
         selected_filters.append(f'Manufacturer: {manufacturer_name}')
     if engine_num:
         bikes = bikes.filter(engine_capacity=engine_num)
         engine_num = str(engine_num).split(".")[0]
         selected_filters.append(f'Engine Capacity: {engine_num} CC')
     if stroke_num:
-        bikes = bikes.filter(stroke=stroke_num)
+        bikes = bikes.filter(stroke=stroke_num).order_by('engine_capacity')
         stroke_num = str(stroke_num).split(".")[0]
         selected_filters.append(f'{stroke_num}:Stroke Engines')
 
@@ -28,7 +28,6 @@ def products_display(request, manufacturer_name=None, engine_num=None, stroke_nu
         selected_filters.append('All Bikes')
 
     sort_param = request.GET.get('sort')
-    default_sort = request.GET.get('sort', 'manufacturer')
 
     if sort_param == 'year':
         bikes = bikes.order_by('-year')
@@ -48,6 +47,8 @@ def products_display(request, manufacturer_name=None, engine_num=None, stroke_nu
     elif sort_param == '-manufacturer':
         bikes = bikes.order_by('-manufacturer')
         default_sort = '-manufacturer'
+    else:
+        default_sort = 'default'
 
     # Search bar Logic
     query = request.GET.get('q')
