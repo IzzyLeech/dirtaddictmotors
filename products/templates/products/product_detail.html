@@ -28,7 +28,12 @@
         </div>
         <form action="{% url 'add_to_bag' bike.id %}" method="POST">
           {% csrf_token %}
-          <input type="hidden" name="quantity" value="1">
+          <label for="quantity">Quantity:</label>
+          <div class="quantity-counter">
+            <button type="button" class="quantity-button minus"><i class="fa-solid fa-minus"></i></button>
+            <input type="number" name="quantity" value="1" min="0">
+            <button type="button" class="quantity-button plus"><i class="fa-solid fa-plus"></i></button>
+          </div>
           <button type="submit" class="btn btn-primary btn-md my-0 p">
             Add to Cart
             <i class="fas fa-shopping-cart ml-1"></i>

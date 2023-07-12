@@ -21,19 +21,22 @@ def add_to_bag(request, item_id):
     bag_json = request.session.get('bag', '{}')
     bag = json.loads(bag_json)
 
+    # Retrieve the quantity value from the form
+    quantity = int(request.POST.get('quantity', 1))
+
     # Check if the product is already in the bag
     if item_id in bag:
-        # Increment the quantity by 1
-        bag[item_id]['quantity'] += 1
-        quantity = bag[item_id]['quantity']
-        messages.info(request, f'Increased quantity of {bike} to {quantity}')
+        # Increment the quantity by the selected quantity value
+        bag[item_id]['quantity'] += quantity
+        updated_quantity = bag[item_id]['quantity']
+        messages.info(request, f'Increased quantity of {bike} to {updated_quantity}')
     else:
         # Convert Decimal fields to float
         price = float(bike.price)
         engine_capacity = str(bike.engine_capacity)  # Convert engine_capacity to a string
-        # Add the product to the bag with an initial quantity of 1
+        # Add the product to the bag with the selected quantity
         bag[item_id] = {
-            'quantity': 1,
+            'quantity': quantity,
             'bike': {
                 'id': bike.id,
                 'manufacturer': bike.manufacturer,
@@ -42,9 +45,14 @@ def add_to_bag(request, item_id):
                 'engine_capacity': engine_capacity,
             }
         }
-        messages.success(request, f'Added {bike} to your bag')
+        messages.success(request, f'Added {quantity} {bike} to your bag')
 
     request.session['selected_model'] = bike.model
+
+    # Update the bag in the session
+    request.session['bag'] = json.dumps(bag)
+
+    return redirect(reverse('view_bag'))
 
     # Update the bag in the session
     request.session['bag'] = json.dumps(bag)
