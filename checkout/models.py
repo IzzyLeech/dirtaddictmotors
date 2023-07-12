@@ -24,7 +24,7 @@ class Order(models.Model):
         ('PAID', 'Paid'),
         ('CANCELLED', 'Cancelled'),
     ))
-    delivery_cost = models.DecimalField(max_digits=6, decimal_places=2, null=False, default=0)
+    delivery_cost = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
     order_total = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
     grand_total = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
 
@@ -33,26 +33,15 @@ class Order(models.Model):
         return uuid.uuid4().hex.upper()
 
     def update_grand_total(self):
-        """ Calculate the grand total of the order """
+        """Calculate the grand total of the order including the delivery cost"""
         items = self.order_items.all()
         total_cost = sum(item.subtotal() for item in items)
-        delivery_cost = self.calculate_delivery_cost(items)
-        grand_total = total_cost + delivery_cost
+        delivery_cost = sum(item.calculate_delivery_cost() for item in items)
 
         self.order_total = total_cost
         self.delivery_cost = delivery_cost
-        self.grand_total = grand_total
+        self.grand_total = total_cost + delivery_cost
         self.save()
-
-    def calculate_delivery_cost(self, items):
-        """Calculates the delivery cost of the delivery based on the weight of bikes"""
-        total_weight = sum(item.bike.weight for item in items)
-        if total_weight > 100:
-            return 155
-        elif total_weight > 90:
-            return 100
-        else:
-            return 90
 
     def save(self, *args, **kwargs):
         """
@@ -72,6 +61,18 @@ class OrderItem(models.Model):
     bike = models.ForeignKey(Bikes, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def calculate_delivery_cost(self):
+        """Calculates the delivery cost for the bike based on its weight and quantity"""
+        total_quantity = self.quantity
+        if self.bike.weight > 100:
+            delivery_cost = 155 * total_quantity
+        elif self.bike.weight > 90:
+            delivery_cost = 100 * total_quantity
+        else:
+            delivery_cost = 90 * total_quantity
+
+        return delivery_cost
 
     def subtotal(self):
         return self.quantity * self.price

@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404, reverse
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.conf import settings
 from decimal import Decimal
@@ -12,7 +13,11 @@ from .forms import OrderForm
 from bag.contexts import bag_contents
 
 
+@login_required
 def checkout_view(request):
+    if not request.user.is_authenticated:
+        return redirect(reverse('registration_page'))
+
     # Stripe key variables
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
@@ -51,7 +56,7 @@ def checkout_view(request):
                 quantity=quantity,
                 price=bike.price,
             )
-            order_item.subtotal = order_item.subtotal
+            order_item.subtotal = order_item.subtotal()
             print("Order subtotal", order_item.subtotal)
 
             # Append the order item to the list
@@ -93,10 +98,15 @@ def checkout_view(request):
             for order_item in items:
                 order_item.order = order
                 order_item.save()
-            # Calculate the delivery cost
-            order.calculate_delivery_cost(items)
-            # Update the grand total using the update_grand_total method
-            order.update_grand_total()
+
+            # Calculate the delivery cost for the order
+            delivery_cost = sum(item.calculate_delivery_cost() for item in items)
+            print("Delivery Cost", delivery_cost)
+            order.delivery_cost = delivery_cost
+
+            # Calculate the grand total of the order
+            order.grand_total = order_total + delivery_cost
+
             # Save the Order instance again to reflect the updates
             order.save()
             return redirect(reverse('checkout_success', args=[order.order_number]))
@@ -122,6 +132,8 @@ def checkout_view(request):
     }
 
     return render(request, 'checkout/checkout.html', context)
+
+
 
 
 def checkout_success(request, order_number):
