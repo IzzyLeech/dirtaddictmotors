@@ -11,7 +11,7 @@ def bag_contents(request):
     total_cost = 0
     delivery_cost = 0
 
-    # Calculate the items of the bag by the quantity
+    # Calculate the items in the bag by quantity and delivery cost
     for item_id, item in bag.items():
         bike = Bikes.objects.get(pk=item['bike']['id'])
         price = float(item['bike']['price'])
@@ -29,13 +29,13 @@ def bag_contents(request):
             # Update the weight in the bag for the current item
             item['bike']['weight'] = weight
 
-            # Determine the delivery cost by weight of the bike
+            # Determine the delivery cost by weight of the bike, considering the quantity
             if weight > 100:
-                delivery_cost += 155
+                delivery_cost += 155 * quantity
             elif weight > 90:
-                delivery_cost += 100
+                delivery_cost += 100 * quantity
             else:
-                delivery_cost += 90
+                delivery_cost += 90 * quantity
 
     # Add delivery cost to the total cost
     grand_total = total_cost + delivery_cost
