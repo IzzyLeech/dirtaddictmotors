@@ -33,18 +33,21 @@
                             <div class="col-md-4">
                                 <p>Street Address 1: {{ order.street_address1 }}</p>
                             </div>
-
                         </div>
+                        {% if order.street_address2 %}
                         <div class="row">
                             <div class="col-md-4">
                                 <p>Street Address 2: {{ order.street_address2 }}</p>
                             </div>
                         </div>
+                        {% endif %}
+                        {% if order.postcode %}
                         <div class="row">
                             <div class="col-md-4">
                                 <p>Postcode: {{ order.postcode }}</p>
                             </div>
                         </div>
+                        {% endif %}
                         <div class="row">
                             <div class="col-md-4">
                                 <p>Town/City: {{ order.town_or_city }}</p>
@@ -94,14 +97,14 @@
                 </div>
                 {% endfor %}
                 <div class="text-right mr-5">
-                <h3 class="mt-4">Order Details</h3>
-                <p class="font-weight-bold">Total Cost: €{{ order.order_total|floatformat:2 }}</p>
-                <p class="font-weight-bold">Delivery Cost: €{{ order.delivery_cost|floatformat:2 }}</p>
-                <p class="font-weight-bold">Grand Total: €{{ order.grand_total|floatformat:2 }}</p>
+                    <h3 class="mt-4">Order Details</h3>
+                    <p class="font-weight-bold">Total Cost: €{{ order.order_total|floatformat:2 }}</p>
+                    <p class="font-weight-bold">Delivery Cost: €{{ order.delivery_cost|floatformat:2 }}</p>
+                    <p class="font-weight-bold">Grand Total: €{{ order.grand_total|floatformat:2 }}</p>
                 </div>
             </div>
         </div>
     </div>
-    </div>
+</div>
 </div>
 {% endblock %}

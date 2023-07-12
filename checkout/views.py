@@ -15,6 +15,8 @@ from bag.contexts import bag_contents
 
 @login_required
 def checkout_view(request):
+    """View that will handle the checkout logic"""
+
     if not request.user.is_authenticated:
         return redirect(reverse('registration_page'))
 
@@ -25,11 +27,6 @@ def checkout_view(request):
     # Retrieve the bag data from the session
     bag_json = request.session.get('bag', '{}')
     bag = json.loads(bag_json)
-
-    # Validation for checkout page
-    if not bag:
-        messages.error(request, "There are no items in the bag, please add an item!")
-        return redirect(reverse('products'))
 
     # Get the list of items from the bag
     items = []
@@ -56,8 +53,7 @@ def checkout_view(request):
                 quantity=quantity,
                 price=bike.price,
             )
-            order_item.subtotal = order_item.subtotal()
-            print("Order subtotal", order_item.subtotal)
+            order_item.subtotal = order_item.subtotal
 
             # Append the order item to the list
             items.append(order_item)
@@ -98,21 +94,23 @@ def checkout_view(request):
             for order_item in items:
                 order_item.order = order
                 order_item.save()
-
-            # Calculate the delivery cost for the order
-            delivery_cost = sum(item.calculate_delivery_cost() for item in items)
-            print("Delivery Cost", delivery_cost)
+            # Calculate the delivery cost
+            delivery_cost = sum(order_item.calculate_delivery_cost() for order_item in items)
             order.delivery_cost = delivery_cost
-
-            # Calculate the grand total of the order
-            order.grand_total = order_total + delivery_cost
-
+            # Update the grand total using the update_grand_total method
+            order.update_grand_total()
             # Save the Order instance again to reflect the updates
             order.save()
             return redirect(reverse('checkout_success', args=[order.order_number]))
     else:
         # Create a Stripe payment intent
         current_bag = bag_contents(request)
+
+        # Validation for checkout page
+        if not current_bag:
+            messages.error(request, "There are no items in the bag, please add an item!")
+            return redirect(reverse('products'))
+
         total = current_bag['grand_total']
         print("Total for stripe", total)
         stripe.api_key = stripe_secret_key
@@ -132,8 +130,6 @@ def checkout_view(request):
     }
 
     return render(request, 'checkout/checkout.html', context)
-
-
 
 
 def checkout_success(request, order_number):

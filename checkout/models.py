@@ -43,6 +43,11 @@ class Order(models.Model):
         self.grand_total = total_cost + delivery_cost
         self.save()
 
+        # Update delivery_cost for each OrderItem
+        for item in items:
+            item.delivery_cost = item.calculate_delivery_cost()
+            item.save()
+
     def save(self, *args, **kwargs):
         """
         Override the original save method to set the order number
