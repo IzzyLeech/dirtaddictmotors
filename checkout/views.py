@@ -38,6 +38,8 @@ def checkout_view(request):
     if not request.user.is_authenticated:
         return redirect(reverse('registration_page'))
 
+    print("User:", request.user)
+
     # Stripe key variables
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
@@ -106,6 +108,10 @@ def checkout_view(request):
                 country=form_data['country'],
                 order_total=order_total,
             )
+            print("User order", order.user),
+            pid = request.POST.get('client_secret').split('_secret')[0]
+            order.stripe_pid = pid
+            order.original_bag = json.dumps(bag)
             # Save the order
             order.save()
             # Assign the order to the order items and save them
@@ -139,6 +145,9 @@ def checkout_view(request):
         intent = stripe.PaymentIntent.create(
             amount=int(total * 100),
             currency='eur',
+            metadata={
+                'user_id': request.user.id
+            }
         )
         print(intent)
 
@@ -149,6 +158,7 @@ def checkout_view(request):
         'order_form': order_form,
         'stripe_public_key': stripe_public_key,
         'client_secret': intent.client_secret,
+        'user': request.user,
     }
 
     return render(request, 'checkout/checkout.html', context)

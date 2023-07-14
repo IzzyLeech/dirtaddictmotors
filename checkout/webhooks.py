@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.views.decorators.http import require_POST
+from django.contrib.auth.models import User
 import stripe
 
 from checkout.webhook_handler import StripeWH_Handler
@@ -20,9 +21,11 @@ def stripe_webhook(request):
     wh_secret = settings.STRIPE_WH_SECRET
     stripe.api_key = settings.STRIPE_SECRET_KEY
 
+
+
     try:
         event = stripe.Webhook.construct_event(
-            payload, sig_header, wh_secret, print('Payload in try', payload)
+            payload, sig_header, wh_secret,
         )
     except ValueError as e:
         # Invalid payload
@@ -32,6 +35,17 @@ def stripe_webhook(request):
         return HttpResponse(status=400)
     except Exception as e:
         return HttpResponse(content=e, status=400)
+
+    # Retrieve the user ID from the webhook payload or metadata
+    user_id = event.data.object.metadata.get('user_id')
+    print("Webhook User ID:", user_id)  # Print user ID for debugging
+
+    # Retrieve the user object using the user ID
+    try:
+        user = User.objects.get(id=user_id)
+        print("Webhook User:", user)  # Print user object for debugging
+    except User.DoesNotExist:
+        return HttpResponse("Invalid user.", status=400)
 
     # Set up a webhool handler
     handler = StripeWH_Handler(request)
@@ -48,5 +62,5 @@ def stripe_webhook(request):
     event_handler = event_map.get(event_type, handler.handle_event)
 
     # Call the event handler with the event
-    response = event_handler(event)
+    response = event_handler(event, user)
     return response
