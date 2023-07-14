@@ -6,6 +6,7 @@ from django.contrib.auth.models import AnonymousUser
 import json
 import time
 import stripe
+import ast
 
 
 class StripeWH_Handler:
@@ -30,7 +31,7 @@ class StripeWH_Handler:
         intent = event.data.object
         pid = intent.id
         bag = intent.metadata.bag
-        print("Bag Type:", type(bag))
+        bag = bag.strip('"\'')
         # Get the Charge object
         stripe_charge = stripe.Charge.retrieve(
             intent.latest_charge
@@ -98,41 +99,40 @@ class StripeWH_Handler:
                 )
                 order.save()
 
-                try:
-                    bag_dict = bag
-                    print("Bag Type:", type(bag))
-                except Exception as e:
-                    return HttpResponse(content=f'Webhook received: {event["type"]} | ERROR: {str(e)}', status=400)
+                bag_dict = {}
+                bag = bag.replace("\\", "")
+                bag_dict = eval(bag)
 
                 # Process the items and create OrderItem objects
                 order_items = []
-                print("Bag Dict:", bag_dict)
-                for item in bag_dict.values():
-                    print("Item:", item)
-                    bike_data = item.get('bike')
-                    bike_id = bike_data.get('id') if bike_data else None
-                    if bike_id:
-                        quantity = item.get('quantity', 0)
-                        engine_capacity = item.get('engine_capacity', 0)
+                try:
+                    for item in bag_dict.values():
+                        bike_data = item.get('bike')
+                        bike_id = bike_data.get('id') if bike_data else None
+                        if bike_id:
+                            quantity = item.get('quantity', 0)
+                            engine_capacity = item.get('engine_capacity', 0)
 
-                        # Retrieve the bike instance from the database based on bike ID
-                        bike = Bikes.objects.get(pk=bike_id)
+                            # Retrieve the bike instance from the database based on bike ID
+                            bike = Bikes.objects.get(pk=bike_id)
 
-                        # Create an instance of OrderItem
-                        order_item = OrderItem(
-                            bike=bike,
-                            quantity=quantity,
-                            price=bike.price,
-                            order=order  # Set the order for the order item
-                        )
-                        order_item.save()  # Save each order item individually
-                        order_items.append(order_item)
+                            # Create an instance of OrderItem
+                            order_item = OrderItem(
+                                bike=bike,
+                                quantity=quantity,
+                                price=bike.price,
+                                order=order  # Set the order for the order item
+                            )
+                            order_item.save()
+                            order_items.append(order_item)
+                except Exception as e:
+                    return HttpResponse(content=f'Webhook received: {event["type"]} | ERROR: {str(e)}', status=500)
 
-                # Calculate the delivery cost
-                delivery_cost = sum(order_item.calculate_delivery_cost() for order_item in order_items)
-                order.delivery_cost = delivery_cost
-                order.update_grand_total()
-                order.save()
+                    # Calculate the delivery cost
+                    delivery_cost = sum(order_item.calculate_delivery_cost() for order_item in order_items)
+                    order.delivery_cost = delivery_cost
+                    order.update_grand_total()
+                    order.save()
             except Exception as e:
                 if order:
                     order.delete()

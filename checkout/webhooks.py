@@ -21,8 +21,6 @@ def stripe_webhook(request):
     wh_secret = settings.STRIPE_WH_SECRET
     stripe.api_key = settings.STRIPE_SECRET_KEY
 
-
-
     try:
         event = stripe.Webhook.construct_event(
             payload, sig_header, wh_secret,
@@ -38,14 +36,15 @@ def stripe_webhook(request):
 
     # Retrieve the user ID from the webhook payload or metadata
     user_id = event.data.object.metadata.get('user_id')
-    print("Webhook User ID:", user_id)  # Print user ID for debugging
 
     # Retrieve the user object using the user ID
     try:
         user = User.objects.get(id=user_id)
-        print("Webhook User:", user)  # Print user object for debugging
     except User.DoesNotExist:
         return HttpResponse("Invalid user.", status=400)
+
+    payload = event['data']['object']
+    bag = payload['metadata'].get('bag')
 
     # Set up a webhool handler
     handler = StripeWH_Handler(request)
