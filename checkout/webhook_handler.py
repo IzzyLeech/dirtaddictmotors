@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from .models import Order, OrderItem
 from products.models import Bikes
 from django.contrib.auth.models import AnonymousUser
+import logging
 
 import json
 import time
@@ -149,6 +150,14 @@ class StripeWH_Handler:
         """
         Handle the payment_intent.failed
         """
+        intent = event.data.object
+        pid = intent.id
+        failure_reason = intent.last_payment_error.get('message')
+
+        # Log the details of the failed payment intent
+        logger = logging.getLogger('payment')
+        logger.error(f'Payment intent failed. ID: {pid}, Reason: {failure_reason}')
+
         return HttpResponse(
             content=f'Webhook received: {event["type"]}',
             status=200
