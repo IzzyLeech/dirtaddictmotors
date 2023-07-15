@@ -4,6 +4,7 @@ import uuid
 
 from django.contrib.auth.models import User
 from products.models import Bikes
+from django_countries.fields import CountryField
 
 
 class Order(models.Model):
@@ -17,7 +18,7 @@ class Order(models.Model):
     postcode = models.CharField(max_length=40, null=True, blank=True)
     town_or_city = models.CharField(max_length=40, null=False, blank=False)
     county = models.CharField(max_length=80, null=False, blank=False)
-    country = models.CharField(max_length=40, null=False, blank=False)
+    country = CountryField(blank_label="Country *", null=False, blank=False)
     date = models.DateTimeField(auto_now_add=True)
     payment_status = models.CharField(max_length=50, choices=(
         ('PENDING', 'Pending'),

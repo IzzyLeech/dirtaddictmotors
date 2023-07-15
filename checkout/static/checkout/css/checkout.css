@@ -18,6 +18,7 @@
     background-color: #fefde5 !important;
 }
 
+
 /* Custom styles for smaller screens */
 @media (max-width: 480px) {
     /* Reduce the font size of the card number */
@@ -31,7 +32,7 @@
 }
 
 .form-control::placeholder {
-    color:grey;
+    color:red;
 }
 
 .fieldset-label {
@@ -61,4 +62,14 @@
     justify-content: center;
     margin: 0;
     height: 100%;
+}
+
+select,
+select option{
+    color: black;
+}
+
+select:invalid,
+select option[value=""] {
+    color: red !important;
 }
