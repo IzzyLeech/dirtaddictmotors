@@ -24,18 +24,26 @@ def add_to_bag(request, item_id):
     # Retrieve the quantity value from the form
     quantity = int(request.POST.get('quantity', 1))
 
-    # Check if the product is already in the bag
-    if item_id in bag:
+    # Generate a unique key for the bike based on the model and engine capacity
+    bike_key = f"{bike.model}_{bike.engine_capacity}"
+
+    # Check if the bike is already in the bag
+    if bike_key in bag:
+        # Retrieve the existing bike item
+        bike_item = bag[bike_key]
+
         # Increment the quantity by the selected quantity value
-        bag[item_id]['quantity'] += quantity
-        updated_quantity = bag[item_id]['quantity']
+        bike_item['quantity'] += quantity
+        updated_quantity = bike_item['quantity']
         messages.info(request, f'Increased quantity of {bike} to {updated_quantity}')
+
     else:
         # Convert Decimal fields to float
         price = float(bike.price)
-        engine_capacity = str(bike.engine_capacity)  # Convert engine_capacity to a string
-        # Add the product to the bag with the selected quantity
-        bag[item_id] = {
+        # Convert engine_capacity to a string
+        engine_capacity = str(bike.engine_capacity)
+        # Add the bike to the bag with the selected quantity
+        bag[bike_key] = {
             'quantity': quantity,
             'bike': {
                 'id': bike.id,
@@ -43,6 +51,8 @@ def add_to_bag(request, item_id):
                 'model': bike.model,
                 'price': price,
                 'engine_capacity': engine_capacity,
+                'image_url': bike.image.url,
+                'year': bike.year,
             }
         }
         messages.success(request, f'Added {quantity} {bike} to your bag')
@@ -52,12 +62,7 @@ def add_to_bag(request, item_id):
     # Update the bag in the session
     request.session['bag'] = json.dumps(bag)
 
-    return redirect(reverse('view_bag'))
-
-    # Update the bag in the session
-    request.session['bag'] = json.dumps(bag)
-
-    return redirect(reverse('view_bag'))
+    return redirect(reverse('products'))
 
 
 def remove_from_bag(request, item_id):
@@ -105,59 +110,58 @@ def adjust_bag_content(request, item_id):
         # Retrieve the bike instance from the database based on item ID
         bike = Bikes.objects.get(pk=item['bike']['id'])
 
-        # Check if the quantity has changed
-        if item['quantity'] != quantity:
-            # Update the quantity of the current item to the desired quantity
-            item['quantity'] = quantity
-            formatted_engine_capacity = "{:.0f}".format(float(engine_capacity))
-            if quantity == 0:
-                del bag[str(item_id)]
-                messages.warning(request, f"The {bike.manufacturer} {bike.model} {formatted_engine_capacity}CC has been removed from your bag.")
-            else:
-                # Display quantity update message
-                messages.info(request, f"The quantity of the {bike.manufacturer} {bike.model} {formatted_engine_capacity}CC has been updated to {quantity}.")
-
-        # Check if the engine capacity has changed
-        if item['bike']['engine_capacity'] != engine_capacity:
-            # Retrieve the new price and weight based on the updated engine capacity
-            updated_bike = Bikes.objects.filter(model=bike.model, engine_capacity=engine_capacity).first()
-
-            if updated_bike:
-                # Check if there is another bike with the same model and engine capacity in the bag
-                other_bike_id = None
-
-                # Format the engine_capacity without decimal places
+        # Handles quanity control
+        if "update_quantity" in request.POST:
+            # Check if the quantity has changed
+            if item['quantity'] != quantity:
+                # Update the quantity of the current item
+                # to the desired quantity
+                item['quantity'] = quantity
                 formatted_engine_capacity = "{:.0f}".format(float(engine_capacity))
-
-                for key, value in bag.items():
-                    if (
-                        key != str(item_id)
-                        and value['bike']['model'] == bike.model
-                        and value['bike']['engine_capacity'] == engine_capacity
-                    ):
-                        other_bike_id = key
-                        break
-
-                if other_bike_id:
-                    # Update the quantity of the other bike by adding the quantity of the current item
-                    other_bike = bag[other_bike_id]
-                    other_bike['quantity'] += item['quantity']
-
-                    # Remove the current item from the bag
+                if quantity == 0:
                     del bag[str(item_id)]
-
-                    # Update the bike ID of the current item to the other bike ID
-                    item['bike']['id'] = other_bike_id
-
-                    # Display engine capacity update message individual bike
-                    messages.info(request, f"The engine capacity of the {bike.manufacturer} {bike.model} has been updated to {formatted_engine_capacity}CC.")
+                    messages.warning(request, f"The {bike.manufacturer} {bike.model} {formatted_engine_capacity}CC has been removed from your bag.")
                 else:
-                    # Update the engine capacity, price, and weight of the current item
-                    item['bike']['engine_capacity'] = engine_capacity
-                    item['bike']['price'] = float(updated_bike.price)
-                    item['bike']['weight'] = float(updated_bike.weight)
-                    # Display engine capacity update message when bike is updated from the same model
-                    messages.info(request, f"The engine capacity of the {bike.manufacturer} {bike.model} has been updated to {formatted_engine_capacity}CC.")
+                    # Display quantity update message
+                    messages.info(request, f"The quantity of the {bike.manufacturer} {bike.model} {formatted_engine_capacity}CC has been updated to {quantity}.")
+
+        # Handle engine capacity update
+        if "update_engine_capacity" in request.POST:
+            # Check if the engine capacity has changed
+            if item['bike']['engine_capacity'] != engine_capacity:
+                # Retrieve the new price and weight based on the updated engine capacity
+                updated_bike = Bikes.objects.filter(model=bike.model, engine_capacity=engine_capacity).first()
+                for key, value in item['bike'].items():
+                    print(f"{key}: {value}")
+                # Create a new bike key based on the model and engine capacity
+                new_bike_key = f"{bike.model}_{engine_capacity}"
+                if updated_bike:
+                    if new_bike_key in bag:
+                        # Bike with the same model and engine capacity already exists, update its quantity
+                        same_bike = bag[new_bike_key]
+                        same_bike['quantity'] += quantity
+
+                        # Remove the current item from the bag
+                        del bag[str(item_id)]
+
+                        # Display engine capacity update message for the same bike
+                        messages.info(request, f"The engine capacity of {bike.manufacturer} {bike.model} has been updated to {engine_capacity}CC.")
+                    else:
+
+                        bag[new_bike_key] = bag.pop(str(item_id))
+
+                        # Update the engine capacity, price, and weight of the current item
+                        item['bike']['engine_capacity'] = engine_capacity
+                        item['bike']['price'] = float(updated_bike.price)
+                        item['bike']['weight'] = float(updated_bike.weight)
+                        item['bike']['year'] = updated_bike.year
+                        item['bike']['manufacturer'] = updated_bike.manufacturer
+                        item['bike']['model'] = updated_bike.model
+                        item['bike']['id'] = updated_bike.id
+                        item['bike']['image_url'] = updated_bike.image.url if updated_bike.image else None
+
+                        # Display engine capacity update message when the bike is updated from a different model
+                        messages.info(request, f"The engine capacity of {bike.manufacturer} {bike.model} has been updated to {engine_capacity}CC.")
 
     # Update the bag in the session
     request.session['bag'] = json.dumps(bag)
@@ -177,7 +181,6 @@ def adjust_bag_content(request, item_id):
 
         # Calculate the delivery cost based on the weight of the bike
         weight = bike.weight
-        print("Weight:", weight)
         if weight is not None:
             if weight > 100:
                 delivery_cost += 155

@@ -233,6 +233,22 @@
     text-align: center;
 }
 
+/* Quantity counter */
+
+.quantity-input {
+    min-width: 75%;
+}
+
+.product-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.product-link:hover {
+    color: #000;
+    text-decoration: none;
+}
+
 /* FAQ Accordion */
 
 .faq-accordion {

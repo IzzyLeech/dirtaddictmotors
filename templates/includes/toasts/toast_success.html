@@ -10,4 +10,32 @@
     <div class="toast-body bg-white">
         {{ message }}        
     </div>
+    {% if bag %}
+    <p>
+        Your Bag {{ bag_quantity }}
+    </p>
+    <div class="bag-container">
+        {% for item_id, item in bag.items %}
+
+        <div class="row">
+            <div class="col-3 my-1">
+                    <img class="w-100" src="{{ item.bike.image_url }}"
+                        alt="{{ item.bike.manufacturer }} {{ item.bike.model }}">
+            </div>
+            <div class="col-9">
+                <p class="my-0"><strong>{{ item.bike.manufacturer }} {{ item.bike.model }}{{ item.bike.engine_capacity|floatformat:0 }}CC</strong></p>
+                <p class="my-0 small text-muted">Qty: {{ item.quantity }}</p>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="row">
+            <div class="col">
+                <a href="{% url 'view_bag' %}" class="btn btn-black btn-block rounded-0">
+                    <span class="text-uppercase">Go To Secure Checkout</span>
+                    <span class="icon">
+                        <i class="fas fa-lock"></i>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 </div>
