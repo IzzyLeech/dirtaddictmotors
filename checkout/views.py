@@ -16,19 +16,34 @@ from bag.contexts import bag_contents
 
 @require_POST
 def cache_checkout_data(request):
+
+    bag = json.loads(request.session.get('bag', '{}'))
+    print('Bag contents:', bag)
+
+    for item_id, item in bag.items():
+        item['bike'].pop('manufacturer', None)
+        item['bike'].pop('model', None)
+        item['bike'].pop('engine_capacity', None)
+        item['bike'].pop('image_url', None)
+        item['bike'].pop('year', None)
+
+    # Convert the modified bag back to a string
+    bag_str = json.dumps(bag)
+
     try:
         pid = request.POST.get('client_secret').split('_secret')[0]
         stripe.api_key = settings.STRIPE_SECRET_KEY
         stripe.PaymentIntent.modify(pid, metadata={
-            'bag': json.dumps(request.session.get('bag', {})),
+            'bag': bag_str[:500],
             'save_info': request.POST.get('save_info'),
             'username': request.user,
         })
+
         return HttpResponse(status=200)
+
     except Exception as e:
-        messages.error(request, 'Sorry, your payment cannot be \
-            processed right now. Please try again later.')
-        return HttpResponse(content=e, status=400)
+        messages.error(request, 'Sorry, your payment cannot be processed right now. Please try again later.')
+        return HttpResponse(content=str(e), status=400)
 
 
 @login_required
@@ -37,8 +52,6 @@ def checkout_view(request):
 
     if not request.user.is_authenticated:
         return redirect(reverse('registration_page'))
-
-    print("User:", request.user)
 
     # Stripe key variables
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
@@ -108,7 +121,6 @@ def checkout_view(request):
                 country=form_data['country'],
                 order_total=order_total,
             )
-            print("User order", order.user),
             pid = request.POST.get('client_secret').split('_secret')[0]
             order.stripe_pid = pid
             order.original_bag = json.dumps(bag)
@@ -149,8 +161,6 @@ def checkout_view(request):
                 'user_id': request.user.id
             }
         )
-        print(intent)
-
         order_form = OrderForm()
 
     context = {
