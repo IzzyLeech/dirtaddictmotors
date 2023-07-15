@@ -24,3 +24,12 @@
 .product-info {
 
 }
+
+/* Sort selector */
+
+@media (max-width: 576px) {
+    label[for="sort"],
+    select#sort {
+    font-size: 14px;
+    }
+  }

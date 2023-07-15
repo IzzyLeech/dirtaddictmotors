@@ -13,12 +13,12 @@
 <div class="col-6">
   {% if query %}
   {% if bikes.has_other_pages or bikes.has_previous or bikes.has_next %}
-      <h2>Search result for "{{ query }}"</h2>
+      <h2 class="header-logo">Search result for "{{ query }}"</h2>
   {% else %}
-      <h2>No results for "{{ query }}"</h2>
+      <h2 class="header-logo">No results for "{{ query }}"</h2>
   {% endif %}
 {% else %}
-  <h2>
+  <h2 class="header-logo">
       {% for filter_label in selected_filters %}
           {{ filter_label }}
           {% if not forloop.last %}, {% endif %}

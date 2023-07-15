@@ -138,23 +138,7 @@
     <script type="text/javascript">
         $('.toast').toast('show');
 
-        $('.search-icon').click(function() {
-    var searchBar = $('.search-bar');
 
-    if (searchBar.length) {
-        searchBar.remove();
-    } else {
-        var searchForm = '<div class="col-12 bg-dark py-1 text-center search-bar">' +
-            '<form action="{% url 'products' %}" method="GET">' +
-            '<input type="text" class="form-control" name="q" placeholder="Search our site">' +
-            '<button type="submit"><i class="fas fa-search"></i></button>' +
-            '</form>' +
-            '</div>';
-
-            $('.row.bg-danger').append(searchForm);
-            $('.search-bar').css('display', 'block');
-            }
-    });
 
     </script>
     {% endblock %}

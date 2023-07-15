@@ -6,11 +6,11 @@
   <div class="row">
     <div class="col-md-6 col-sm-12 d-flex align-items-center justify-content-center bg-danger">
       <div class="mx-3">
-        <h2 class="header-logo">Dirt Addict Motors</h2>
-        <p>Stocking a wide range of high quality dirtbikes from multiple manufacturer that span all the necessary engine capacity from beginner's all the way up to seasoned veteran</p>
+        <h1 class="header-logo p-1">Dirt Addict Motors</h1>
+        <h4 id="index-message">Stocking a wide range of high quality dirtbikes from multiple manufacturer that span all the necessary engine capacity from beginner's all the way up to seasoned veteran</h4>
         <div>
-          <a href="">Sign up for Account</a>
-          <a href="{% url 'products' %}?sort=manufacturer">Start Browing bikes</a>
+          <a href="{% url 'account_signup' %}"><button class="btn btn-dark btn-md mb-2">Sign up for Account</button></a>
+          <a href="{% url 'products' %}?sort=manufacturer"><button class="btn btn-dark btn-md mb-2">Start browsing bikes</button></a>
         </div>
       </div>
     </div>
@@ -137,15 +137,17 @@ function initializeCarousel(bikes) {
       const bikeId = bike.id;
       const bikeImage = bike.image
       bikeInfo.innerHTML = `
-        <h3><a href="/products/${bikeId}/">${bike.manufacturer} ${bike.model}</a></h3>
+        <h3 class="carousel-link"><a href="/products/${bikeId}/">${bike.manufacturer} ${bike.model}</a></h3>
         <div class="custom-image-container">
         <div class="image-wrapper">
-          <img class="img-fluid fixed-height-img" src="${bikeImage}">
+          <a href="/products/${bikeId}/">
+            <img class="img-fluid fixed-height-img" src="${bikeImage}">
+          </a>
         </div>
       </div>
-        <p>Engine Capacity: ${bike.engine_capacity}</p>
-        <p>Year: ${bike.year}</p>
-        <p>Price: ${bike.price}</p>
+        <p class="carousel-info">Engine Capacity: ${bike.engine_capacity}</p>
+        <p class="carousel-info">Year: ${bike.year}</p>
+        <p class="carousel-info">Price:€${bike.price}.00</p>
       `;
 
       colDiv.appendChild(bikeInfo);
@@ -193,7 +195,7 @@ bikeSlides[activeSlideIndex].classList.add('active');
 currentSlideIndex = activeSlideIndex + 1;
 updateCarouselControls();
 
-}, 4000);
+}, 6000);
 
 updateCarouselControls();
 }
@@ -208,13 +210,11 @@ fetch('/get-random-bikes/')
   })
   .then(data => {
     const fetchedBikes = JSON.parse(data);
-    console.log('Bikes from fetch', fetchedBikes);
 
     previousBikes = bikes;
     bikes = fetchedBikes;
 
     const randomBikes = getRandomBikes(bikes, 3, 3);
-    console.log('Random bikes:', randomBikes);
 
     $('#bikeCarousel').carousel(activeSlideIndex);
 

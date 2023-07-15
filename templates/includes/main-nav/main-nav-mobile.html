@@ -3,7 +3,7 @@
         <h2 id="site-logo"><strong>Dirt Addict Motors</strong><i class="fa-solid fa-motorcycle"></i></h2>
     </a>
 </div>
-<div class="col-4 bg-danger my-auto py-2 text-center">
+<div class="col-sm-4 bg-danger my-auto py-2 text-center">
     <div id="account-dropdown" class="dropdown">
         <button class="btn btn-dark dropdown-toggle custom-button" type="button" id="account-dropdown-toggle"
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -25,14 +25,14 @@
     </div>
 </div>
 
-<div class="col-4 bg-danger py-1 text-center">
+<div class="col-sm-4 bg-danger py-1 text-center">
     <div class="search-icon">
         <i class="fas fa-search fa-lg"></i>
         <p class="my-0">Search</p>
     </div>
 </div>
 
-<div class="col-4 bg-danger my-auto py-2 text-center">
+<div class="col-sm-4 bg-danger my-auto py-2 text-center">
     <div>
         <a href="{% url 'view_bag' %} " id="cart-link">
             <i class="fas fa-shopping-cart" id="cart-icon"></i>
@@ -43,3 +43,24 @@
         </a>
     </div>
 </div>
+{% block postloadjs %}
+<script>
+    $('.search-icon').click(function() {
+    var searchBar = $('.search-bar');
+
+    if (searchBar.length) {
+        searchBar.remove();
+    } else {
+        var searchForm = '<div class="col-12 bg-dark py-1 text-center search-bar">' +
+            '<form action="{% url 'products' %}" method="GET">' +
+            '<input type="text" class="form-control" name="q" placeholder="Search our site">' +
+            '<button type="submit"><i class="fas fa-search"></i></button>' +
+            '</form>' +
+            '</div>';
+
+            $('.row.bg-danger').append(searchForm);
+            $('.search-bar').css('display', 'block');
+            }
+    });
+</script>
+{% endblock %}

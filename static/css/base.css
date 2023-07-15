@@ -140,10 +140,30 @@
 /* Header Logo */  
 
 .header-logo {
-    font-size: 24px;
+    font-size: 36px;
     font-weight: bold;
     color: #333;
-}  
+}
+
+@media (max-width: 576px) {
+    .header-logo {
+    font-size: 20px;
+    }
+
+}
+
+/* index-content */
+
+#index-message {
+    font-size: 25px;
+}
+
+@media (max-width: 992px) {
+    #index-message {
+    font-size: 16px;
+    }
+
+}
 
 /* Message container */
 .message-container {
@@ -197,6 +217,29 @@
 
 .bike-slide.active {
     display: block;
+}
+
+.bike-info {
+    background-color: #ddd;
+    text-decoration: solid;
+    color: #000;
+}
+
+.carousel-info {
+    text-decoration: solid;
+    color: black;
+    font-weight: 600;
+    margin: 2px;
+    padding: 4px;
+}
+
+.carousel-link a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.carousel-link a:hover {
+    text-decoration: underline;
 }
 
 .carousel-control-prev,
