@@ -3,13 +3,15 @@
 
 {% block content %}
 
-<div class="container">
-    <h1>FAQ</h1>
+<div class="container my-2">
+    <h1 class="header-logo">FAQ</h1>
     <div class="row">
-        <div class="col-12 p-3 bg-secondary bg-gradient">
+        <div class="col-12 p-3 bg-light">
             <div class="faq-accordion" id="accordion1">
                 <div class="faq-accordion-heading rounded text-center" onclick="toggleAccordion('accordion1')">
                     <h3>How do I shop online?</h3>
+                    <i class="fa-solid fa-angle-up" style="display: none;"></i>
+                    <i class="fa-solid fa-angle-down"></i>
                 </div>
                 <div class="faq-accordion-content rounded-bottom">
                     <ol>
@@ -28,6 +30,8 @@
             <div class="faq-accordion" id="accordion2">
                 <div class="faq-accordion-heading rounded text-center" onclick="toggleAccordion('accordion2')">
                     <h3>When can I expect my order to be delivered?</h3>
+                    <i class="fa-solid fa-angle-up" style="display: none;"></i>
+                    <i class="fa-solid fa-angle-down"></i>
                 </div>
                 <div class="faq-accordion-content rounded-bottom">
                     <p>Depending on the size of the order it can vary. Local order in the vicinity of the island of Ireland can be processed on and dispactched within 3 to 5 working days.
@@ -39,6 +43,8 @@
             <div class="faq-accordion rounded" id="accordion3">
                 <div class="faq-accordion-heading rounded text-center" onclick="toggleAccordion('accordion3')">
                     <h3>Do you offer easy pay options?</h3>
+                    <i class="fa-solid fa-angle-up" style="display: none;"></i>
+                    <i class="fa-solid fa-angle-down"></i>
                 </div>
                 <div class="faq-accordion-content rounded-bottom">
                     <p>Yes, you can spread the cost of your purchase with our easy pay plan options. Our pay plans run all year round, get in touch with a member of our team today to discuss our payment plans today.</p>
@@ -57,19 +63,27 @@ var openAccordion = null;
 function toggleAccordion(accordionId) {
 var accordion = document.getElementById(accordionId);
 var content = accordion.querySelector(".faq-accordion-content");
+var iconUp = accordion.querySelector(".fa-solid.fa-angle-up");
+var iconDown = accordion.querySelector(".fa-solid.fa-angle-down");
 
 if (!content.classList.contains("open")) {
     // Close the currently open accordion
     if (openAccordion !== null) {
     openAccordion.querySelector(".faq-accordion-content").classList.remove("open");
+    openAccordion.querySelector(".fa-solid.fa-angle-up").style.display = "none";
+    openAccordion.querySelector(".fa-solid.fa-angle-down").style.display = "block";
     }
 
     // Open the clicked accordion
     content.classList.add("open");
+    iconUp.style.display = "block";
+    iconDown.style.display = "none";
     openAccordion = accordion;
 } else {
     // Close the clicked accordion
     content.classList.remove("open");
+    iconUp.style.display = "none";
+    iconDown.style.display = "block";
     openAccordion = null;
 }
 }

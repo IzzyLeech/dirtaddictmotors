@@ -6,7 +6,7 @@
   <div class="row">
     <div class="col-md-6 col-sm-12 d-flex align-items-center justify-content-center bg-danger">
       <div class="mx-3">
-        <h2 class="">Dirt Addict Motors</h2>
+        <h2 class="header-logo">Dirt Addict Motors</h2>
         <p>Stocking a wide range of high quality dirtbikes from multiple manufacturer that span all the necessary engine capacity from beginner's all the way up to seasoned veteran</p>
         <div>
           <a href="">Sign up for Account</a>
@@ -32,28 +32,36 @@
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-3">
-        <a href="{% url 'products_by_manufacturer' manufacturer_name='Honda' %}">
-          <img class="fixed-img" src="{% static 'images/honda-logo.png' %}" alt="Honda">
-        </a>
+    <h2 class="d-flex justify-content-center header-logo">View each manufacturer's bikes that we currtnly have in stock</h3>
+    <div class="row bg-dark">
+      <div class="col-xxl col-xl-3 col-lg-6 col-md-6 col-sm-12 my-3">
+        <div class="d-flex justify-content-center">
+          <a href="{% url 'products_by_manufacturer' manufacturer_name='Honda' %}">
+            <img class="fixed-img" src="{% static 'images/honda-logo.png' %}" alt="Honda">
+          </a>
+        </div>
       </div>
-      <div class="col-md-3">
-        <a href="{% url 'products_by_manufacturer' manufacturer_name='KTM' %}">
-          <img class="fixed-img" src="{% static 'images/ktm-logo.png' %}" alt="KTM">
-        </a>
+      <div class="col-xxl col-xl-3 col-lg-6 col-md-6 col-sm-12 my-3">
+        <div class="d-flex justify-content-center">
+          <a href="{% url 'products_by_manufacturer' manufacturer_name='KTM' %}">
+            <img class="fixed-img" src="{% static 'images/ktm-logo.png' %}" alt="KTM">
+          </a>
+        </div>
       </div>
-      <div class="col-md-3">
-        <a href="{% url 'products_by_manufacturer' manufacturer_name='Suzuki' %}">
-          <img class="fixed-img" src="{% static 'images/suzuki-logo.png' %}" alt="Suzuki">
-        </a>
+      <div class="col-xxl col-xl-3 col-lg-6 col-md-6 col-sm-12 my-3">
+        <div class="d-flex justify-content-center">
+          <a href="{% url 'products_by_manufacturer' manufacturer_name='Suzuki' %}">
+            <img class="fixed-img" src="{% static 'images/suzuki-logo.png' %}" alt="Suzuki">
+          </a>
+        </div>
       </div>
-      <div class="col-md-3">
-        <a href="{% url 'products_by_manufacturer' manufacturer_name='Yamaha' %}">
-          <img class="fixed-img" src="{% static 'images/yamaha-logo.png' %}" alt="Yamaha">
-        </a>
-      </div>
-      
+      <div class="col-xxl col-xl-3 col-lg-6 col-md-6 col-sm-12 my-3">
+        <div class="d-flex justify-content-center">
+          <a href="{% url 'products_by_manufacturer' manufacturer_name='Yamaha' %}">
+            <img class="fixed-img" src="{% static 'images/yamaha-logo.png' %}" alt="Yamaha">
+          </a>
+        </div>
+      </div>  
     </div>
 </div>
 
@@ -104,10 +112,6 @@ function updateCarouselControls() {
 
   prevButton.disabled = activeSlideIndex === 0;
   nextButton.disabled = activeSlideIndex === 2;
-
-  console.log('Activeslide index:', activeSlideIndex);
-  console.log('Previous button disabled:', prevButton.disabled);
-  console.log('Next button disabled:', nextButton.disabled);
 }
 
 
@@ -132,7 +136,6 @@ function initializeCarousel(bikes) {
       bikeInfo.classList.add('bike-info');
       const bikeId = bike.id;
       const bikeImage = bike.image
-      console.log(bikeImage)
       bikeInfo.innerHTML = `
         <h3><a href="/products/${bikeId}/">${bike.manufacturer} ${bike.model}</a></h3>
         <div class="custom-image-container">
@@ -159,7 +162,6 @@ function initializeCarousel(bikes) {
   carousel.classList.add('carousel');
 
   activeSlideIndex = 0;
-  console.log("Active Slide Index", activeSlideIndex)
   updateCarouselControls();
   bikeSlides[activeSlideIndex].classList.add('active');
 
@@ -171,7 +173,6 @@ function initializeCarousel(bikes) {
   activeSlideIndex = (activeSlideIndex - 1 + bikeSlides.length) % bikeSlides.length;
   bikeSlides[activeSlideIndex].classList.add('active');
   updateCarouselControls();
-  console.log("Active Slide Index", activeSlideIndex)
 });
 
 nextButton.addEventListener('click', () => {
@@ -179,23 +180,20 @@ nextButton.addEventListener('click', () => {
   activeSlideIndex = (activeSlideIndex + 1) % bikeSlides.length;
   bikeSlides[activeSlideIndex].classList.add('active');
   updateCarouselControls();
-  console.log("Active Slide Index", activeSlideIndex)
 });
 
   carouselInner.append(...bikeSlides);
 
 //   // Automatically switch to the next slide every 3 seconds
-//   setInterval(() => {
-//     bikeSlides[activeSlideIndex].classList.remove('active');
-//     activeSlideIndex = (activeSlideIndex + 1) % bikeSlides.length;
-//     bikeSlides[activeSlideIndex].classList.add('active');
+setInterval(() => {
+bikeSlides[activeSlideIndex].classList.remove('active');
+activeSlideIndex = (activeSlideIndex + 1) % bikeSlides.length;
+bikeSlides[activeSlideIndex].classList.add('active');
 
-//     currentSlideIndex = activeSlideIndex + 1;
-//     updateCarouselControls();
+currentSlideIndex = activeSlideIndex + 1;
+updateCarouselControls();
 
-//     console.log('Active Slide Index:', activeSlideIndex);
-//     console.log('Bike Data:', bikes[activeSlideIndex]);
-//   }, 4000);
+}, 4000);
 
 updateCarouselControls();
 }

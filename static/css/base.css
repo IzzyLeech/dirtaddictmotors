@@ -137,6 +137,14 @@
     }
 }
 
+/* Header Logo */  
+
+.header-logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}  
+
 /* Message container */
 .message-container {
     position: fixed;
@@ -220,8 +228,10 @@
     align-items: center;
 }
 
-.fixed-height-img {
-    height: 350px; 
+@media (min-width: 767px) {
+    .fixed-height-img {
+    height: 350px;
+    }
 }
 
 .fixed-img {
@@ -239,6 +249,8 @@
     min-width: 75%;
 }
 
+/* Bag link */
+
 .product-link {
     text-decoration: none;
     color: inherit;
@@ -247,6 +259,12 @@
 .product-link:hover {
     color: #000;
     text-decoration: none;
+}
+
+.bag-container {
+    height: 150px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 /* FAQ Accordion */

@@ -12,7 +12,7 @@
     </div>
     {% if bag %}
     <p>
-        Your Bag {{ bag_quantity }}
+    <strong>Your Bag {{ bag_quantity }}</strong> 
     </p>
     <div class="bag-container">
         {% for item_id, item in bag.items %}
@@ -24,16 +24,15 @@
             </div>
             <div class="col-9">
                 <p class="my-0"><strong>{{ item.bike.manufacturer }} {{ item.bike.model }}{{ item.bike.engine_capacity|floatformat:0 }}CC</strong></p>
-                <p class="my-0 small text-muted">Qty: {{ item.quantity }}</p>
+                <p class="my-0 small text-muted"><strong>Qty: {{ item.quantity }}</strong></p>
             </div>
         </div>
         {% endfor %}
         <div class="row">
             <div class="col">
-                <a href="{% url 'view_bag' %}" class="btn btn-black btn-block rounded-0">
-                    <span class="text-uppercase">Go To Secure Checkout</span>
-                    <span class="icon">
-                        <i class="fas fa-lock"></i>
+                    <a href="{% url 'view_bag' %}"><button class="btn btn-black btn-block rounded-0">Go To Secure Checkout<span class="icon">
+                        <i class="fas fa-lock"></i></button></a>
+                    
             </div>
         </div>
     </div>

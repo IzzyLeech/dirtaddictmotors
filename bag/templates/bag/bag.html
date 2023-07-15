@@ -5,11 +5,11 @@
 {% block content %}
 
 {% if bag %}
-<div class="container bg-light">
-  <h1>Your Bag</h1>
+<div class="container bg-light my-2">
+  <h1 class="header-logo">Your Bag</h1>
   <div class="row">
-    <div class="col-6">
-      <p>Item List</p>
+    <div class="col-sm-6">
+      <h3 class="mb-2">Item List</h3>
       {% for item_id, item in bag.items %}
       <div class="row">
         <div class="col-md-6">
@@ -26,9 +26,9 @@
             <div class="row">
               <div class="col-md-5">
                 <div class="quantity-counter d-flex align-items-center">
-                  <button type="button" class="quantity-button minus"><i class="fa-solid fa-minus"></i></button>
+                  <button type="button" class="quantity-button minus mr-1"><i class="fa-solid fa-minus"></i></button>
                   <input type="number" name="quantity" value="{{ item.quantity }}" min="0" class="form-control quantity-input">
-                  <button type="button" class="quantity-button plus"><i class="fa-solid fa-plus"></i></button>
+                  <button type="button" class="quantity-button plus ml-1"><i class="fa-solid fa-plus"></i></button>
                 </div>
                 <button type="submit" name="update_quantity" class="btn btn-primary mt-2">Update Quantity</button>
               </div>
@@ -60,27 +60,33 @@
           {% endif %}
           <form action="{% url 'remove_from_bag' item_id %}" method="POST">
             {% csrf_token %}
-            <button type="submit" class="btn btn-danger">Remove</button>
+            <button type="submit" class="btn btn-danger mb-2">Remove</button>
           </form>
         </div>
       </div>
+
+      {% if forloop.last == False %}
+      <hr>
+      {% endif %}
+
       {% endfor %}
 
     </div>
-    <div class="col-6">
+    <div class="col-12 col-sm-6">
+      <h3>Order Totals</h3>
       <table class="table">
         <tbody>
           <tr>
             <th>Total Cost:</th>
-            <td>{{ total_cost }}</td>
+            <td>€{{ total_cost }}</td>
           </tr>
           <tr>
             <th>Delivery Cost:</th>
-            <td>{{ delivery_cost }}</td>
+            <td>€{{ delivery_cost }}</td>
           </tr>
           <tr>
             <th>Grand Total:</th>
-            <td>{{ grand_total }}</td>
+            <td>€{{ grand_total }}</td>
           </tr>
         </tbody>
       </table>
