@@ -1,45 +1,73 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'products/css/products.css' %}">
+{% endblock %}
+
 {% block content %}
-<div class="container">
+<div class="container my-2">
+  <div class="row">
+    <div class="col">
+      <h2 class="header-logo product-title">{{ bike.manufacturer }} {{ bike.model }}{{ bike.engine_capacity|floatformat:0 }}</h2>
+    </div>
+  </div>
   <div class="row my-2">
-    <div class="col-6">
+    <div class="col-md-6">
       {% if bike.image %}
       <img class="img-fluid fixed-height-img" src="{{ bike.image.url }}" alt="{{ bike.manufacturer }} {{ bike.model }}">
       {% else %}
       <img class="img-fluid" src="{% static 'images/no_image.jpg' %}" alt="No Image">
       {% endif %}
     </div>
-    <div class="col-6 text-right">
-      <div class="product-item">
-        <div class="product-details">
-          <h3 class="product-title">{{ bike.manufacturer }} {{ bike.model }}{{ bike.engine_capacity|floatformat:0 }}CC
-          </h3>
-          </h3>
-          <p class="product-info">Year: {{ bike.year }}</p>
-          <p class="product-info">Price: {{ bike.price }}CC</p>
-          <p class="product-info">Weight: {{ bike.weight }}KG</p>
-          <p class="product-info">Seat Height: {{ bike.seat_height }}CM</p>
-          <p class="product-info">Speed: {{ bike.speed }} Gears</p>
-          <p class="product-info">{{ bike.stroke }} Stroke</p>
-          <p class="product-info">Starter: {{ bike.starter }}</p>
-          <p class="product-info">Sku: {{ bike.sku }}</p>
+    <div class="col-md-6">
+      <table class="table">
+        <tr>
+          <td>Year:</td>
+          <td>{{ bike.year }}</td>
+        </tr>
+        <tr>
+          <td>Price:</td>
+          <td>{{ bike.price }}CC</td>
+        </tr>
+        <tr>
+          <td>Weight:</td>
+          <td>{{ bike.weight }}KG</td>
+        </tr>
+        <tr>
+          <td>Seat Height:</td>
+          <td>{{ bike.seat_height }}CM</td>
+        </tr>
+        <tr>
+          <td>Speed:</td>
+          <td>{{ bike.speed }} Gears</td>
+        </tr>
+        <tr>
+          <td>{{ bike.stroke }} Stroke</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Starter:</td>
+          <td>{{ bike.starter }}</td>
+        </tr>
+        <tr>
+          <td>Sku:</td>
+          <td>{{ bike.sku }}</td>
+        </tr>
+      </table>
+      <form action="{% url 'add_to_bag' bike.id %}" method="POST">
+        {% csrf_token %}
+        <label for="quantity">Quantity:</label>
+        <div class="quantity-counter">
+          <button type="button" class="quantity-button minus"><i class="fa-solid fa-minus"></i></button>
+          <input class="product-quanity" type="number" name="quantity" value="1" min="0">
+          <button type="button" class="quantity-button plus"><i class="fa-solid fa-plus"></i></button>
         </div>
-        <form action="{% url 'add_to_bag' bike.id %}" method="POST">
-          {% csrf_token %}
-          <label for="quantity">Quantity:</label>
-          <div class="quantity-counter">
-            <button type="button" class="quantity-button minus"><i class="fa-solid fa-minus"></i></button>
-            <input type="number" name="quantity" value="1" min="0">
-            <button type="button" class="quantity-button plus"><i class="fa-solid fa-plus"></i></button>
-          </div>
-          <button type="submit" class="btn btn-primary btn-md my-0 p">
-            Add to Cart
-            <i class="fas fa-shopping-cart ml-1"></i>
-          </button>
-        </form>
-      </div>
+        <button type="submit" class="btn btn-primary btn-md my-1 p">
+          Add to Cart
+          <i class="fas fa-shopping-cart ml-1"></i>
+        </button>
+      </form>
     </div>
   </div>
   <div class="row">

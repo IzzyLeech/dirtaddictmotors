@@ -1,13 +1,18 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
+from django.contrib.auth.decorators import user_passes_test
+from django.core.serializers.json import DjangoJSONEncoder
+from django.http import JsonResponse
+from django.db.models import CharField
+from django.contrib import messages
 
 from products.models import Bikes
 from .forms import SubscriberForm
+from checkout.models import Order
 
 import json
 from decimal import Decimal
-from django.core.serializers.json import DjangoJSONEncoder
+
 from cloudinary.models import CloudinaryResource
-from django.http import JsonResponse
 
 
 class CustomJSONEncoder(DjangoJSONEncoder):
@@ -41,6 +46,23 @@ def newsletter_signup(request):
     else:
         form = SubscriberForm()
     return render(request, 'home/newsletter.html', {'form': form})
+
+
+def admin_view(request):
+    orders = Order.objects.all()
+    payment_status_choices = dict(CharField(choices=Order._meta.get_field('payment_status').choices).flatchoices)
+    context = {'orders': orders, 'payment_status_choices': payment_status_choices}
+    return render(request, 'home/admin_orders.html', context)
+
+
+def update_payment_status(request, order_id):
+    if request.method == 'POST':
+        payment_status = request.POST.get('payment_status')
+        order = Order.objects.get(id=order_id)
+        order.payment_status = payment_status
+        order.save()
+        messages.info(request, f"The payment status for order {order.order_number} has been updated to {payment_status}.")
+    return redirect(reverse('admin-orders'))
 
 
 def get_random_bikes(request):

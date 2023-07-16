@@ -2,7 +2,7 @@
     <li class="nav-item dropdown">
         <a href="#" class="nav-link text-white" id="all-bikes-link" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">Bikes</a>
-        <div class="dropdown-menu custom-dropdown-menu text-center bg-dark border-0" aria-labelledby="all-bikes-link">
+        <div class="dropdown-menu custom-dropdown-menu text-center bg-dark border-1 border-danger" aria-labelledby="all-bikes-link">
             <a href="{% url 'products' %}?sort=price" class="dropdown-item text-white">By Price</a>
             <a href="{% url 'products' %}?sort=year" class="dropdown-item text-white">By Year</a>
             <a href="{% url 'products' %}?sort=manufacturer" class="dropdown-item text-white">All Bikes</a>
@@ -11,7 +11,7 @@
     <li class="nav-item dropdown">
         <a href="#" class="nav-link text-white" id="all-manufacturer-link" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">Manufacturer</a>
-        <div class="dropdown-menu custom-dropdown-menu text-center bg-dark border-0"
+        <div class="dropdown-menu custom-dropdown-menu text-center bg-dark border-1 border-danger"
             aria-labelledby="all-manufacturer-link">
             {% for manufacturer in manufacturers %}
             <a href="{% url 'products_by_manufacturer' manufacturer_name=manufacturer.manufacturer %}"
@@ -22,7 +22,7 @@
     <li class="nav-item dropdown">
         <a href="#" class="nav-link text-white" id="all-engine-link" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">Engine Capacity</a>
-        <div class="dropdown-menu custom-dropdown-menu text-center bg-dark border-0" aria-labelledby="all-engine-link">
+        <div class="dropdown-menu custom-dropdown-menu text-center bg-dark border-1 border-danger" aria-labelledby="all-engine-link">
             {% for engine_capacity in engine_capacitys %}
             <a href="{% url 'products_by_engine' engine_num=engine_capacity.engine_capacity %}?sort=manufacturer"
                 class="dropdown-item text-white">{{ engine_capacity.engine_capacity|floatformat:0 }}CC</a>
@@ -32,7 +32,7 @@
     <li class="nav-item dropdown">
         <a href="#" class="nav-link text-white" id="all-stroke-link" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">Stroke</a>
-        <div class="dropdown-menu custom-dropdown-menu text-center bg-dark border-0" aria-labelledby="all-stroke-link">
+        <div class="dropdown-menu custom-dropdown-menu text-center bg-dark border-1 border-danger" aria-labelledby="all-stroke-link">
             {% for stroke in strokes %}
             <a href="{% url 'products_by_stroke' stroke_num=stroke.stroke %}?sort=default"
                 class="dropdown-item text-white">{{ stroke.stroke }} Stroke</a>

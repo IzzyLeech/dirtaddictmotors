@@ -150,7 +150,7 @@ def checkout_view(request):
 
                 # Update the grand total using the update_grand_total method
                 order.update_grand_total()
-
+                order.payment_status = 'PAID'
                 # Save the Order instance again to reflect the updates
                 order.save()
 

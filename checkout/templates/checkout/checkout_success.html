@@ -1,66 +1,74 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'checkout/css/checkout.css' %}">
+{% endblock %}
+
 {% block content %}
-<div class="container">
+<div class="container my-2">
     <div class="container">
+        {% if user.is_superuser %}
+        <h1 class="mt-2 header-logo">Order Summary</h1>
+        {% else %}
         <h1 class="mt-2 header-logo">Your checkout was processed</h1>
-        <p>Details of <strong class="small">Order number:{{ order.order_number }}</strong> are below</p>
+        {% endif %}
         <div class="row">
+            <p class="order-num">Details of <strong>Order Number:{{ order.order_number }}</strong> are below</p>
             <div class="col-lg-6 p-3 bg-light">
                 <div class="col-12 mb-1">
                     <fieldset class="rounded">
-                        <legend class="fieldset-label w-auto">Order Billing Info:</legend>
+                        <legend class="fieldset-label w-auto">Order Info:</legend>
                         <div class="row">
-                            <div class="col-md-6">
-                                <p>Full name: {{ order.full_name }}</p>
+                            <div class="col-md-8">
+                                    <p class="order-info">Full name: {{ order.full_name }}</p>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
-                                <p>Email: {{ order.email }}</p>
+                            <div class="col-md-8">
+                                <p class="order-info">Email: {{ order.email }}</p>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
-                                <p>Phone number: {{ order.phone_number }}</p>
+                            <div class="col-md-8">
+                                <p class="order-info">Phone number: {{ order.phone_number }}</p>
                             </div>
                         </div>
                     </fieldset>
                     <fieldset class="rounded">
                         <legend class="fieldset-label w-auto">Order Delivery Info:</legend>
                         <div class="row">
-                            <div class="col-md-4">
-                                <p>Street Address 1: {{ order.street_address1 }}</p>
+                            <div class="col-md-6">
+                                <p class="order-info">Street Address 1: {{ order.street_address1 }}</p>
                             </div>
                         </div>
                         {% if order.street_address2 %}
                         <div class="row">
-                            <div class="col-md-4">
-                                <p>Street Address 2: {{ order.street_address2 }}</p>
+                            <div class="col-md-6">
+                                <p class="order-info">Street Address 2: {{ order.street_address2 }}</p>
                             </div>
                         </div>
                         {% endif %}
                         {% if order.postcode %}
                         <div class="row">
-                            <div class="col-md-4">
-                                <p>Postcode: {{ order.postcode }}</p>
+                            <div class="col-md-6">
+                                <p class="order-info">Postcode: {{ order.postcode }}</p>
                             </div>
                         </div>
                         {% endif %}
                         <div class="row">
-                            <div class="col-md-4">
-                                <p>Town/City: {{ order.town_or_city }}</p>
+                            <div class="col-md-6">
+                                <p class="order-info">Town/City: {{ order.town_or_city }}</p>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
-                                <p>County/State: {{ order.county }}</p>
+                            <div class="col-md-6">
+                                <p class="order-info">County/State: {{ order.county }}</p>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
-                                <p>Country: {{ order.country }}</p>
+                            <div class="col-md-6">
+                                <p class="order-info">Country: {{ order.country }}</p>
                             </div>
                         </div>
                     </fieldset>
@@ -105,6 +113,5 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 {% endblock %}

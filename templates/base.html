@@ -83,37 +83,39 @@
     {% endif %}
 
     {% block content %}
+    <main>
+        
+    </main>
     {% endblock %}
 
-    <footer >
+    <footer>
     <div class="footer">
-        <div class="container">
+        <div class="container-fluid bg-danger">
         <div class="row">
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-md-4 text-center">
                 <h5>About Us</h5>
                 <p>A Tipperary based business with over 15 years of experience in finding the right off-road motobike for motosports enthusiast</p>
             </div>
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-md-4 text-center">
                 <h5>Infomation</h5>
-                <ul>
+                <ul class="info-links p-0">
                     <li><a href="{% url 'faq' %}">FAQ</a></li>
                     <li><a href="{% url 'delivery' %}">Delivery Info</a></li>
                     <li><a href="{% url 'newsletter' %}">Newsletter</a></li>
-                    <li>item</li>
-                    <li>item</li>
+                    {% if user.is_superuser %}
+                    <li><a href="{% url 'admin-orders' %}">Admin Orders</a></li>
+                    {% endif %}
                 </ul>
             </div>
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-md-4 text-center">
                 <h5>Contact Info</h5>
-                <div class="d-flex align-items-center">
                 <i class="fa fa-location-arrow"></i>
-                <p class=" ml-1 ms-2 mb-0 align-self-center">The Forge, Brittas Road</p>
-                </div>
-                <p>Thurles, Co. Tipperary</p>
-                <div class="d-flex align-items-center">
+                <p class="mb-0">The Forge, Brittas Road</p>
+                <p class="mb-0">Thurles, Co. Tipperary</p>
+                <span>
                 <i class="fa fa-mobile"></i>
-                <p class=" ml-1 ms-2 mb-0 align-self-center">Phone: 0504 27902</p>
-                </div>
+                <p>Phone: 0504 27902</p>
+                </span>
             </div>
         </div>
         <div class="row">

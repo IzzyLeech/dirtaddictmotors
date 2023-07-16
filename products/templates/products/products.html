@@ -27,7 +27,7 @@
 {% endif %}
 </div>
 <div class="col-6 text-right">
-  <label for="sort">Sort by:</label>
+  <label class="sort-label" for="sort">Sort by:</label>
   <select id="sort" onchange="sortBikes(this.value)">
     <option value="default" {% if default_sort == 'default' %}selected{% endif %}>Default</option>
     <option value="year" {% if default_sort == 'year' %}selected{% endif %}>Year (High to Low)</option>
@@ -83,7 +83,7 @@
           {% if num == bikes.number %}
             <span class="current-page">{{ num }}</span>
           {% else %}
-            <a href="?page={{ num }}">{{ num }}</a>
+            <a class="next-page" href="?page={{ num }}">{{ num }}</a>
           {% endif %}
         {% endfor %}
         {% if bikes.has_next %}

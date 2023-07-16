@@ -18,15 +18,6 @@
     background-color: #fefde5 !important;
 }
 
-
-/* Custom styles for smaller screens */
-@media (max-width: 480px) {
-    /* Reduce the font size of the card number */
-    #card-element  {
-        padding: 10px 1px;
-    }
-}
-
 .form-control {
     border:2px solid gray;
 }
@@ -72,4 +63,39 @@ select option{
 select:invalid,
 select option[value=""] {
     color: red !important;
+}
+
+.order-info {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.order-info-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 50%;
+}
+
+.order-info-label {
+    width: 30%;
+    font-weight: bold;
+}
+
+.order-info-value {
+    width: 70%;
+}
+
+@media (max-width: 480px) {
+    #card-element  {
+        padding: 10px 1px;
+    }
+
+    .order-num {
+        font-size: 10px;
+    }
+
+    .order-info {
+        font-size: 14px;
+    }
 }

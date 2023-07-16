@@ -1,15 +1,18 @@
+:root {
+    --red:#FF7A7A;
+    --white:#f8f8ff;
+    --grey:#d3d3d3;
+    --black:#141414;
+}
+
 .product-item {
-    border: 2px solid #ccc;
+    border: 2px solid var(--white);
     padding: 10px;
 
 }
 
-.product-details {
-
-}
-
 .product-title {
-    color: black;
+    color: var(--black) !important ;
 }
 
 .product-title a {
@@ -22,7 +25,22 @@
 }
 
 .product-info {
+    color: var(--black);
+    width: 50px;
+}
 
+
+.sort-label {
+    color: var(--white);
+}
+
+.current-page{
+    color: var(--white);
+    font-size: 25px;
+}
+
+.next-page {
+    color: var(--red);
 }
 
 /* Sort selector */
@@ -32,4 +50,11 @@
     select#sort {
     font-size: 14px;
     }
-  }
+}
+/* Quanity input */
+@media (max-width: 768px) {
+    .product-quanity {
+        width: 60px;
+    }
+
+}

@@ -1,7 +1,70 @@
+/* Site Variables */
+
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@500&family=Poppins&display=swap');
+
+:root {
+    --red:#FF7A7A;
+    --white:#f8f8ff;
+    --grey:#d3d3d3;
+    --black:#141414;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Kanit', sans-serif;
+    background-color: var(--black);
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    width: 100%;
+    background-color: var(--grey);
+    box-shadow: 0 0 10px var(--black);
+}
+
+/* Header */
+
+h1,h2,h3,h4 {
+    color: var(--black);
+    font-family: 'Poppins', sans-serif;
+}
+
+.header-logo {
+    font-size: 36px;
+    font-weight: bold;
+    color: var(--grey) !important;
+    text-transform: uppercase;
+    padding: 5px;
+}
+
+/* Bootstrap backgrounds */
+
+.bg-danger {
+    background-color: var(--red) !important;
+}
+
+.bg-danger {
+    background-color: var(--red) !important;
+}
+
+.bg-dark {
+    background-color: var(--black) !important;
+}
+
+/* Bootstrap border */
+
+.border-danger{
+    border-color: var(--red) !important;
+}
+
 /* Top Navbar */
 
 #site-logo {
-    color: black;
+    color: var(--black);
     text-transform: uppercase;
     text-decoration: underline;
     font-style: italic;
@@ -10,13 +73,13 @@
 
 #cart-icon {
     font-size: 18px;
-    color: Black;
+    color: var(--black);
 }
 
 #cart-text {
     font-weight: bold;
     font-size: 16px;
-    color: black;
+    color: var(--black);
 }
 
 #cart-link {
@@ -28,9 +91,9 @@
 }
 
 #cart-badge {
-    background-color: black;
+    background-color: var(--black);
     font-size: 14px;
-    color: white;
+    color: var(--white);
 }
 
 #cart-account-column {
@@ -97,8 +160,8 @@
 }
 
 .dropdown-menu .dropdown-item:hover {
-    background-color: red !important;
-    color: black !important;
+    background-color: var(--red)!important;
+    color: var(--black) !important;
 }
 
 .navbar-center {
@@ -133,25 +196,14 @@
         bottom: -1px;
         width: 100%;
         height: 2px;
-        background-color: black;
+        background-color: var(--black);
     }
-}
-
-/* Header Logo */  
-
-.header-logo {
-    font-size: 36px;
-    font-weight: bold;
-    color: #333;
-    text-transform: uppercase;
-    padding: 5px;
 }
 
 @media (max-width: 576px) {
     .header-logo {
     font-size: 20px;
     }
-
 }
 
 /* index-content */
@@ -199,7 +251,7 @@
     height: 100%;
     margin: 0 auto;
     overflow: hidden;
-    border: 1px solid #ccc;
+    border: 1px solid --grey;
 }
 
 .carousel-inner {
@@ -222,14 +274,14 @@
 }
 
 .bike-info {
-    background-color: #ddd;
+    background-color: var(--white);
     text-decoration: solid;
-    color: #000;
+    color: var(--black);
 }
 
 .carousel-info {
     text-decoration: solid;
-    color: black;
+    color: var(--black);
     font-weight: 600;
     margin: 2px;
     padding: 4px;
@@ -249,8 +301,8 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background-color: #333;
-    color: #fff;
+    background-color: var(--grey);
+    color: var(--white);
     padding: 5px 10px;
     border: none;
     cursor: pointer;
@@ -269,11 +321,11 @@
 
 .allauth-form-inner-content p {
     margin-top: 1.5rem;
-    color: #6c757d;
+    color: var(--grey);
 }
 
 .allauth-form-inner-content input {
-    border-color: #000;
+    border-color: var(--grey);
     border-radius: 0;
 }
 
@@ -282,22 +334,22 @@
 }
 
 .allauth-form-inner-content input::placeholder {
-    color: #aab7c4;
+    color: var(--grey);
 }
 
 .allauth-form-inner-content button,
 .allauth-form-inner-content input[type='submit'] {
     display: inline-block;
     font-weight: 400;
-    color: #fff;
+    color: var(--black);
     text-align: center;
     vertical-align: middle;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    background-color: #000;
-    border: 1px solid #000;
+    background-color: var(--black);
+    border: 1px solid var(--black);
     padding: .375rem .75rem;
     font-size: 1rem;
     line-height: 1.5;
@@ -308,37 +360,37 @@
 
 .allauth-form-inner-content button:hover,
 .allauth-form-inner-content input[type='submit']:hover {
-    color: #fff;
-    background-color: #222;
-    border-color: #222;
+    color: var(--white);
+    background-color: var(--black);
+    border-color: var(--black);
 }
 
 .allauth-form-inner-content a {
-    color: black;
+    color: var(--black);
 }
 
 /* Bootstrap button */
 
 .btn-black {
-    background: black;
-    color: white;
+    background: var(--black);
+    color: var(--white);
 }
 
 .btn-outline-black {
-    background: white;
-    color: black !important;
-    border: 1px solid black;
+    background: var(--white);
+    color: var(--black) !important;
+    border: 1px solid --black;
 }
 
 .btn-outline-black:hover,
 .btn-outline-black:active,
 .btn-outline-black:focus {
-    background: black;
-    color: red !important;
+    background: var(--black) !important;
+    color: var(--red) !important;
 }
 
 .btn-white-text {
-    color: white !important;
+    color: var(--white) !important;
 }
 
 /* Image container's */
@@ -378,7 +430,7 @@
 }
 
 .product-link:hover {
-    color: #000;
+    color: var(--black);
     text-decoration: none;
 }
 
@@ -395,10 +447,10 @@
 }
 
 .faq-accordion .faq-accordion-heading {
-    background-color: black;
+    background-color: var(--black);
     padding: 10px;
     cursor: pointer;
-    color: red;
+    color: var(--red);
 }
 
 .faq-accordion .faq-accordion-content {
@@ -407,7 +459,7 @@
     transition: max-height 1s ease, padding 0.5s ease, opacity 0.5s ease;
     opacity: 0;
     padding: 10px;
-    background-color: #ddd;
+    background-color: var(--grey);
 }
 
 .faq-accordion .faq-accordion-content.open {
@@ -419,7 +471,19 @@
 
 /* Footer */
 
+.info-links {
+    list-style-type: none;
+}
+
+.info-links li a {
+    color: var(--white);
+}
+
+footer {
+    margin-top: auto;
+}
+
 .footer {
-    background-color: black;
-    color: white;
+    background-color: var(--black) !important;
+    color: var(--white);
 }
