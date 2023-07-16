@@ -13,6 +13,7 @@ import stripe
 from products.models import Bikes
 from .models import Order, OrderItem
 from profiles.models import UserProfile
+from profiles.forms import UserProfileForm
 from .forms import OrderForm
 from bag.contexts import bag_contents
 
@@ -153,6 +154,21 @@ def checkout_view(request):
                 # Save the Order instance again to reflect the updates
                 order.save()
 
+                # Save the user's info to the profile if 'save-info' is checked
+                if 'save-info' in request.POST and request.POST['save-info'] == 'on':
+                    profile = UserProfile.objects.get(user=request.user)
+                    profile.user.first_name = order.full_name.split()[0]
+                    profile.user.last_name = order.full_name.split()[1]
+                    profile.default_phone_number = order.phone_number
+                    profile.default_country = order.country
+                    profile.default_postcode = order.postcode
+                    profile.default_town_or_city = order.town_or_city
+                    profile.default_street_address1 = order.street_address1
+                    profile.default_street_address2 = order.street_address2
+                    profile.default_county = order.county
+                    profile.user.save()
+                    profile.save()
+
             return redirect(
                     reverse('checkout_success', args=[order.order_number]))
     else:
@@ -181,7 +197,25 @@ def checkout_view(request):
                 'user_id': request.user.id
             }
         )
-        order_form = OrderForm()
+
+        if request.user.is_authenticated:
+            try:
+                profile = UserProfile.objects.get(user=request.user)
+                order_form = OrderForm(initial={
+                    'full_name': profile.user.get_full_name(),
+                    'email': profile.user.email,
+                    'phone_number': profile.default_phone_number,
+                    'country': profile.default_country,
+                    'postcode': profile.default_postcode,
+                    'town_or_city': profile.default_town_or_city,
+                    'street_address1': profile.default_street_address1,
+                    'street_address2': profile.default_street_address2,
+                    'county': profile.default_county,
+                })
+            except UserProfile.DoesNotExist:
+                order_form = OrderForm()
+        else:
+            order_form = OrderForm()
 
     context = {
         'items': items,
@@ -198,11 +232,36 @@ def checkout_success(request, order_number):
     """ View to render a successful checkout"""
     save_info = request.session.get('save_info')
     order = get_object_or_404(Order, order_number=order_number)
+
+    if request.user.is_authenticated:
+        profile = UserProfile.objects.get(user=request.user)
+        # Attach the user's profile to the order
+        order.user_profile = profile
+        order.save()
+
+        # Save the user's info
+        if save_info:
+            profile_data = {
+                'default_phone_number': order.phone_number,
+                'default_country': order.country,
+                'default_postcode': order.postcode,
+                'default_town_or_city': order.town_or_city,
+                'default_street_address1': order.street_address1,
+                'default_street_address2': order.street_address2,
+                'default_county': order.county,
+            }
+            user_profile_form = UserProfileForm(profile_data, instance=profile)
+            if user_profile_form.is_valid():
+                user_profile_form.save()
+
     messages.success(
-            request,
-            f'Your Order has been successfully processed '
-            '{order.user_profile}! Your order number is {order.order_number}. '
-            'A confiramtion email has been sent to {order.email}')
+        request,
+        (
+            f'Your Order has been successfully processed {order.user_profile}!'
+            f'Your order number is {order.order_number}. A confirmation email '
+            f'has been sent to {order.email}'
+        )
+    )
 
     if 'bag' in request.session:
         del request.session['bag']

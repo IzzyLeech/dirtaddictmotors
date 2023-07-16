@@ -19,9 +19,13 @@ def bag_contents(request):
         item_total = price * quantity
         total_cost += item_total
 
-        # Retrieve the weight from the database based on bike ID and engine capacity
+        # Retrieve the weight from the database based
+        # on bike ID and engine capacity
         engine_capacity = item['bike']['engine_capacity']
-        weight = Bikes.objects.filter(model=bike.model, engine_capacity=engine_capacity).values_list('weight', flat=True).first()
+        weight = Bikes.objects.filter(
+            model=bike.model,
+            engine_capacity=engine_capacity
+        ).values_list('weight', flat=True).first()
 
         if weight is not None:
             weight = float(weight)
@@ -29,7 +33,8 @@ def bag_contents(request):
             # Update the weight in the bag for the current item
             item['bike']['weight'] = weight
 
-            # Determine the delivery cost by weight of the bike, considering the quantity
+            # Determine the delivery cost by weight of the bike,
+            #  considering the quantity
             if weight > 100:
                 delivery_cost += 155 * quantity
             elif weight > 90:
@@ -49,7 +54,10 @@ def bag_contents(request):
             .distinct()
             .order_by('engine_capacity')
         )
-        capacities.append({'model': model, 'engine_capacity_options': engine_capacity_options})
+        capacities.append({
+            'model': model,
+            'engine_capacity_options': engine_capacity_options
+        })
 
     # Update the session values
     request.session['total_cost'] = total_cost

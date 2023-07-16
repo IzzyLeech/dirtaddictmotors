@@ -20,6 +20,14 @@ class UserProfile(models.Model):
     default_postcode = models.CharField(max_length=20, null=True, blank=True)
     default_country = CountryField(blank_label='Country', null=True, blank=True)
 
+    @property
+    def first_name(self):
+        return self.user.first_name
+
+    @property
+    def last_name(self):
+        return self.user.last_name
+
     def __str__(self):
         return self.user.username
 
