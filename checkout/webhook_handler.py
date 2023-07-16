@@ -16,7 +16,7 @@ class StripeWH_Handler:
     def __init__(self, request):
         self.request = request
 
-    def handle_event(self, event, user=None):
+    def handle_event(self, event, user_profile=None):
         """
         Handle a generic/unknown/unexpected webhook event
         """
@@ -25,7 +25,7 @@ class StripeWH_Handler:
             status=200
         )
 
-    def handle_payment_intent_succeeded(self, event, user=None):
+    def handle_payment_intent_succeeded(self, event, user_profile=None):
         """
         Handle the payment_intent.succeeded
         """
@@ -42,7 +42,11 @@ class StripeWH_Handler:
         shipping_details = intent.shipping
         grand_total = round(stripe_charge.amount / 100, 2)
 
-        if user is None or isinstance(user, AnonymousUser):
+        if user_profile is None:
+            # Return an error response when user_profile is None
+            return HttpResponse("Invalid user profile.", status=400)
+
+        if user_profile is None or isinstance(user_profile, AnonymousUser):
             # Return an error response for anonymous user or when user is None
             return HttpResponse("Invalid user.", status=400)
 
@@ -67,7 +71,7 @@ class StripeWH_Handler:
                     grand_total=grand_total,
                     original_bag=bag,
                     stripe_pid=pid,
-                    user=user
+                    user_profile=user_profile
                 )
 
                 order_exists = True
@@ -96,7 +100,7 @@ class StripeWH_Handler:
                     grand_total=grand_total,
                     original_bag=bag,
                     stripe_pid=pid,
-                    user=user
+                    user_profile=user_profile
                 )
                 order.save()
 
@@ -146,7 +150,7 @@ class StripeWH_Handler:
             status=200
         )
 
-    def handle_payment_intent_failed(self, event, user=None):
+    def handle_payment_intent_failed(self, event, user_profile=None):
         """
         Handle the payment_intent.failed
         """

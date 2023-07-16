@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.views.decorators.http import require_POST
-from django.contrib.auth.models import User
+from profiles.models import UserProfile
 import stripe
 
 from checkout.webhook_handler import StripeWH_Handler
@@ -39,9 +39,9 @@ def stripe_webhook(request):
 
     # Retrieve the user object using the user ID
     try:
-        user = User.objects.get(id=user_id)
-    except User.DoesNotExist:
-        return HttpResponse("Invalid user.", status=400)
+        user_profile = UserProfile.objects.get(user_id=user_id)
+    except UserProfile.DoesNotExist:
+        return HttpResponse("Invalid user profile.", status=400)
 
     payload = event['data']['object']
     bag = payload['metadata'].get('bag')
@@ -61,5 +61,5 @@ def stripe_webhook(request):
     event_handler = event_map.get(event_type, handler.handle_event)
 
     # Call the event handler with the event
-    response = event_handler(event, user)
+    response = event_handler(event, user_profile)
     return response
