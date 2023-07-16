@@ -1,10 +1,18 @@
 {% extends "base.html" %}
 {% load account %}
 {% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'profiles/css/profile.css' %}">
+{% endblock %}
+
 {% block content %}
-<h2>profile {{ user }}
-</h2>
 <div class="container">
+    <div class="row">
+        <div class="col">
+            <h2 class="header-logo">My Profile</h2>
+        </div>
+    </div>
     <a href="{% url 'account_change_password' %}">Change Password</a>
 </div>
 {% endblock %}

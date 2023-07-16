@@ -10,6 +10,7 @@ import stripe
 
 from products.models import Bikes
 from .models import Order, OrderItem
+from profiles.models import UserProfile
 from .forms import OrderForm
 from bag.contexts import bag_contents
 
@@ -91,6 +92,8 @@ def checkout_view(request):
             # Append the order item to the list
             items.append(order_item)
 
+    user_profile = request.user.userprofile
+
     if request.method == 'POST':
         # Data from the form when submitted
         form_data = {
@@ -109,7 +112,7 @@ def checkout_view(request):
         if order_form.is_valid():
             # Create the order instance
             order = Order(
-                user=request.user,
+                user_profile=user_profile,
                 full_name=form_data['full_name'],
                 email=form_data['email'],
                 phone_number=form_data['phone_number'],
@@ -178,7 +181,7 @@ def checkout_success(request, order_number):
     """ View to render a successful checkout"""
     save_info = request.session.get('save_info')
     order = get_object_or_404(Order, order_number=order_number)
-    messages.success(request, f'Your Order has been successfully processed {order.user}! Your order number is {order.order_number}. A confiramtion email has been sent to {order.email}')
+    messages.success(request, f'Your Order has been successfully processed {order.user_profile}! Your order number is {order.order_number}. A confiramtion email has been sent to {order.email}')
 
     if 'bag' in request.session:
         del request.session['bag']

@@ -2,13 +2,13 @@ from django.db import models
 
 import uuid
 
-from django.contrib.auth.models import User
+from profiles.models import UserProfile
 from products.models import Bikes
 from django_countries.fields import CountryField
 
 
 class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_profile = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True, blank=True, related_name='orders')
     order_number = models.CharField(max_length=32, null=False, editable=False)
     full_name = models.CharField(max_length=50, null=False, blank=False)
     email = models.EmailField(max_length=254, null=False, blank=False)
