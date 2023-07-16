@@ -9,7 +9,11 @@
         <h1 class="header-logo p-1">Dirt Addict Motors</h1>
         <h4 id="index-message">Stocking a wide range of high quality dirtbikes from multiple manufacturer that span all the necessary engine capacity from beginner's all the way up to seasoned veteran</h4>
         <div>
+          {% if request.user.is_authenticated %}
+          <a href="{% url 'profile' %}"><button class="btn btn-dark btn-md mb-2">My Account</button></a>
+          {% else %}
           <a href="{% url 'account_signup' %}"><button class="btn btn-dark btn-md mb-2">Sign up for Account</button></a>
+          {% endif %}
           <a href="{% url 'products' %}?sort=manufacturer"><button class="btn btn-dark btn-md mb-2">Start browsing bikes</button></a>
         </div>
       </div>

@@ -79,10 +79,12 @@ class StripeWH_Handler:
             except Order.DoesNotExist:
                 attempt += 1
                 time.sleep(1)
-        if order_exists:
+        if Order.objects.filter(stripe_pid=pid).exists():
             return HttpResponse(
-                content=f'Webhook received: {event["type"]} | SUCCESS: Verified order already in database',
-                status=200)
+                content=f'Webhook received: {event["type"]} | \
+                SUCCESS: Verified order already in database',
+                status=200
+            )
         else:
             order = None
             try:
@@ -118,7 +120,8 @@ class StripeWH_Handler:
                             quantity = item.get('quantity', 0)
                             engine_capacity = item.get('engine_capacity', 0)
 
-                            # Retrieve the bike instance from the database based on bike ID
+                            # Retrieve the bike instance from the
+                            # database based on bike ID
                             bike = Bikes.objects.get(pk=bike_id)
 
                             # Create an instance of OrderItem
@@ -126,15 +129,19 @@ class StripeWH_Handler:
                                 bike=bike,
                                 quantity=quantity,
                                 price=bike.price,
-                                order=order  # Set the order for the order item
+                                order=order
                             )
                             order_item.save()
                             order_items.append(order_item)
                 except Exception as e:
-                    return HttpResponse(content=f'Webhook received: {event["type"]} | ERROR: {str(e)}', status=500)
+                    return HttpResponse(content=f'Webhook received: \
+                        {event["type"]} | ERROR: {str(e)}', status=500)
 
                     # Calculate the delivery cost
-                    delivery_cost = sum(order_item.calculate_delivery_cost() for order_item in order_items)
+                    delivery_cost = sum(
+                        order_item.calculate_delivery_cost()
+                        for order_item in order_items
+                    )
                     order.delivery_cost = delivery_cost
                     order.update_grand_total()
                     order.save()
@@ -146,7 +153,8 @@ class StripeWH_Handler:
                     status=500)
 
         return HttpResponse(
-            content=f'Webhook received: {event["type"]} | SUCCESS: Created order in webhook',
+            content=f'Webhook received: {event["type"]} \
+                | SUCCESS: Created order in webhook',
             status=200
         )
 
@@ -160,7 +168,8 @@ class StripeWH_Handler:
 
         # Log the details of the failed payment intent
         logger = logging.getLogger('payment')
-        logger.error(f'Payment intent failed. ID: {pid}, Reason: {failure_reason}')
+        logger.error(f'Payment intent failed. \
+            ID: {pid}, Reason: {failure_reason}')
 
         return HttpResponse(
             content=f'Webhook received: {event["type"]}',

@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect, get_object_or_404, reverse, HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import reverse, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.conf import settings
 from decimal import Decimal
 from django.views.decorators.http import require_POST
+from django.db import transaction
 
 import json
 import stripe
@@ -43,7 +45,10 @@ def cache_checkout_data(request):
         return HttpResponse(status=200)
 
     except Exception as e:
-        messages.error(request, 'Sorry, your payment cannot be processed right now. Please try again later.')
+        messages.error(
+            request,
+            'Sorry, your payment cannot be processed right now. '
+            'Please try again later.')
         return HttpResponse(content=str(e), status=400)
 
 
@@ -110,44 +115,56 @@ def checkout_view(request):
         # Form Variable
         order_form = OrderForm(form_data)
         if order_form.is_valid():
-            # Create the order instance
-            order = Order(
-                user_profile=user_profile,
-                full_name=form_data['full_name'],
-                email=form_data['email'],
-                phone_number=form_data['phone_number'],
-                street_address1=form_data['street_address1'],
-                street_address2=form_data['street_address2'],
-                postcode=form_data['postcode'],
-                town_or_city=form_data['town_or_city'],
-                county=form_data['county'],
-                country=form_data['country'],
-                order_total=order_total,
-            )
-            pid = request.POST.get('client_secret').split('_secret')[0]
-            order.stripe_pid = pid
-            order.original_bag = json.dumps(bag)
-            # Save the order
-            order.save()
-            # Assign the order to the order items and save them
-            for order_item in items:
-                order_item.order = order
-                order_item.save()
-            # Calculate the delivery cost
-            delivery_cost = sum(order_item.calculate_delivery_cost() for order_item in items)
-            order.delivery_cost = delivery_cost
-            # Update the grand total using the update_grand_total method
-            order.update_grand_total()
-            # Save the Order instance again to reflect the updates
-            order.save()
-            return redirect(reverse('checkout_success', args=[order.order_number]))
+            with transaction.atomic():
+                # Create the order instance
+                order = Order(
+                    user_profile=user_profile,
+                    full_name=form_data['full_name'],
+                    email=form_data['email'],
+                    phone_number=form_data['phone_number'],
+                    street_address1=form_data['street_address1'],
+                    street_address2=form_data['street_address2'],
+                    postcode=form_data['postcode'],
+                    town_or_city=form_data['town_or_city'],
+                    county=form_data['county'],
+                    country=form_data['country'],
+                    order_total=order_total,
+                )
+                pid = request.POST.get('client_secret').split('_secret')[0]
+                order.stripe_pid = pid
+                order.original_bag = json.dumps(bag)
+                # Save the order
+                order.save()
+
+                # Assign the order to the order items and save them
+                for order_item in items:
+                    order_item.order = order
+                    order_item.save()
+
+                # Calculate the delivery cost
+                delivery_cost = sum(
+                                order_item.calculate_delivery_cost()
+                                for order_item in items)
+                order.delivery_cost = delivery_cost
+
+                # Update the grand total using the update_grand_total method
+                order.update_grand_total()
+
+                # Save the Order instance again to reflect the updates
+                order.save()
+
+            return redirect(
+                    reverse('checkout_success', args=[order.order_number]))
     else:
         # Create a Stripe payment intent
         current_bag = bag_contents(request)
 
         # Validation for checkout page
         if not current_bag:
-            messages.error(request, "There are no items in the bag, please add an item!")
+            messages.error(
+                request,
+                "There are no items in the bag, "
+                "please add an item!")
             return redirect(reverse('products'))
 
         total = current_bag['grand_total']
@@ -181,7 +198,11 @@ def checkout_success(request, order_number):
     """ View to render a successful checkout"""
     save_info = request.session.get('save_info')
     order = get_object_or_404(Order, order_number=order_number)
-    messages.success(request, f'Your Order has been successfully processed {order.user_profile}! Your order number is {order.order_number}. A confiramtion email has been sent to {order.email}')
+    messages.success(
+            request,
+            f'Your Order has been successfully processed '
+            '{order.user_profile}! Your order number is {order.order_number}. '
+            'A confiramtion email has been sent to {order.email}')
 
     if 'bag' in request.session:
         del request.session['bag']
