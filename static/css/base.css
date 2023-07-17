@@ -41,7 +41,7 @@ h1,h2,h3,h4 {
     padding: 5px;
 }
 
-.allauth-header{
+.black-header{
     color: var(--black)!important;
 }
 
@@ -51,8 +51,8 @@ h1,h2,h3,h4 {
     background-color: var(--red) !important;
 }
 
-.bg-danger {
-    background-color: var(--red) !important;
+.bg-light {
+    background-color: var(--grey) !important;
 }
 
 .bg-dark {

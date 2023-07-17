@@ -5,6 +5,8 @@ from django.http import JsonResponse
 from django.db.models import CharField
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
+from django.core.mail import send_mail
+from django.conf import settings
 
 from products.models import Bikes
 from .forms import SubscriberForm
@@ -42,8 +44,21 @@ def newsletter_signup(request):
     if request.method == 'POST':
         form = SubscriberForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('newsletter:thank_you')
+            subscriber = form.save()
+
+            # Send confirmation email
+            subject = 'Newsletter Subscription Confirmation'
+            message = 'Thank you for subscribing to our newsletter!'
+            from_email = settings.DEFAULT_FROM_EMAIL
+            recipient_list = [subscriber.email]
+
+            try:
+                send_mail(subject, message, from_email, recipient_list)
+                print(f"Email sent to {recipient_list} with subject: {subject}")
+            except Exception as e:
+                print(f"An error occurred while sending the email: {str(e)}")
+
+            return redirect(reverse('home'))
     else:
         form = SubscriberForm()
     return render(request, 'home/newsletter.html', {'form': form})

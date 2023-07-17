@@ -1,29 +1,36 @@
+:root {
+    --red:#FF7A7A;
+    --white:#f8f8ff;
+    --grey:#d3d3d3;
+    --black:#141414;
+}
+
 .StripeElement {
     box-sizing: border-box;
     height: 40px;
     padding: 10px 12px;
-    border: 2px solid grey;
+    border: 2px solid var(--grey);
     border-radius: 4px;
-    background-color: white;
-    box-shadow: 0 1px 3px 0 #e6ebf1;
+    background-color: var(--white);
+    box-shadow: 0 1px 3px 0 var(--white);
     -webkit-transition: box-shadow 150ms ease;
     transition: box-shadow 150ms ease;
 }
 
 .StripeElement--focus {
-    box-shadow: 0 1px 3px 0 #cfd7df;
+    box-shadow: 0 1px 3px 0 var(--grey);
 }
 
 .StripeElement--webkit-autofill {
-    background-color: #fefde5 !important;
+    background-color: var(--white) !important;
 }
 
 .form-control {
-    border:2px solid gray;
+    border:2px solid var(--grey);
 }
 
 .form-control::placeholder {
-    color:red;
+    color:var(--grey);
 }
 
 .fieldset-label {
@@ -43,7 +50,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #cfd7df;
+    background-color: var(--grey);
     z-index: 1000;
 }
 
@@ -57,12 +64,12 @@
 
 select,
 select option{
-    color: black;
+    color: var(--black)
 }
 
 select:invalid,
 select option[value=""] {
-    color: red !important;
+    color: var(--grey) !important;
 }
 
 .order-info {

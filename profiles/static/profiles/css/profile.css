@@ -1,16 +1,24 @@
+:root {
+    --red:#FF7A7A;
+    --white:#f8f8ff;
+    --grey:#d3d3d3;
+    --black:#141414;
+}
+
+
 #profile-update-form .form-control {
-    color: black;
+    color: var(--black);
 }
 
 #profile-update-form input::placeholder {
-    color:blueviolet;
+    color:var(--grey);
 }
 
 #id_default_country,
 #id_default_country option:not(:first-child) {
-    color: black;
+    color: var(--black);
 }
 
 #id_default_country option:first-child {
-    color: blueviolet;
+    color: var(--grey);
 }
