@@ -1,7 +1,7 @@
 $('.toast').toast('show');
 
 function sortBikes(sortOption) {
-  const urlParams = new URLSearchParams(window.location.search);
+  var urlParams = new URLSearchParams(window.location.search);
   urlParams.set('sort', sortOption);
   window.location.href = window.location.pathname + '?' + urlParams.toString();
 }
@@ -11,8 +11,8 @@ const sortElement = document.getElementById('sort');
 
 if (sortElement) {
   // The element exists, proceed with the code
-  const urlParams = new URLSearchParams(window.location.search);
-  const currentSortOption = urlParams.get('sort');
+  var urlParams = new URLSearchParams(window.location.search);
+  var currentSortOption = urlParams.get('sort');
   sortElement.value = currentSortOption || 'manufacturer';
 }
 

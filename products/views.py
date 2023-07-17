@@ -7,14 +7,15 @@ from django.contrib.auth.decorators import user_passes_test
 from .forms import BikeForm
 from .models import Bikes
 
-def products_display(request, manufacturer_name=None, engine_num=None, stroke_num=None):
-    """View to display products based on optional filters"""
 
+def products_view(request, manufacturer_name=None, engine_num=None, stroke_num=None):
+    """View to display products based on optional filters"""
     bikes = Bikes.objects.all()
     selected_filters = []
 
     if manufacturer_name:
-        bikes = bikes.filter(manufacturer=manufacturer_name).order_by('engine_capacity')
+        bikes = bikes.filter(manufacturer=manufacturer_name)\
+            .order_by('engine_capacity')
         selected_filters.append(f'Manufacturer: {manufacturer_name}')
     if engine_num:
         bikes = bikes.filter(engine_capacity=engine_num)
@@ -109,7 +110,9 @@ def add_bike(request):
             messages.success(request, 'The bike has been added to the store')
             return redirect(reverse('product_detail', args=[bike.id]))
         else:
-            messages.error(request, 'Error in form, please ensure data is correct')
+            messages.error(
+                request,
+                'Error in form, please ensure data is correct')
     else:
         form = BikeForm()
 

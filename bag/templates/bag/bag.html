@@ -27,7 +27,7 @@
               <div class="col-md-5">
                 <div class="quantity-counter d-flex align-items-center">
                   <button type="button" class="quantity-button minus mr-1"><i class="fa-solid fa-minus"></i></button>
-                  <input type="number" name="quantity" value="{{ item.quantity }}" min="0" class="form-control quantity-input">
+                  <input type="number" id="quantity" name="quantity" value="{{ item.quantity }}" min="0" class="form-control quantity-input">
                   <button type="button" class="quantity-button plus ml-1"><i class="fa-solid fa-plus"></i></button>
                 </div>
                 <button type="submit" name="update_quantity" class="btn btn-primary mt-2">Update Quantity</button>
@@ -36,7 +36,7 @@
           </div>
             <div class="form-group">
               <label for="engine_capacity">Engine Capacity:</label>
-              <select name="engine_capacity" class="form-control">
+              <select id="engine_capacity" name="engine_capacity" class="form-control">
                 {% for capacity in capacities %}
                 {% if capacity.model == item.bike.model %}
                 {% for option in capacity.engine_capacity_options %}

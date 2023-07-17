@@ -153,10 +153,12 @@ def checkout_view(request):
                 order.save()
 
                 # Save the user's info to the profile if 'save-info' is checked
-                if 'save-info' in request.POST and request.POST['save-info'] == 'on':
+                if 'save-info' in request.POST and \
+                        request.POST['save-info'] == 'on':
                     profile = UserProfile.objects.get(user=request.user)
                     names = form_data['full_name'].split()
-                    profile.user.first_name = names[0] if len(names) > 0 else ""
+                    profile.user.first_name = names[0] \
+                        if len(names) > 0 else ""
                     profile.user.last_name = names[1] if len(names) > 1 else ""
                     profile.default_phone_number = order.phone_number
                     profile.default_country = order.country
@@ -225,7 +227,6 @@ def checkout_view(request):
     }
 
     return render(request, 'checkout/checkout.html', context)
-
 
 
 def checkout_success(request, order_number):

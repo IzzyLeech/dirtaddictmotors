@@ -54,7 +54,6 @@ def newsletter_signup(request):
 
             try:
                 send_mail(subject, message, from_email, recipient_list)
-                print(f"Email sent to {recipient_list} with subject: {subject}")
             except Exception as e:
                 print(f"An error occurred while sending the email: {str(e)}")
 
@@ -75,8 +74,12 @@ def admin_view(request):
         return redirect(reverse('home'))
 
     orders = Order.objects.all()
-    payment_status_choices = dict(CharField(choices=Order._meta.get_field('payment_status').choices).flatchoices)
-    context = {'orders': orders, 'payment_status_choices': payment_status_choices}
+    payment_status_choices = dict(
+        CharField(choices=Order._meta.get_field('payment_status').choices)
+        .flatchoices)
+    context = {
+        'orders': orders,
+        'payment_status_choices': payment_status_choices}
     return render(request, 'home/admin_orders.html', context)
 
 
@@ -86,7 +89,10 @@ def update_payment_status(request, order_id):
         order = Order.objects.get(id=order_id)
         order.payment_status = payment_status
         order.save()
-        messages.info(request, f"The payment status for order {order.order_number} has been updated to {payment_status}.")
+        messages.info(
+            request,
+            f"The payment status for order {order.order_number} "
+            "has been updated to {payment_status}.")
     return redirect(reverse('admin-orders'))
 
 

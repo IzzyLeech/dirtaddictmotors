@@ -270,7 +270,7 @@ h1,h2,h3,h4 {
     height: 100%;
     margin: 0 auto;
     overflow: hidden;
-    border: 1px solid --grey;
+    border: 1px solid var(--grey);
 }
 
 .carousel-inner {
@@ -490,10 +490,10 @@ h1,h2,h3,h4 {
 }
 
 .faq-accordion .faq-accordion-heading {
-    background-color: var(--black);
+    background-color: var(--white);
     padding: 10px;
     cursor: pointer;
-    color: var(--red);
+    color: var(--red) !important;
 }
 
 .faq-accordion .faq-accordion-content {

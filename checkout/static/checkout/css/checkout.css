@@ -93,6 +93,10 @@ select option[value=""] {
     width: 70%;
 }
 
+.link-red {
+    color: var(--red) !important;
+}
+
 @media (max-width: 480px) {
     #card-element  {
         padding: 10px 1px;

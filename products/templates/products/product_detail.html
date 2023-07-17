@@ -15,7 +15,6 @@
     <div class="col-md-4 ">
       <div class="d-flex flex-row-reverse">
       <a href="{% url 'edit_bike' product_id=bike.id %}"><button class="btn btn-black rounded-1 mt-2">Edit Bike</button></a>
-
       <a id="delete-link" onclick="confirmDelete('{{ bike.id }}')"><button class="btn btn-black rounded-1 mt-2 mr-1">Delete Bike</button></a>
       </div>
     </div>
@@ -69,7 +68,7 @@
         <label for="quantity">Quantity:</label>
         <div class="quantity-counter">
           <button type="button" class="quantity-button minus"><i class="fa-solid fa-minus"></i></button>
-          <input class="product-quanity" type="number" name="quantity" value="1" min="0">
+          <input id="quantity" class="product-quanity" type="number" name="quantity" value="1" min="0">
           <button type="button" class="quantity-button plus"><i class="fa-solid fa-plus"></i></button>
         </div>
         <button type="submit" class="btn btn-primary btn-md my-1 p">
@@ -86,10 +85,6 @@
     </div>
   </div>
 </div>
-
-
-
-
 
 {% endblock %}
 

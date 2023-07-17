@@ -46,13 +46,11 @@
                 </fieldset>
 
                 <div class="text-right mt-2 mb-2">
-                    <a href="{% url 'view_bag' %}">
-                        <button class="btn btn-black rounded border border-warning">
+                    <a class="link-red" href="{% url 'view_bag' %}">
                         <span class="icon">
                             <i class="fas fa-chevron-left"></i>
                         </span>
                         <span class="font-weight-bold">Adjust Bag</span>
-                        </button>
                     </a>
                     <button id="submit-button" class="btn btn-black rounded border border-success">
                         <span class="font-weight-bold">Complete Order</span>
@@ -109,12 +107,13 @@
     </div>
 </div>
 <div id="loading-screen">
-    <h1 class="text-light loading-spinner">
+    <h3 class="text-light loading-spinner">
         <span class="icon">
             <i class="fas fa-3x fa-sync-alt fa-spin"></i>
         </span>
-        <p>Please wait while we proccesed your order</p>
-    </h1>
+        Please wait while we proccesed your order
+    </h3>
+
 </div>
 {% endblock %}
 

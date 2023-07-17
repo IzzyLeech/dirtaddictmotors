@@ -79,7 +79,9 @@ class StripeWH_Handler:
             if order:
                 self._send_confirmation_email(order)
                 return HttpResponse(
-                    content=f'Webhook received: {event["type"]} | SUCCESS: Verified order already in database',
+                    content=f'Webhook received: '
+                    '{event["type"]} | SUCCESS: Verified '
+                    'order already in database',
                     status=200
                 )
 
@@ -114,7 +116,8 @@ class StripeWH_Handler:
                         quantity = item.get('quantity', 0)
                         engine_capacity = item.get('engine_capacity', 0)
 
-                        # Retrieve the bike instance from the database based on bike ID
+                        # Retrieve the bike instance from
+                        # the database based on bike ID
                         bike = Bikes.objects.get(pk=bike_id)
 
                         # Create an instance of OrderItem
@@ -127,10 +130,15 @@ class StripeWH_Handler:
                         order_item.save()
                         order_items.append(order_item)
             except Exception as e:
-                return HttpResponse(content=f'Webhook received: {event["type"]} | ERROR: {str(e)}', status=500)
+                return HttpResponse(
+                    content=f'Webhook received: '
+                    '{event["type"]} | ERROR: {str(e)}',
+                    status=500)
 
             # Calculate the delivery cost
-            delivery_cost = sum(order_item.calculate_delivery_cost() for order_item in order_items)
+            delivery_cost = sum(
+                order_item.calculate_delivery_cost()
+                for order_item in order_items)
             order.delivery_cost = delivery_cost
 
             # Update the grand total using the update_grand_total method
@@ -141,7 +149,8 @@ class StripeWH_Handler:
 
             self._send_confirmation_email(order)
             return HttpResponse(
-                content=f'Webhook received: {event["type"]} | SUCCESS: Created order in webhook',
+                content=f'Webhook received:'
+                '{event["type"]} | SUCCESS: Created order in webhook',
                 status=200
             )
 
