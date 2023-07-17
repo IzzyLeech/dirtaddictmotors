@@ -7,7 +7,6 @@ from django.contrib.auth.decorators import user_passes_test
 from .forms import BikeForm
 from .models import Bikes
 
-
 def products_display(request, manufacturer_name=None, engine_num=None, stroke_num=None):
     """View to display products based on optional filters"""
 
@@ -66,7 +65,7 @@ def products_display(request, manufacturer_name=None, engine_num=None, stroke_nu
     if request.method == 'GET' and not query and 'submit' in request.GET:
         messages.warning(request, 'Please enter a search query.')
 
-    paginator = Paginator(bikes.order_by('id'), 8)
+    paginator = Paginator(bikes, 8)
     page_number = request.GET.get('page')
     bikes_page = paginator.get_page(page_number)
 
