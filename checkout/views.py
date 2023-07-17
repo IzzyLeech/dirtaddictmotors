@@ -22,7 +22,6 @@ from bag.contexts import bag_contents
 def cache_checkout_data(request):
 
     bag = json.loads(request.session.get('bag', '{}'))
-    print('Bag contents:', bag)
 
     for item_id, item in bag.items():
         item['bike'].pop('manufacturer', None)
@@ -53,7 +52,6 @@ def cache_checkout_data(request):
         return HttpResponse(content=str(e), status=400)
 
 
-@login_required
 def checkout_view(request):
     """View that will handle the checkout logic"""
 
@@ -157,8 +155,9 @@ def checkout_view(request):
                 # Save the user's info to the profile if 'save-info' is checked
                 if 'save-info' in request.POST and request.POST['save-info'] == 'on':
                     profile = UserProfile.objects.get(user=request.user)
-                    profile.user.first_name = order.full_name.split()[0]
-                    profile.user.last_name = order.full_name.split()[1]
+                    names = form_data['full_name'].split()
+                    profile.user.first_name = names[0] if len(names) > 0 else ""
+                    profile.user.last_name = names[1] if len(names) > 1 else ""
                     profile.default_phone_number = order.phone_number
                     profile.default_country = order.country
                     profile.default_postcode = order.postcode
@@ -226,6 +225,7 @@ def checkout_view(request):
     }
 
     return render(request, 'checkout/checkout.html', context)
+
 
 
 def checkout_success(request, order_number):

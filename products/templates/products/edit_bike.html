@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="container my-2">
+    <div class="row">
+        <div class="col">
+            <h2 class="header-logo ">Bike Management</h2>
+            <h5 class="text-muted">Edit Bike</h5>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <form method="POST" action="{% url 'edit_bike' bike.id %}" class="form mb-2" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <div class="text-right">
+                    <a  href="{% url 'products' %}" class="btn btn-home rounded-1">Go back</a>
+                    <button class="btn btn-black rounded-1" type="submit">Submit Edit Bike</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

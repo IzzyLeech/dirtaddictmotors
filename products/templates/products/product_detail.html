@@ -8,9 +8,18 @@
 {% block content %}
 <div class="container my-2">
   <div class="row">
-    <div class="col">
-      <h2 class="header-logo product-title">{{ bike.manufacturer }} {{ bike.model }}{{ bike.engine_capacity|floatformat:0 }}</h2>
+    <div class="col-md-8">
+      <h2 class="header-logo product-title-detail">{{ bike.manufacturer }} {{ bike.model }}{{ bike.engine_capacity|floatformat:0 }}CC</h2>
     </div>
+    {% if request.user.is_superuser %}
+    <div class="col-md-4 ">
+      <div class="d-flex flex-row-reverse">
+      <a href="{% url 'edit_bike' product_id=bike.id %}"><button class="btn btn-black rounded-1 mt-2">Edit Bike</button></a>
+
+      <a id="delete-link" onclick="confirmDelete('{{ bike.id }}')"><button class="btn btn-black rounded-1 mt-2 mr-1">Delete Bike</button></a>
+      </div>
+    </div>
+    {% endif %}
   </div>
   <div class="row my-2">
     <div class="col-md-6">
@@ -43,8 +52,8 @@
           <td>{{ bike.speed }} Gears</td>
         </tr>
         <tr>
-          <td>{{ bike.stroke }} Stroke</td>
-          <td></td>
+          <td>Stroke:</td>
+          <td>{{ bike.stroke }}</td>
         </tr>
         <tr>
           <td>Starter:</td>
@@ -78,4 +87,67 @@
   </div>
 </div>
 
+
+
+
+
+{% endblock %}
+
+{% block postloadjs %}
+{{ block.super }}
+<script>
+  function confirmDelete(bikeId) {
+  
+      // Check if a confirmation container is already present
+      if (document.getElementById('confirmation-container')) {
+      return; // Return early if a container is already shown
+    }
+  
+    // Create the confirmation container
+    var confirmationContainer = document.createElement('div');
+    confirmationContainer.id = 'confirmation-container';
+    confirmationContainer.innerHTML = `
+      <h4 id="confirm-head">Confirm the delation</h4>
+      <p>Are you sure you want to delete the bike?</p>
+      <div id="confirm-button">
+      <button class="btn btn-danger btn-sm" onclick="deleteBike('${bikeId}')">Yes</button>
+      <button class="btn btn-outline-black btn-sm" onclick="cancelDelete()">No</button>
+      </div>
+    `;
+  
+    // Append the confirmation container to the document body
+    document.body.appendChild(confirmationContainer);
+  
+    // Generate the delete URL
+    var deleteUrl = '/products/delete_bike/' + bikeId + '/';
+    confirmationContainer.dataset.deleteUrl = deleteUrl;
+  
+    // Set the link to '#' to prevent the browser from following it
+    var deleteLink = document.getElementById('delete-link');
+    deleteLink.href = '#';
+  
+    // Center the confirmation container
+    confirmationContainer.style.position = 'fixed';
+    confirmationContainer.style.top = '50%';
+    confirmationContainer.style.left = '50%';
+    confirmationContainer.style.transform = 'translate(-50%, -50%)';
+  }
+  
+  function deleteBike(bikeId) {
+    // Retrieve the delete URL from the confirmation container
+    var confirmationContainer = document.getElementById('confirmation-container');
+    var deleteUrl = confirmationContainer.dataset.deleteUrl;
+  
+    // Perform the actual deletion
+    window.location.href = deleteUrl;
+  }
+  
+    function cancelDelete() {
+      // Remove the confirmation container
+      var confirmationContainer = document.getElementById('confirmation-container');
+      if (confirmationContainer) {
+        confirmationContainer.parentNode.removeChild(confirmationContainer);
+      }
+    }
+  </script>
 {% endblock %}

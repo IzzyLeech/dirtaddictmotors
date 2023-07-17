@@ -1,3 +1,5 @@
+$('.toast').toast('show');
+
 function sortBikes(sortOption) {
   const urlParams = new URLSearchParams(window.location.search);
   urlParams.set('sort', sortOption);

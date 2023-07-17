@@ -13,7 +13,11 @@
             <h2 class="header-logo">My Profile</h2>
         </div>
     </div>
-    <a href="{% url 'account_change_password' %}">Change Password</a>
+    <div class="row">
+        <div class="col-4"><a href="{% url 'account_change_password' %}">Change Password</a></div>
+        <div class="col-4"><a href="{% url 'add_bike' %}">Add bike to store</a></div>
+        <div class="col-4"></div>
+    </div>
     <div class="row">
         <div class="col-12 col-lg-6 bg-light">
             <p class="text-muted">Default Delivery Information</p>

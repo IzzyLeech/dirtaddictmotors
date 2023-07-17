@@ -36,9 +36,13 @@ h1,h2,h3,h4 {
 .header-logo {
     font-size: 36px;
     font-weight: bold;
-    color: var(--grey) !important;
+    color: var(--white) !important;
     text-transform: uppercase;
     padding: 5px;
+}
+
+.allauth-header{
+    color: var(--black)!important;
 }
 
 /* Bootstrap backgrounds */
@@ -202,7 +206,7 @@ h1,h2,h3,h4 {
 
 @media (max-width: 576px) {
     .header-logo {
-    font-size: 20px;
+    font-size: 25px;
     }
 }
 
@@ -222,9 +226,24 @@ h1,h2,h3,h4 {
 /* Message container */
 .message-container {
     position: fixed;
-    top: 46px;
+    top: 54px;
     right: 15px;
     z-index: 9999999999;
+}
+
+@media (max-width: 992px) {
+
+    .message-container {
+        top: 110px !important;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .message-container {
+        top: 203px !important;
+        right: 0 !important; 
+    }
 }
 
 .custom-toast {
@@ -301,7 +320,7 @@ h1,h2,h3,h4 {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background-color: var(--grey);
+    background-color: var(--black);
     color: var(--white);
     padding: 5px 10px;
     border: none;
@@ -321,7 +340,7 @@ h1,h2,h3,h4 {
 
 .allauth-form-inner-content p {
     margin-top: 1.5rem;
-    color: var(--grey);
+    color: var(--black);
 }
 
 .allauth-form-inner-content input {
@@ -369,6 +388,10 @@ h1,h2,h3,h4 {
     color: var(--black);
 }
 
+.colored-link {
+    color: var(--red) !important; 
+}
+
 /* Bootstrap button */
 
 .btn-black {
@@ -376,21 +399,41 @@ h1,h2,h3,h4 {
     color: var(--white);
 }
 
+.btn-black:hover,
+.btn-black:active,
+.btn-black:focus {
+    background-color: var(--white);
+    color: var(--red);
+    border: 1px solid var(--white) !important;
+}
+
 .btn-outline-black {
     background: var(--white);
     color: var(--black) !important;
-    border: 1px solid --black;
+    border: 1px solid var(--black);
 }
 
 .btn-outline-black:hover,
 .btn-outline-black:active,
 .btn-outline-black:focus {
-    background: var(--black) !important;
+    background: var(--white) !important;
     color: var(--red) !important;
 }
 
 .btn-white-text {
     color: var(--white) !important;
+}
+
+.btn-home {
+    border: 1px solid var(--red);
+    background-color: var(--white);
+}
+
+.btn-home:hover,
+.btn-home:active,
+.btn-home:focus {
+    background-color: var(--black);
+    color: var(--red);
 }
 
 /* Image container's */

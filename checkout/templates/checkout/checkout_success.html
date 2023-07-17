@@ -7,15 +7,20 @@
 
 {% block content %}
 <div class="container my-2">
-    <div class="container">
-        {% if user.is_superuser %}
-        <h1 class="mt-2 header-logo">Order Summary</h1>
-        {% else %}
-        <h1 class="mt-2 header-logo">Your checkout was processed</h1>
-        {% endif %}
-        <div class="row">
+    <div class="row">
+        <div class="col-12">
+            {% if user.is_superuser %}
+            <h1 class="mt-2 header-logo">Order Summary</h1>
+            {% else %}
+            <h1 class="mt-2 header-logo">Your checkout was processed</h1>
+            {% endif %}
+        </div>
+        <div class="col-6">
             <p class="order-num">Details of <strong>Order Number:{{ order.order_number }}</strong> are below</p>
-            <div class="col-lg-6 p-3 bg-light">
+        </div>
+    </div>
+        <div class="row">
+            <div class="col-lg-6 p-3 bg-light mx-auto">
                 <div class="col-12 mb-1">
                     <fieldset class="rounded">
                         <legend class="fieldset-label w-auto">Order Info:</legend>
@@ -113,5 +118,4 @@
             </div>
         </div>
     </div>
-</div>
 {% endblock %}

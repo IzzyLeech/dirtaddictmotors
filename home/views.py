@@ -4,6 +4,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.http import JsonResponse
 from django.db.models import CharField
 from django.contrib import messages
+from django.contrib.auth.decorators import user_passes_test
 
 from products.models import Bikes
 from .forms import SubscriberForm
@@ -48,7 +49,16 @@ def newsletter_signup(request):
     return render(request, 'home/newsletter.html', {'form': form})
 
 
+def superuser_check(user):
+    return user.is_superuser
+
+
+@user_passes_test(superuser_check)
 def admin_view(request):
+    if not request.user.is_superuser:
+        messages.error(request, 'Restricted Area')
+        return redirect(reverse('home'))
+
     orders = Order.objects.all()
     payment_status_choices = dict(CharField(choices=Order._meta.get_field('payment_status').choices).flatchoices)
     context = {'orders': orders, 'payment_status_choices': payment_status_choices}
