@@ -28,7 +28,7 @@ A user of Dirt Addict Motors can range from a begginner buying there first bike,
 * As a SiteUser I can view my bag so that I can see my items in my bag
 * As a SiteUser I can change the quantity of each item in the bag so that I don't have to go back to the individual product page to do it
 * As a Site User I can change the engine capacity of the bike to another capacity so that I can quickly adjust the bag rather than removing the item to add another item one again
-* As a SiteUser I can remove items from the bag so that ** I can adjust my bag to the purchase that I want to checkout with**
+* As a SiteUser I can remove items from the bag so that I can adjust my bag to the purchase that I want to checkout with
 ### Epic | Checkout
 * As a SiteUser I can view my order before checkout so that see I am happy with my purchase
 * As a SiteUser I can give my delivery information so that my order can be delivered to the place I want it to
@@ -37,7 +37,7 @@ A user of Dirt Addict Motors can range from a begginner buying there first bike,
 * As a SiteUser I can save my information on an order so that I can have default information instead of filling it out every time
 ### Epic | Profile
 * As a SiteUser I can create an account for the site so that I can make purchases from the site
-* As a SiteUser I can sign into my personal account so that ** I can view the detail of my account and make edits to the information**
+* As a SiteUser I can sign into my personal account so that ** I can view the detail of my account and make edits to the information
 * As a SiteUser I can sign out of my account so that I am not logged in to my account anymore
 * As a SiteUser I can I can have a profile page so that display my orders
 * As a SiteUser I can save my information so that it can prerender their information when making an order
@@ -489,7 +489,41 @@ Example of the Facebook Business page of the Website
 
 ## Features to be Implemented
 
+As it is a store that sells dirtbike there certain area that could be expaned upon that would include
+
+- A section that sell dirtbike apparel ie helmuts, boots, gloves, pants
+- A section that will sell part of the bikes in the store
+- A booking service for users to get maintenance on the bikes
+- A slideshow for the product detail that will show more images for the bike
+- Add more content to the admin order page like inventory tracking
+- Add a 24/4 customer support area
+- Add a blog area to build a commuinity around the website that could set up meet ups at a dirt track
+
+
 # Tools and Technologies used
+
+- [HTML](https://en.wikipedia.org/wiki/HTML) used for the main site content.
+- [CSS](https://en.wikipedia.org/wiki/CSS) used for the main site design and layout.
+- [CSS :root variables](https://www.w3schools.com/css/css3_variables.asp) used for reusable styles throughout the site.
+- [Bootstrap](https://getbootstrap.com) used as the front-end CSS framework for modern responsiveness and pre-built components.
+- [jQuery](https://jquery.com/) used for the hamburger menu and the dropdown menu.
+- [JavaScript](https://www.javascript.com) used for user interaction on the site for automatically closing Django Messages and to handle the notification dropdown and notification delete functions.
+- [Python](https://www.python.org) used as the back-end programming language.
+- [Git](https://git-scm.com) used for version control.
+- [GitHub](https://github.com) used for secure online code storage.
+- [Gitpod](https://gitpod.io) used as a cloud-based IDE for development.
+- [Django](https://www.djangoproject.com) used as the Python framework for the site.
+- [PostgreSQL](https://www.postgresql.org) used as the relational database management.
+- [Stripe](https://www.stripe.com) used for processing tranaction.
+- [ElephantSQL](https://www.elephantsql.com) used as the Postgres database.
+- [Heroku](https://www.heroku.com) used for hosting the deployed back-end site.
+- [Cloudinary](https://cloudinary.com) used for online static file storage.
+- [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/) used to check contrast between colours on the site
+- [Balsamiq](https://balsamiq.com/wireframes) used to design my site wireframes.
+- [XConvert](https://www.xconvert.com/compress-webp) used to compress images
+- [Color-Hex](https://www.color-hex.com/) used to pick colors
+- [Color Hunt](https://colorhunt.co/) used to create a color pallet
+- [Kapwing](https://www.kapwing.com/tools/add-text/image) used to edit images.
 
 # Testing
 
@@ -716,6 +750,143 @@ Defensive programming was manually tested with the below user acceptance testing
 
 The following are user stories I've implemented with screenshots to prove
 
+| User Story | Screenshot |
+| --- | --- |
+| As a SiteUser I can traverse the website so that I can move to other areas of the website easily | ![nav-bar](readmedoc/features/decktop-nav.png)
+| As a SiteUser I can visit the socials of the website so that I can keep up to date with the website | ![footer](readmedoc/features/social-links.png)
+| As a SiteUser I can view the delivery information for order so that I can know how much it will cost for deleivery | ![delivery-info](readmedoc/features/delivery-info.png)
+| As a SiteUser I can view the FAQS so that I can see the most relevant information | ![faq](readmedoc/features/Faq.png)
+| As a SiteUser I can search for a specific bike so that I can quickly see if the bike is available that I am intresting. | ![search](readmedoc/features/search-bar.png)
+| As a SiteUser I can be able to view a selection of bikes at instance so that I can see different types of bikes that are provided in the website | ![products](readmedoc/features/product-page.png)
+| As a SiteUser I can Sort information of the bikes so that bikes can be filtered by ascending and decending order for cost, year, and A-z | ![sort](readmedoc/features/sort-option.png)
+| As a SiteUser I can look at all the bikes that the site has so that I can see the arity of selection of bikes | ![all-bikes](readmedoc/features/all-bikes.png)
+| As a SiteUser I can View the individual bike object so that I can see me more detailed information on the bike | ![product-detail](readmedoc/features/product-detail.png)
+| As a Site Admin I can add more bikes to the website so that I can keep adding stock to the website | ![add-bike](readmedoc/features/add-bike.png)
+| As a Site Admin I can edit bikes on the website so that I can remove bikes that the store does not sell anymore | ![edit-bike](readmedoc/features/edit-form.png)
+| As a SiteAdmin I can delete bikes from the website so that I can keep the website up to date with what is available in the store | ![delete-bike](readmedoc/features/delete-confirm.png)
+| As a SiteUser I can view my bag so that I can see my items in my bag | ![bag](readmedoc/features/bag-content.png)
+| As a SiteUser I can change the quantity of each item in the bag so that I don't have to go back to the individual product page to do it | ![quanity](readmedoc/features/quanity.png)
+| As a Site User I can change the engine capacity of the bike to another capacity so that I can quickly adjust the bag rather than removing the item to add another item one again | ![engine_capacity](readmedoc/features/update-engine.png)
+| As a SiteUser I can remove items from the bag so that I can adjust my bag to the purchase that I want to checkout with | ![remove-bike](readmedoc/features/remove-bike.png)
+| As a SiteUser I can view my order before checkout so that see I am happy with my purchase | ![checkout-page](readmedoc/features/checkout-view.png)
+| As a SiteUser I can give my delivery information so that my order can be delivered to the place I want it to | ![checkout-form](readmedoc/features/checkout-form.png)
+| As a site user I can enter my payment details so that so that I can purchase my order ![checkout-pay](readmedoc/features/checkout-form.png)
+| As a SiteUser I can be redirected to the checkout success page so that know if my order was successful checkout | ![checkout-success](readmedoc/features/checkout-success.png)
+| As a SiteUser I can save my information on an order so that I can have default information instead of filling it out every time | ![save-info](readmedoc/features/save-ingo.png)
+| As a SiteUser I can sign into my personal account so that I can view the detail of my account and make edits to the information | ![profile-info](readmedoc/features/update-inforamtion.png)
+| As a SiteUser I can sign out of my account so that I am not logged in to my account anymore | ![logout](readmedoc/features/logout.png)
+| As a SiteUser I can I can have a profile page so that display my orders | ![profile](readmedoc/features/profile.png)
+| As a Admin I can view all the orders on the website so that update the status of the orders if they are complete | ![admin-order](readmedoc/features/admin-order.png)
+
+
+## Bugs
+
+| Bug | Status |
+| --- | --- |
+
+# Deployment
+
+The live deployed application can be found deployed on [Heroku](https://terok-nor-station.herokuapp.com/)
+
+## ElephantSQL Database
+
+This project uses [ElephantSQL](https://www.elephantsql.com) for the PostgreSQL Database.
+
+To obtain your own Postgres Database, sign-up with your GitHub account, then follow these steps:
+- Click **Create New Instance** to start a new database.
+- Provide a name for the database
+- Select the **Tiny Turtle (Free)** plan.
+- You can leave the **Tags** blank.
+- Select the **Region** and **Data Center** closest to you.
+- Once created, click on the new database name, where you can view the database URL and Password.
+
+## Cloudinary API
+
+This project uses the [Cloudinary API](https://cloudinary.com) to store media assets online.
+
+To obtain your own Cloudinary API key, create an account and log in.
+- For *Primary interest*, you can choose *Programmable Media for image and video API*.
+- Optional: *edit your assigned cloud name to something more memorable*.
+- On your Cloudinary Dashboard, you can copy your **API Environment Variable**.
+- Be sure to remove the `CLOUDINARY_URL=` as part of the API **value**; this is the **key**.
+
+## Stripe
+
+
+
+## Heroku Deployment
+
+This project uses [Heroku](https://www.heroku.com), a platform as a service that enables developers to build, run, and operate applications entirely in the cloud.
+
+Deployment steps are as follows, after account setup:
+
+- Select **New** in the top-right corner of your Heroku Dashboard, and select **Create new app** from the dropdown menu.
+- Your app name must be unique, and then choose a region closest to you (EU or USA), and finally, select **Create App**.
+- From the new app **Settings**, click **Reveal Config Vars**, and set your environment variables.
+
+| Key | Value |
+| --- | --- |
+| `CLOUDINARY_URL` | insert your own Cloudinary API key here |
+| `DATABASE_URL` | insert your own ElephantSQL database URL here |
+| `DISABLE_COLLECTSTATIC` | 1 (*this is temporary, and can be removed for the final deployment*) |
+| `SECRET_KEY` | this can be any random secret key |
+| `PORT` | 8000 |
+
+Heroku needs two additional files in order to deploy properly.
+- requirements.txt
+- Procfile
+
+You can install this project's **requirements** (where applicable) using:
+- `pip3 install -r requirements.txt`
+
+If you have your own packages that have been installed, then the requirements file needs updated using:
+- `pip3 freeze --local > requirements.txt`
+
+The **Procfile** can be created with the following command:
+- `echo web: gunicorn app_name.wsgi > Procfile`
+- *replace **app_name** with the name of your primary Django app name; the folder where settings.py is located*
+
+For Heroku deployment, follow these steps to connect your own GitHub repository to the newly created app:
+
+Either:
+- Select **Automatic Deployment** from the Heroku app.
+
+Or:
+- In the Terminal/CLI, connect to Heroku using this command: `heroku login -i`
+- Set the remote for Heroku: `heroku git:remote -a app_name` (replace *app_name* with your app name)
+- After performing the standard Git `add`, `commit`, and `push` to GitHub, you can now type:
+	- `git push heroku main`
+
+The project should now be connected and deployed to Heroku!
+
+## Local Deployment
+
+This project can be cloned or forked in order to make a local copy on your own system.
+
+For either method, you will need to install any applicable packages found within the *requirements.txt* file.
+- `pip3 install -r requirements.txt`.
+
+You will need to create a new file called `env.py` at the root-level,
+and include the same environment variables listed above from the Heroku deployment steps.
+
+Sample `env.py` file:
+
+```python
+import os
+os.environ.setdefault("CLOUDINARY_URL", "insert your own Cloudinary API key here")
+os.environ.setdefault("DATABASE_URL", "insert your own ElephantSQL database URL here")
+os.environ.setdefault("SECRET_KEY", "this can be any random secret key")
+# local environment only (do not include these in production/deployment!)
+DEVELOPMENT = "1"
+```
+
+Once the project is cloned or forked, in order to run it locally, you'll need to follow these steps:
+- Start the Django app: `python3 manage.py runserver`
+- Stop the app once it's loaded: `CTRL+C`
+- Make any necessary migrations: `python3 manage.py makemigrations`
+- Migrate the data to the database: `python3 manage.py migrate`
+- Create a superuser: `python3 manage.py createsuperuser`
+- Everything should be ready now, so run the Django app again: `python3 manage.py runserver`
 
 
 ### Cloning
