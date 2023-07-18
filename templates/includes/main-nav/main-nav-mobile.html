@@ -34,7 +34,7 @@
 
 <div class="col-sm-4 bg-danger my-auto py-2 text-center">
     <div>
-        <a href="{% url 'view_bag' %} " id="cart-link">
+        <a href="{% url 'view_bag' %} " id="cart-link" aria-label="site-bag">
             <i class="fas fa-shopping-cart" id="cart-icon"></i>
             <span class="d-none d-sm-inline-block" id="cart-text">Cart</span>
             {% if bag %}
