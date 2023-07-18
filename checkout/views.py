@@ -52,11 +52,9 @@ def cache_checkout_data(request):
         return HttpResponse(content=str(e), status=400)
 
 
+@login_required
 def checkout_view(request):
     """View that will handle the checkout logic"""
-
-    if not request.user.is_authenticated:
-        return redirect(reverse('registration_page'))
 
     # Stripe key variables
     stripe_public_key = settings.STRIPE_PUBLIC_KEY

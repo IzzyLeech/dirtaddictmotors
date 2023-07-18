@@ -156,6 +156,31 @@ I've tested my deployed project using the Lighthouse Audit tool to check for any
 | --- | --- | --- | --- |
 | Home | Desktop | ![screenshot](readmedoc/lighthouse/home-desktop-light.png) | Some major warnings |
 | Home | Mobile | ![screenshot](readmedoc/lighthouse/home-mobile-lighthouse.png) | Some major warnings |
+| Addbike | Desktop | ![screenshot](readmedoc/lighthouse/addbike-desktop-lighthouse.png) | no major warnings |
+| Addbike | Mobile | ![screenshot](readmedoc/lighthouse/addbike-mobile-lighthouse.png) | no major warnings |
+| Adminorder | Desktop | ![screenshot](readmedoc/lighthouse//adminorder-desktop-lighthouse.png) | no major warnings |
+| Adminorder | Mobile | ![screenshot](readmedoc/lighthouse/adminorder-mobile-lighthouse.png) | no major warnings |
+| Bag | Desktop | ![screenshot](readmedoc/lighthouse/bag-desktop-lighthouse.png) | no major warnings |
+| Bag | Mobile | ![screenshot](readmedoc/lighthouse/bag-mobile-lighthouse.png) | no major warnings |
+| Checkout | Desktop | ![screenshot](readmedoc/lighthouse/checkout-desktop-lighthouse.png) | no major warnings |
+| Checkout | Mobile | ![screenshot](readmedoc/lighthouse/checkout-mobile-lighthouse.png) | no major warnings |
+| Checkout Success | Desktop | ![screenshot](readmedoc/lighthouse/checkoutsuccess-desktop-lighthouse.png)| no major warnings |
+| Checkout Success | Mobile | ![screenshot](readmedoc/lighthouse/checkoutsuccess-mobile-lighthouse.png) | no major warnings |
+| Delivery Info | Desktop | ![screenshot](readmedoc/lighthouse/deliveryinfo-desktop-lighthouse.png) | no major warnings |
+| Delivery Info | Mobile | ![screenshot](readmedoc/lighthouse/deliveryinfo-movile-lighthouse.png)| no major warnings |
+| Edit Bike | Desktop | ![screenshot](readmedoc/lighthouse/editbike-desktop-lighthouse.png) | no major warnings |
+| Edit Bike | Mobile | ![screenshot](readmedoc/lighthouse/editbike-mobile-lighthouse.png) | no major warnings |
+| FAQ | Desktop | ![screenshot](readmedoc/lighthouse/faq-desktop-lighthouse.png) | no major warnings |
+| FAQ | Mobile | ![screenshot](readmedoc/lighthouse/faq-mobile-lighthouse.png) | no major warnings |
+| Newsletter | Desktop | ![screenshot](readmedoc/lighthouse/newsletter-desktop-lighthouse.png) | no major warnings |
+| Newsletter | Mobile | ![screenshot](readmedoc/lighthouse/newsletter-mobile-lighthouse.png) | no major warnings |
+| Product | Desktop | ![screenshot](readmedoc/lighthouse/products-desktop-lighthouse.png) | no major warnings |
+| Product | Mobile | ![screenshot](readmedoc/lighthouse/product-mobile-lighthouse.png) | no major warnings |
+| Product Detail | Desktop | ![screenshot](readmedoc/lighthouse/productdetail-desktop-lighthouse.png) | no major warnings |
+| Product Deatil | Mobile | ![screenshot](readmedoc/lighthouse/productdetail-mobile-lighthouse.png) | no major warnings |
+| Profiles | Desktop | ![screenshot](readmedoc/lighthouse/products-desktop-lighthouse.png) | no major warnings |
+| Profiles | Mobile | ![screenshot](readmedoc/lighthouse/profile-mobile-lighthouse.png) | no major warnings |
+
 
 ## Defensive Programming
 

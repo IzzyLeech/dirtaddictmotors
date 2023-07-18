@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<div class="container">
+<div class="container my-2">
     <div class="row">
         <div class="col-12 bg-light">
             <p class="text-muted">Order History of Business</p>
@@ -26,7 +26,7 @@
                                     {{ order.order_number|truncatechars:6 }}
                                 </a>
                             </td>
-                            <td>{{ order.date }}</td>
+                            <td class="text-small">{{ order.date }}</td>
                             <td>
                                 <form method="POST" action="{% url 'update_payment_status' order.id %}">
                                     {% csrf_token %}
@@ -36,7 +36,7 @@
                                             {% if order.payment_status == key %}selected{% endif %}>{{ value }}</option>
                                         {% endfor %}
                                     </select>
-                                    <button type="submit">Update</button>
+                                    <button class="mt-1" type="submit">Update</button>
                                 </form>
                             </td>
                             <td>
