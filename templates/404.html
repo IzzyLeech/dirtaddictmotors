@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="container p-5">
+    <div class="text-container text-center">
+    <p>{{ exception }}</p>
+    <button class="btn btn-black" onclick="goBack()">Go Back</button>
+    </div>
+</div>
+
+<script>
+    function goBack() {
+        // Check if the browser supports history navigation
+        if (window.history && window.history.back) {
+            window.history.back();
+        } else {
+            // Fallback for older browsers
+            window.location.href = '/';
+        }
+    }
+</script>
+
+{% endblock %}
