@@ -17,7 +17,7 @@ class Bikes(models.Model):
             MinValueValidator(1950),
             MaxValueValidator(2100)
         ], default=2024
-    )
+    ),
     stroke = models.IntegerField(choices=STROKE_CHOICES)
     engine_capacity = models.DecimalField(max_digits=5, decimal_places=2)
     speed = models.IntegerField()

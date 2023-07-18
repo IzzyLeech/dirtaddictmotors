@@ -31,7 +31,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = False
 
 ALLOWED_HOSTS = ["dirt-addict-motors.herokuapp.com",
-                 '8000-izzyleech-dirtaddictmot-96csxupd54c.ws-eu101.gitpod.io']
+                '8000-izzyleech-dirtaddictmot-96csxupd54c.ws-eu101.gitpod.io']
 
 
 # Application definition
