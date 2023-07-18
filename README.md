@@ -123,34 +123,39 @@ I have used the recommended [CI Python Linter](https://pep8ci.herokuapp.com) to 
 
 | File | Screenshot | Notes |
 | --- | --- | --- | --- |
-| settings.py | [screenshot](readmedoc/lintervalid/setting-linter.png) | Pass: No Errors
-| urls.py (home) | [screenshot](readmedoc/lintervalid/home-urls.png)  | Pass: No Errors
-| urls.py (bag) | [screenshot](readmedoc/lintervalid/bag-urls.png)  | Pass: No Errors
-| urls.py (checkout) | [screenshot](readmedoc/lintervalid/checkout-urls.png)  | Pass: No Errors
-| urls.py (products) | [screenshot](readmedoc/lintervalid/product-urls.png) | Pass: No Errors
-| urls.py (profiles) | [screenshot](readmedoc/lintervalid/profiles-urls.png)  | Pass: No Errors
-| views.py (profiles) | [screenshot](readmedoc/lintervalid/profiles-view.png)  | Pass: No Errors
-| views.py (home) | [screenshot](readmedoc/lintervalid/home-view.png)  | Pass: No Errors
-| views.py (bag) | [screenshot](readmedoc/lintervalid/bag-view.png)  | Pass: No Errors
-| views.py (checkout) | [screenshot](readmedoc/lintervalid/checkout-view.png)  | Pass: No Errors
-| views.py (products) | [screenshot](readmedoc/lintervalid/product.view.png)  | Pass: No Errors
-| models.py (products) | [screenshot](readmedoc/lintervalid/products-model.png)  | Pass: No Errors
-| models.py (checkout) | [screenshot](readmedoc/lintervalid/checkout-model.png)  | Pass: No Errors
-| models.py (home) | [screenshot](readmedoc/lintervalid/home-model.png) | Pass: No Errors
-| models.py (profiles) | [screenshot](readmedoc/lintervalid/profiles-modal.png)  | Pass: No Errors
-| forms.py (profiles) | [screenshot](readmedoc/lintervalid/profiles-form.png)  | Pass: No Errors
-| forms.py (checkout) | [screenshot](readmedoc/lintervalid/checkout-form.png)  | Pass: No Errors
-| forms.py (home) | [screenshot](readmedoc/lintervalid/profiles-form.png)  | Pass: No Errors
-| forms.py (product) | [screenshot](readmedoc/lintervalid/products-form.png)  | Pass: No Errors
-| contexts.py (product) | [screenshot](readmedoc/lintervalid/product-contexts.png)  | Pass: No Errors
-| context.py (bag) | [screenshot](readmedoc/lintervalid/bag-contexts.png) | Pass: No Errors
-| webhook~_handler.py (checkout) | [screenshot](readmedoc/lintervalid/bag-contexts.png) | Pass: No Errors
-| webhooks.py (checkout) | [screenshot](readmedoc/lintervalid/bag-contexts.png) | Pass: No Errors
+| settings.py | ![screenshot](readmedoc/lintervalid/setting-linter.png) | Pass: No Errors
+| urls.py (home) | ![screenshot](readmedoc/lintervalid/home-urls.png)  | Pass: No Errors
+| urls.py (bag) | ![screenshot](readmedoc/lintervalid/bag-urls.png)  | Pass: No Errors
+| urls.py (checkout) | ![screenshot](readmedoc/lintervalid/checkout-urls.png)  | Pass: No Errors
+| urls.py (products) | ![screenshot](readmedoc/lintervalid/product-urls.png) | Pass: No Errors
+| urls.py (profiles) | ![screenshot](readmedoc/lintervalid/profiles-urls.png)  | Pass: No Errors
+| views.py (profiles) | ![screenshot](readmedoc/lintervalid/profiles-view.png)  | Pass: No Errors
+| views.py (home) | ![screenshot](readmedoc/lintervalid/home-view.png)  | Pass: No Errors
+| views.py (bag) | ![screenshot](readmedoc/lintervalid/bag-view.png)  | Pass: No Errors
+| views.py (checkout) | ![screenshot](readmedoc/lintervalid/checkout-view.png)  | Pass: No Errors
+| views.py (products) | ![screenshot](readmedoc/lintervalid/product.view.png)  | Pass: No Errors
+| models.py (products) | ![screenshot](readmedoc/lintervalid/products-model.png)  | Pass: No Errors
+| models.py (checkout) | ![screenshot](readmedoc/lintervalid/checkout-model.png)  | Pass: No Errors
+| models.py (home) | ![screenshot](readmedoc/lintervalid/home-model.png) | Pass: No Errors
+| models.py (profiles) | ![screenshot](readmedoc/lintervalid/profiles-modal.png)  | Pass: No Errors
+| forms.py (profiles) | ![screenshot](readmedoc/lintervalid/profiles-form.png)  | Pass: No Errors
+| forms.py (checkout) | ![screenshot](readmedoc/lintervalid/checkout-form.png)  | Pass: No Errors
+| forms.py (home) | ![screenshot](readmedoc/lintervalid/profiles-form.png)  | Pass: No Errors
+| forms.py (product) | ![screenshot](readmedoc/lintervalid/products-form.png)  | Pass: No Errors
+| contexts.py (product) | ![screenshot](readmedoc/lintervalid/product-contexts.png)  | Pass: No Errors
+| context.py (bag) | ![screenshot](readmedoc/lintervalid/bag-contexts.png) | Pass: No Errors
+| webhook~_handler.py (checkout) | ![screenshot](readmedoc/lintervalid/bag-contexts.png) | Pass: No Errors
+| webhooks.py (checkout) | ![screenshot](readmedoc/lintervalid/bag-contexts.png) | Pass: No Errors
 
 
 ## Lighthouse Audit
 
 I've tested my deployed project using the Lighthouse Audit tool to check for any major issues.
+
+| Page | Size | Screenshot | Notes |
+| --- | --- | --- | --- |
+| Home | Desktop | ![screenshot](readmedoc/lighthouse/home-desktop-light.png) | Some major warnings |
+| Home | Mobile | ![screenshot](readmedoc/lighthouse/home-mobile-lighthouse.png) | Some major warnings |
 
 ## Defensive Programming
 

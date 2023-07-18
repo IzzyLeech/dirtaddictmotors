@@ -39,3 +39,4 @@ $(document).ready(function() {
     input.val(value);
   });
 });
+
