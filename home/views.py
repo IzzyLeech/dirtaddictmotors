@@ -57,6 +57,9 @@ def newsletter_signup(request):
             except Exception as e:
                 print(f"An error occurred while sending the email: {str(e)}")
 
+            messages.success(
+                request,
+                'You have successfully subscribed to our newsletter!')
             return redirect(reverse('home'))
     else:
         form = SubscriberForm()
@@ -73,10 +76,11 @@ def admin_view(request):
         messages.error(request, 'Restricted Area')
         return redirect(reverse('home'))
 
-    orders = Order.objects.all()
+    orders = Order.objects.all().order_by('-date')
     payment_status_choices = dict(
         CharField(choices=Order._meta.get_field('payment_status').choices)
         .flatchoices)
+
     context = {
         'orders': orders,
         'payment_status_choices': payment_status_choices}
@@ -91,8 +95,8 @@ def update_payment_status(request, order_id):
         order.save()
         messages.info(
             request,
-            f"The payment status for order {order.order_number} "
-            "has been updated to {payment_status}.")
+            f"The payment status for order {order.order_number} \
+            has been updated to {payment_status}.")
     return redirect(reverse('admin-orders'))
 
 

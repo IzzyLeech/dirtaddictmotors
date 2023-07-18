@@ -18,19 +18,25 @@ def profile(request):
     if request.method == 'POST':
         form = UserProfileForm(request.POST, instance=profile)
         if form.is_valid():
-            form.save()
+            # Check if the form data has changed
+            if (form.cleaned_data['first_name'] != profile.user.first_name or
+                    form.cleaned_data['last_name'] != profile.user.last_name or
+                    form.has_changed()):
+                form.save()
 
-            # Update the first and last name on the related User object
-            user = profile.user
-            user.first_name = form.cleaned_data['first_name']
-            user.last_name = form.cleaned_data['last_name']
-            user.save()
+                # Update the first and last name on the related User object
+                user = profile.user
+                user.first_name = form.cleaned_data['first_name']
+                user.last_name = form.cleaned_data['last_name']
+                user.save()
 
-            messages.success(request, 'Profile updated successfully')
+                messages.success(request, 'Profile updated successfully')
+            else:
+                messages.info(request, 'No changes were made to the profile')
         else:
             messages.error(
-                request,
-                'Update failed. Please ensure the form is valid')
+                        request,
+                        'Update failed. Please ensure the form is valid')
     else:
         form = UserProfileForm(instance=profile)
 

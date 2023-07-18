@@ -50,6 +50,7 @@ def products_view(request, manufacturer_name=None, engine_num=None, stroke_num=N
         bikes = bikes.order_by('-manufacturer')
         default_sort = '-manufacturer'
     else:
+        bikes = bikes.order_by('manufacturer')
         default_sort = 'default'
 
     # Search bar Logic

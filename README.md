@@ -186,6 +186,97 @@ I've tested my deployed project using the Lighthouse Audit tool to check for any
 
 Defensive programming was manually tested with the below user acceptance testing:
 
+| Page | User Action | Expected Result | Pass/Fail | Comments |
+| --- | --- | --- | --- | --- |
+| **Home Page** | | | | |
+|| | Click on Logo in the navbar | Redirects to Home page | Pass | |
+|| | Click cart Icon in navbar | Redirects to Bag page | Pass | |
+|| | Click on Login button when not signed in | Dropdown menu show | Pass |
+|| | Click on My account button when signed in | Dropdown menu show | Pass |
+|| | Enter Query in to the search bar and click search button | Redirect to product page with search filter showning or message for no search found | Pass |
+|| | Click Bikes, Manufacturer, stroke and engine capacity name in the categorey | Dropdown menus show for that category | Pass | 
+|| | Click By Price link in the bikes category dropdown | Redirects to the products page, shows bikes order by Highest price, sort by is Price(high to Low) | Pass
+|| | Click By Year link in the bikes category dropdown | Redirects to the products page, show the bikes order by most recent year, sort is Year(high to low) | Pass
+|| | Click By All bikes link in the bikes category dropdown | Redirects to the products page, shows all bikes in the website, bike order A-z by manufacturer and sort | Pass  
+|| | Click on a Manufacturer link in the Manufacturer dropdown | Redirects to the product page, show all the bikes of that manufacturer, ordered by engine capacity | Pass
+|| | Click on a Engine Capacity link in the engine capacity dropdown | Redirects to the product page, show all the bikes of that enginecapcity, ordered by A-z manufacturer | Pass
+|| | Click on a Stroke link in the stroke dropdown | Redirects to the product page, show all the bikes of that stroke, ordered by engine capacity | Pass
+|| | Click on My profile link in the dropdown menu when logged in | Redirects to the user profile page | Pass 
+|| | Click on logout button in the dropdown menu when logged in | Redirects to the logout page  | Pass 
+|| | Click on My account link in homepage | Redirects to the user profile page | Pass
+|| | Click on Start browsing bikes link in homepage | Redirects to the products page, shows all bikes in the website, bike order A-z by manufacturer and sort | Pass
+|| | Click on login link in the dropdown menu when not logged in | Redirects to the the sign in page | Pass
+|| | Click on register link in the dropdown menu when not logged in | Redirects to the the sign up page | Pass
+|| | Click on the bike slide in the carousel | Redirects to the product detail page of that bike | Pass
+|| | Click the next button on the carousel | Show the next three bikes in the carousel | Pass
+|| | Click the next button on the carousel on the last slide | button is disabled | Pass
+|| | Click the previous button when on the first slide | Button is disabled | Pass
+|| | Click the previous button when not on the first slide | goes back a slide | Pass
+|| | Click on a manufacture logo | Redirects to the product page, show all the bikes of that manufacturer, ordered by engine capacity | Pass
+|| | Click on the FAQ in the footer | redirects to the faq page | Pass
+|| | Click on the Newsletter in the footer | redirects to the newsletter page | Pass
+|| | Click on the Delivery Info in the footer | redirects to the Delivery Info page | Pass
+|| | Click on the Admin Orders when signed in as admin in the footer | redirects to the Admin order page | Pass
+|| | Click the Search icon on the mobile view of the website| Will show the search bar | Pass
+|| | Click the category name on the mobile view | Will open the menu in a  accoriden style | Pass
+|| | Click another category name when another is open | the open when will close and the close one will open | P ass
+| **Product Page** | | | | |
+|| | Click the Bike images of a product | Redirects to the product detail of that bike | Pass
+|| | Click the Bike Title of a product | Redirects to the product detail of that bike | Pass
+|| | Click the Add to cart button of a product | Adds the bike to the bag, cart icon update by 1 | Pass
+|| | Change sort filter to Manufacturer A-Z | Sorts bikes by Manufacturer A-Z | Pass
+|| | Change sort filter to Manufacturer Z-A | Sorts bikes by Manufacturer Z-A | Pass
+|| | Change sort filter to Price High-Low | Sorts bikes by Price High-Low | Pass
+|| | Change sort filter to Price Low-High | Sorts bikes by Price Low-High  | Pass
+|| | Change sort filter to Year High-Low | Sorts bikes by Year High-Low | Pass
+|| | Change sort filter to Year Low-High | Sorts bikes by Year Low-High | Pass
+|| | Change sort filter to Default | Sorts bikes by Manufacturer A-Z | Pass
+|| | Click on the next button when showing | goes to next page of bikes | Pass
+|| | Click on the previous button when showing | goes to previous page of bikes | Pass
+| **Product Detail Page** | | | | |
+|| | Click on the add to Cart | Adds the bike to the bag, cart Icon updatas to value of quanity | Pass
+|| | Click on the add to Cart with adjusted quanity | Adds to the bag with that quanity, cart icon updates to the value of the adjust quanity | Pass
+|| | Click the + sign on the quanity | Add one to the quanity counter | Pass
+|| | Click the - sign on the quanity | Decrease one to the quanity counter | Pass
+|| | Click the edit bike button as the admin | the admin will be brought to the Edit bike Page | Pass
+|| | Click the delete bike button as the admin | the delete confiramtion will be shown | Pass
+|| | Click yes on the delete confiramtion bike | the bike will be deleted and the admin will be brough to the products page | Pass
+|| | Click no on the delete confiramtion bike | the delete confiramtion will be removed | Pass
+| **Bag Page** | | | | |
+|| | Click the + sign on the quanity | Add one to the quanity counter | Pass
+|| | Click the - sign on the quanity | Decrease one to the quanity counter | Pass
+|| | Click the update quanity button when quanity has been changed | Quanity will change to that value | Pass
+|| | Click the update quanity button when the value has not changed | Message show informing the no change has been made | Pass
+|| | Click the update quanity button when the value is 0 | Bike will be removed from the bag | Pass
+|| | Click the update engine capacity when the value has changed | Engine capacity will change to that value | Pass
+|| | Click the update engine capacity when the value has not changed | Message show informing the no change has been made | Pass
+|| | Click the update engine capacity when the value is changed to a value that already exist in the bag that has the same model | Bike will be removed from bag and the quanity will be added to the other bag | Pass
+|| | Change the quanity of a bike then update the bike to another engine capacity that is already in the bag with the same model| Bike will be removed from bag and the quanity will be added to the other bag | Pass
+|| | Add a bike to the bag when it already is in the bag | Adds to the bikes quantity | Pass
+|| | Click the remove button on a bike in the bag | Will remove the bike from the Bag | Pass
+|| | Click the checkout button in the bag | Will bring the user to the checkout page | Pass
+|| | Click the checkout button in the bag when not signed in | The user is brought back to the sign in page | Pass
+| **Checkout page** | | | | 
+|| | When invalid data is place in the Personal Detail form and the user trys to checkout| An error message will be shown on the field in question | Pass
+|| | When invalid data is place in the Delivery Detail form and the user trys to checkout| An error message will be shown on the field in question | Pass
+|| | When invalid data is place in the Payment form | An error message will be shown above the input the form | Pass
+|| | When the User has there inforamtion saved from a previous purachase | Inforamtion will be prerendered | Pass
+|| | When the user has inputted correct data in both the payment and delivery inforamtion | The checkout will be proccessed and will be redirect to the checkout success page | Pass
+|| | when the user click the adjust bag link | the user should be redirect to the bag | Pass
+| **Profiles** | | | | 
+|| | Click on a order number of a order | Brings the user to the checkout succes page of that order | Pass
+|| | Change data in the Default Delivery Information and click the update inofrmaiton | The inforamtion will be updated | Pass
+|| | click the update inforamtion button when no info has changed | message is display saying no update has occured | Pass
+|| | Click the bike to store button as admin | Brings the admin to the Add bike page | Pass
+| **Admin Orders** | | | | 
+|| | Click on a order number of a order | Brings the user to the checkout succes page of that order | Pass
+|| | Changes the order status of an order and click the update button | order status changes to the value that was subbmited | Pass
+| **Newsletter** | | | | 
+|| | click on the sign up button on the newsletter page | user will be redirect to the home page and a messages saying the sign up was successful | Pass
+| **FAQ** | | | | |
+|| | When the user clicks the question in the container | the answer will open accordin style | Pass
+|| | When the user click the quation of a container when another container is opened | THE container will close and the new container will open with the answer | Pass
+
 ## User Story Testing
 
 The following are user stories I've implemented with screenshots to prove
