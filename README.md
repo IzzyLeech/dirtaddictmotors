@@ -134,6 +134,10 @@ I have included some images that will render from local files.
 
 ![suzuki](static/images/suzuki-logo.png)
 
+* the fav icon
+
+![fav](static/images/dirt-bike.ico)
+
 ## Structure
 
 ### Modal Diagram
@@ -175,8 +179,7 @@ Bikes Model
 | engine_capacity | | models.DecimalField(max_digits=5, decimal_places=2)
 | speed | | models.IntegerField()
 | weight | | models.DecimalField(max_digits=8, decimal_places=2, default=90)
-| seat_height | | models.DecimalField(
-        max_digits=8, decimal_places=2, default=90)
+| seat_height | | models.DecimalField(max_digits=8, decimal_places=2, default=90)
 | price | | models.DecimalField(max_digits=8, decimal_places=2)
 | starter | | models.CharField(max_length=50, default="Kick")
 | description | | models.TextField()
@@ -230,6 +233,11 @@ Order Item
 # Features
 
 ## Existing Features
+
+- **Landing Page**
+- This is the landing page that a user will arive on when they first vist the website
+
+
 
 ## Features to be Implemented
 
