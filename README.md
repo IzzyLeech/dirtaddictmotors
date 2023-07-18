@@ -235,7 +235,192 @@ Order Item
 ## Existing Features
 
 - **Landing Page**
-- This is the landing page that a user will arive on when they first vist the website
+- This is the landing page that a user will arive on when they first vist the website, the user will see a brief message stating what the website is. There will be two button one button will bring the user to the product page so they can start looking at the bikes in the store and the other button based on if the user is signed or not will see a button that says Sign up for Account if they are not signed up or if they are signed in they will be able to go to their profile for the site
+
+![landing-page](readmedoc/features/landing-page.png)
+
+- View if the user is signed in
+
+![landing-page-signed-in](readmedoc/features/landing-page-signed.png)
+
+- Present on all page are the navbars and the footer
+
+Desktop Navbar
+
+![desktop-nav](readmedoc/features/decktop-nav.png)
+
+Mobile Navbar
+
+![mobile-nav](readmedoc/features/mobile-nav.png)
+
+Signin/logout menu
+
+![signin-menu](readmedoc/features/dropdown-desk-nav.png)
+
+- This menu is for the user so sign in and out of the user's account, it will also have a link to the user's profile.
+
+The logo for the site which will redirect the User back to the home page when clicked
+
+![logo](readmedoc/features/logo-for-site.png)
+
+- The search bar can be used by the useer to search for query that are associated with the bikes of the store
+
+![search-bar](readmedoc/features/search-bar.png)
+
+![result-search](readmedoc/features/search-result.png)
+
+- A result for kick that will show all the bikes that have a kick starter
+
+![no-result-search](readmedoc/features/search-no-result.png)
+
+- A result for kawaski that show no result found as there are no kawasaki currently in the store
+
+On mobile screen the search bar must be turned on by clicking the search icon
+
+Search bar closed
+![search-closed](readmedoc/features/search-closed.png)
+
+Search bar Open
+![search-opened](readmedoc/features/search-open.png)
+
+- The category navigation will also operated on different screen sizes
+
+On Desktop it will work like a dropdown menu
+
+![category-dropdown](readmedoc/features/dropdown-desk-category.png)
+
+On mobile it will work as an accordion menu
+
+![category-accordion](readmedoc/features/cate-open-mobile.png)
+
+- For both screen size if one menu is open the other one will close.
+
+- Below the the image and the message is the slide show that will display three different bikes on three slides the user can navigate the slideshow with the button or they can wait 6 seconds for the next slide. The user can also click the image of the bike that will bring them to the product detail page of that bike for more inforamtion.
+
+![bike-slideshoe](readmedoc/features/bike-slide.png)
+
+- Below the slideshow are the manufacturer logo that are most populer in terms of popularity. Clicking one of the logo will bring the user to the product page displaying all the bikes of that maufacturer
+
+![manufacturer-logo](readmedoc/features/logo-manufacturer.png)
+
+- Display at the bottom of the page will always show the footer
+
+![footer](readmedoc/features/footer.png)
+
+- Area of not on the footer are the link to the Inforamtion pages and if the user is the admin they will be able to access the Admin order page
+
+![info](readmedoc/features/info-pages.png)
+
+- Another Area of note are the social medie of the website, clicking the link will open the link in another page
+
+![social-links](readmedoc/features/social-links.png)
+
+Example of the Facebook Business page of the Website
+
+![socail-links](readmedoc/features/facebookpage.png)
+
+- **FAQ**
+- The faq page will give user a view of all the most relevent questions that they would nee to now about the website
+
+![faq](readmedoc/features/Faq.png)
+
+- the user can click the question to view the answer of the question, clicking on another question will close the question and open the new question
+
+![open-question](readmedoc/features/open-question.png)
+
+- **Delivery**
+- The delivery inforamtion page will display the necessity about how the delivery cost is calculated
+
+![delivery-inforamtion](readmedoc/features/delivery-info.png)
+
+- **Newsletter**
+- The newsletter page will allow the user to sign of for the sites newsletter
+
+![newsletter](readmedoc/features/newsletter.png)
+
+- When the email is entered and submitted it will send the user an email of confiramtion
+
+![newsletter-confrim](readmedoc/features/newsletter-confirm.png)
+
+- **Product Page**
+- The product page will display all the bikes of that are avaible on the website. The user can click on the image or the title of the bike and it will bring the user to the product detail page of that bike. The user can also click the add to cart button that will add the bike to the bag with a quanity of 1.
+
+![product-page](readmedoc/features/product-page.png)
+
+- View after a bike is added to the bag after clicking the add to cart button, it will show the bike in the message container and the cart icon in the nav will update by 1.
+
+![add-to-cart](readmedoc/features//product-view-after.png)
+
+- The user can also select different sort to order by certain option if they want to see newer bikes, older bikes, highest price or lowest pirce
+
+![sort-option](readmedoc/features/sort-option.png)
+
+- The user can also click on any of the category link to display the filter that is assigend to the link, ie engine capacity, stroke and manufacturer
+
+- Examples of filter
+
+- Engine Capacity filter
+![filter-1](readmedoc/features/filter-1.png)
+
+- Stroke Filter
+![filter-2](readmedoc/features/filter-2.png)
+
+- Manufacturer Filter
+![filter-3](readmedoc/features/filter-3.png)
+
+- **Product Detail**
+- The product detail page will give the user more inforamtion on the bike.
+
+![product-detail](readmedoc/features/product-detail.png)
+
+- The user can adjust the quanity of the bike if they want more than the default value of 1 and then click the add to cart button to add that quanity of bike to the bag
+
+- Quanity buttona
+![quanity](readmedoc/features/quanity.png)
+
+- Button that will add the bike to the bag
+![checkout-button](readmedoc/features/add-button.png)
+
+- If the user is an admin they will be able to click the edit button and the delete button.
+
+![admin-buttons](readmedoc/features/admin-buttons.png)
+
+- When the edit buttons is clicked it will bring the user to the edit-bike page that will diaply the inforamtion in a form that the admin can change any inforamtion on the bike.
+
+![edit-form](readmedoc/features/edit-form.png)
+
+- When the delete button is cliked it will prompt the confiramtion box for a decision if they want to delete the bike from the store, if yes is clicked the bike will be delete and if no is clicked the prompt will disappear with the bike remain.
+
+![delete-button](readmedoc/features/delete-confirm.png)
+
+- **Bag**
+- The bag page will hold bikes that the user has interest in purchasing. The bag will hold each item tat has been added to the bag that will show the manufacturer, model, year, engine capacity, quanitity, price of the bike, the total price of that bike if there is more than one quanity in the bike. The bag will also show the total cost of the bag with the deleivery cost added to the grand total.
+
+![bag-view](readmedoc/features/bag-content.png)
+
+- If the bag has no items in the bag it will display the view below
+![empty-bag](readmedoc/features/empty-bag.png)
+
+- The user will also have the chance to adjust the items in the bag. Adjustment that the user can do are change the quanity in te bag that is very similar to the quanity counter in the product deatil page with the exception of the user having to press the update quanity counter. The user can also change the engine capacity of the bike if that model has mutiple engine capacity values. This also needs to be update by a button that is labled update engine capacity. Through different scenario the adjustment of the engien capacity can modify the bag in many ways. If two bikes are in the bag that are the same model but different engine capcity, if one of the bike is updated to the other bikes engine capacity instead of having instance of the bike in the bag. The updated bike will be removed and the quanity of the other bike will be add to of the delted bike. This works the same with adding bikes to the bag through the products page or the product detail page, this is to stop having repeat object in the bag. If the user set the quanity to zero it will remove the bike form the bag.
+
+![engine-adjustment](readmedoc/features/update-engine.png)
+
+- Button that handles the adjusment of the engine capcity
+
+![quanity-adjustment](readmedoc/features/bag-quanity.png)
+
+- Button that handles the adjusment of quantity
+
+- Each adjustment of the item will update the grand total of the bag.
+
+![order-total](readmedoc/features/order-totals.png)
+
+- When the user is happy with their bag they can click the checkout button to procces the order
+
+![checkout-bag](readmedoc/features/checkout-bag.png)
+
+- **Checkout**
+- When the user checks his bag out, they will be brought to the checkout page. On this page the user will have to fill out his inforamtion so the the order can be processes. Inforamtion required will be in three areas 
 
 
 

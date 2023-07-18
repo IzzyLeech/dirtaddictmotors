@@ -76,6 +76,7 @@ def products_view(request, manufacturer_name=None, engine_num=None, stroke_num=N
         'selected_filters': selected_filters,
         'default_sort': default_sort,
         'query': query,
+        'has_results': bikes.exists(),
     }
 
     return render(request, 'products/products.html', context)

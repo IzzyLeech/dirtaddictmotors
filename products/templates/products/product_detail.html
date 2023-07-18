@@ -68,13 +68,13 @@
         <label for="quantity">Quantity:</label>
         <div class="quantity-counter">
           <button type="button" class="quantity-button minus"><i class="fa-solid fa-minus"></i></button>
-          <input id="quantity" class="product-quanity" type="number" name="quantity" value="1" min="0">
+          <input id="quantity" class="product-quanity" type="number" name="quantity" value="1" min="1">
           <button type="button" class="quantity-button plus"><i class="fa-solid fa-plus"></i></button>
         </div>
-        <button type="submit" class="btn btn-primary btn-md my-1 p">
-          Add to Cart
-          <i class="fas fa-shopping-cart ml-1"></i>
-        </button>
+      <button id="add-to-cart-btn" type="submit" class="btn btn-primary btn-md my-1">
+        Add to Cart
+        <i class="fas fa-shopping-cart ml-1"></i>
+    </button>
       </form>
     </div>
   </div>
@@ -144,5 +144,23 @@
         confirmationContainer.parentNode.removeChild(confirmationContainer);
       }
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const quantityInput = document.getElementById('quantity');
+    const addToCartBtn = document.getElementById('add-to-cart-btn');
+
+    // Disable the button initially if quantity is zero
+    if (parseInt(quantityInput.value) === 0) {
+        addToCartBtn.disabled = true;
+    }
+
+    quantityInput.addEventListener('change', function() {
+        const value = parseInt(quantityInput.value);
+
+        // Enable or disable the button based on the quantity value
+        addToCartBtn.disabled = (value === 0);
+    });
+});
+
   </script>
 {% endblock %}

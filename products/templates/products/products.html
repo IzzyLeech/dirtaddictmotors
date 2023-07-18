@@ -10,22 +10,23 @@
 
 <h2 class="header-logo">Products</h2>
 <div class="row">
-<div class="col-6">
-  {% if query %}
-  {% if bikes.has_other_pages or bikes.has_previous or bikes.has_next %}
-      <h2 class="header-logo">Search result for "{{ query }}"</h2>
-  {% else %}
-      <h2 class="header-logo">No results for "{{ query }}"</h2>
-  {% endif %}
-{% else %}
-  <h2 class="header-logo">
-      {% for filter_label in selected_filters %}
-          {{ filter_label }}
-          {% if not forloop.last %}, {% endif %}
-      {% endfor %}
-  </h2>
-{% endif %}
+  <div class="col-6">
+    {% if query %}
+        {% if has_results %}
+            <h2 class="header-logo">Search result for "{{ query }}"</h2>
+        {% else %}
+            <h2 class="header-logo">No results for "{{ query }}"</h2>
+        {% endif %}
+    {% else %}
+        <h2 class="header-logo">
+            {% for filter_label in selected_filters %}
+                {{ filter_label }}
+                {% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </h2>
+    {% endif %}
 </div>
+
 <div class="col-6 text-right">
   <label class="sort-label" for="sort">Sort by:</label>
   <select id="sort" onchange="sortBikes(this.value)">
