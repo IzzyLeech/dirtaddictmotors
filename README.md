@@ -420,9 +420,72 @@ Example of the Facebook Business page of the Website
 ![checkout-bag](readmedoc/features/checkout-bag.png)
 
 - **Checkout**
-- When the user checks his bag out, they will be brought to the checkout page. On this page the user will have to fill out his inforamtion so the the order can be processes. Inforamtion required will be in three areas 
+- When the user checks his bag out, they will be brought to the checkout page. On this page the user will have to fill out his inforamtion so the the order can be processes. Inforamtion required will be in three areas of personal detail, delivery details and payment details. Once the inforamtion is inputted the user can check their order out. If inforamtion is not valid the error will be display on either the field that is in question or if it is a payment error it will be display above the card input. If the checkout is succesful the loading overlay will show then the user will be redirect to the checkout succes page. On deafult the inforamtion in the personal detail and the delivery detail will be saved to the user profiles for future orders.
+
+- The view of the page
+
+![checkout-view](readmedoc/features/checkout-view.png)
+
+- The checkout form will all the required areas
+
+![checkout-form](readmedoc/features/checkout-form.png)
+
+- The order summary of the items that will be in the order
+
+![order-summary](readmedoc/features/)
+
+- The order summary of the the grand total
+
+![order-summary](readmedoc/features/checkout-order-totals.png)
+
+- The save-info check for if the user would like there inforamtion saved
+
+![save-info](readmedoc/features/save-ingo.png)
+
+- The complete order button that will submit the order with a button that will also let the user adjust their bag
+
+![complete-order](readmedoc/features/checkout-order.png)
 
 
+
+- **Checkout Success**
+- When the user has successful checked out they will be redirected to the checkout success page that will inform the user that their order has been proccesed. They will be informed that an email has been sent to there emial that was submitted in the checkout form and it will show all the relevent inforamtion of the order.
+
+![checkout-success](readmedoc/features/checkout-success.png)
+
+- Confiramtion Email when the checkout is successful
+
+![confirm-email-checkout](readmedoc/features/confirm-email-checkout.png)
+
+- **Profile**
+- The user can access his profile from the navbar. In the profile page the user can look at their order history ,which detail by the order number, date of order, the items of the order and the order total. The user can click the order number to view the checkout success page for more inforamtion. The user can also update the default inforamtion that was saved when the user made their order.
+
+- View of the profile Page
+
+![profile-page](readmedoc/features/profile.png)
+
+- All of the orders of the user
+
+![order-history](readmedoc/features/order-history.png)
+
+- The update default information form
+
+![update-inforamtion](readmedoc/features/update-inforamtion.png)
+
+- **Admin-order**
+- The admin order page is for the admin of the site to track order of the website so they can adjust the status of the order. It also has a add-bike button that will allow the user to add bikes to the store.
+
+![admin-store](readmedoc/features/admin-order.png)
+
+- The admin can adjust the status of an order by changing the order status in the option box, the option that it can be applied are paid, pending and cancelled. When the order is first received it will be marked as past If anything was to change for that order the admin can change the satus od the order.
+
+![order-status](readmedoc/features/order-status.png)
+
+- The user can also add bikes to the store by clicking the add bike button, once the bike is clicked the user will be redirect to the add-bike form where they can add theinforamtion needed for a bike and the submit the bike
+
+![add-bike](readmedoc/features/add-bike.png)
+
+![add-form](readmedoc/features/add-bike-form.png)
 
 ## Features to be Implemented
 
