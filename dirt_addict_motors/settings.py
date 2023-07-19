@@ -203,6 +203,3 @@ STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET', '')
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'dirtaddictmotors@gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST = 'smtp.gmail.com'
