@@ -1,5 +1,7 @@
 # Dirt Addict Motors
 
+![responsive](readmedoc/features/responsice-img.png)
+
 # Goal for this Project
 My overall goal for the my project is to creata a website that will sell dirtbike. The user of the website will be able to purachase differernt dirtbikes from various manufacturer and their engine capacity. The User will be able to create a profile so they can make their purachase whicj will be mandartory. The user will be able to adjust the bike in the bag of the website to save time from removing items from the bag and looking for that engine capacity of the bike. The User will be able to save there inforamtion for future purachase so they can save time from filling out their inforamtion agian. The user will be able sign up for a newsltter to keep up to date with the website.
 
@@ -783,10 +785,17 @@ The following are user stories I've implemented with screenshots to prove
 
 | Bug | Status |
 | --- | --- |
+| Bike not adding to quanity, if bike was updated #26 | Closed
+| Price not updating when for quanity #11 | Closed
+| Engine Capacity updating in bag when it is not the same of the other model #10 | Closed
+| No search query message showing on any access to the product.html #9 | Closed
+| Allauth html not extending from it's Base.html #8 | Closed
+| Engine capacity and stroke dropdown menu's showing repeat values. #7 | Closed
+| Engine Capacity change on Bag view #6 | Closed
 
 # Deployment
 
-The live deployed application can be found deployed on [Heroku](https://terok-nor-station.herokuapp.com/)
+The live deployed application can be found deployed on [Heroku](https://dirt-addict-motors.herokuapp.com/)
 
 ## ElephantSQL Database
 
@@ -812,7 +821,25 @@ To obtain your own Cloudinary API key, create an account and log in.
 
 ## Stripe
 
+This project use [Stripe](https://www.stripe.com/) to handle the tranction of the payment
 
+- To obtain Stipes API keys, create an account and log in.
+- On the Stripe home page click the Publishable key, this will copy the key to the clipbored
+- Add the public key to heroku
+- On the Stripe home page click reveal Secret key
+- Click the the key to copy
+- Add the Secret Key to heroke
+- Click the developer link in the home page
+- Click the webhooks link underneath the developer header
+- Click Add endpoint
+- Add the endpoint URL to the input
+- Click the select event button 
+- Click select all events button
+- Click the Add event button
+- Click the the webhook that was created
+- Click the Reveal on the Signing Secret Label
+- Copy the key
+- Add the WH key to the Heroku
 
 ## Heroku Deployment
 
@@ -835,6 +862,11 @@ Deployment steps are as follows, after account setup:
 Heroku needs two additional files in order to deploy properly.
 - requirements.txt
 - Procfile
+
+Add these variables to settings.py
+STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', '')
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', '')
+STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET', '')
 
 You can install this project's **requirements** (where applicable) using:
 - `pip3 install -r requirements.txt`
